@@ -3,4 +3,26 @@
 
 %h1 Login Page
 
+= form_tag login_path, method: :post, id: 'login_form' do
+  %a Username:
+  = text_field_tag 'session[username]', nil, id: "username_field"
+  %a Password:
+  = text_field_tag 'session[password]', nil, id: "password_field"
+  = submit_tag "Login", id: "login_button"
+
+
+
+
+  - if flash[:notice]
+    #notice.message= flash[:notice]
+  - elsif flash[:warning]
+    #warning.message= flash[:warning]
+  - elsif flash[:error]
+    #error.message= flash[:error]
+  - elsif flash[:danger]
+    #success.message= flash[:danger]
+
+  = yield
+
+
 
