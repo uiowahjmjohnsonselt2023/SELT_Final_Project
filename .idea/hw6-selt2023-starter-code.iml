@@ -107,7 +107,6 @@
     <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.22.0, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.12.3, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov_json_formatter (v0.1.4, Remote: ruby-2.6.6-p146) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="spring (v3.1.1, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v3.7.2, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.2.2, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v1.3.13, Remote: ruby-2.6.6-p146) [gem]" level="application" />
