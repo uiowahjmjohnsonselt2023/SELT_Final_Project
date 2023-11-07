@@ -1,0 +1,8 @@
+-#  This file is app/views/home/index.html.haml
+
+%h1 Home Page
+
+= form_tag search_path, method: :get do
+  = text_field_tag :search, params[:search_term], placeholder: "Search items"
+  = submit_tag "Search", name: nil
+

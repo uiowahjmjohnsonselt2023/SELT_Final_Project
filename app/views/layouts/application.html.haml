@@ -1,17 +1,10 @@
 !!!
 %html
   %head
-    %title Rotten Potatoes!
-    = stylesheet_link_tag 'application', 'media' => 'all'
-    = javascript_include_tag 'application'
+    %title Website Name
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = csrf_meta_tags
-
   %body
-    %h1.title Rotten Potatoes!
-    #main
-      - if flash[:notice]
-        #notice.message= flash[:notice]
-      - elsif flash[:warning]
-        #warning.message= flash[:warning]
-
-      = yield
+    = render 'layouts/header'
+    = yield

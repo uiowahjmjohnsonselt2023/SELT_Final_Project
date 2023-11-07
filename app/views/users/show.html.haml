@@ -1,0 +1,8 @@
+-# in app/views/users/show.html.haml
+
+%h1 User Profile Page
+
+%ul
+  %li Username: = #{@user.username}
+
+= link_to 'Edit Profile', edit_user_path(@user)

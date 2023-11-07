@@ -1,0 +1,10 @@
+-# in app/views/search/index.html.haml
+
+%h1 Display search results with optional category filtering
+
+- if @results.any?
+  %ul
+    - @results.each do |item|
+      %li= link_to item.title, item_path(item)
+- else
+  %p No items found
