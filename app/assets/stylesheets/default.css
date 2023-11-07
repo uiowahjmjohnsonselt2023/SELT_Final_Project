@@ -33,36 +33,6 @@ h1.title {
   font-size: 2em;
   font-style: normal;
 }
-table#movies {
-  margin: 10px;
-  border-collapse: collapse;
-  width: 100%;
-  border-bottom: 2px solid black;
-}
-table#movies th {
-  border: 2px solid white;
-  font-weight: bold;
-  background-color: wheat;
-}
-table#movies th, table#movies td {
-  padding: 4px;
-  text-align: left;
-}
-table#search_results {
-  margin: 10px;
-  border-collapse: collapse;
-  width: 100%;
-  border-bottom: 2px solid black;
-}
-table#search_results th {
-  border: 2px solid white;
-  font-weight: bold;
-  background-color: wheat;
-}
-table#search_results th, table#search_results td {
-  padding: 4px;
-  text-align: left;
-}
 #notice #warning {
   background: rosybrown;
   margin: 1em 0;

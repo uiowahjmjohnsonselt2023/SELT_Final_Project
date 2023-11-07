@@ -11,11 +11,14 @@ Rails.application.routes.draw do
 
   # User routes for new, create, show, edit, update
   resources :users, only: [:new, :create, :show, :edit, :update]
+  get 'profile', to: 'users#show'
+
 
   # Item routes for creating, showing, editing, updating, and deleting item listings
-  resources :items
+  resources :items, only: [:new, :create, :show, :edit, :update, :destroy]
+  get 'sell', to: 'items#new'
 
   # Search route for searching items with optional category filtering
-  get 'search', to: 'search#index', as: 'search'
+  get 'search', to: 'search#index'
 
 end

@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
 
   # Form for new item
   def new
-
+    @item = Item.new
   end
 
   # Create new item listing

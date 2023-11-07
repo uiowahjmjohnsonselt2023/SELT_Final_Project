@@ -9,20 +9,3 @@
   %a Password:
   = text_field_tag 'session[password]', nil, id: "password_field"
   = submit_tag "Login", id: "login_button"
-
-
-
-
-  - if flash[:notice]
-    #notice.message= flash[:notice]
-  - elsif flash[:warning]
-    #warning.message= flash[:warning]
-  - elsif flash[:error]
-    #error.message= flash[:error]
-  - elsif flash[:danger]
-    #success.message= flash[:danger]
-
-  = yield
-
-
-

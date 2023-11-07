@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :items, dependent: :destroy
   # Ensures username uniqueness by downcasing the username attribute
   before_save { self.username = username.downcase }
 
@@ -12,6 +13,5 @@ class User < ApplicationRecord
   has_secure_password
 
   # Validates the presence of a password, requiring a minimum length of 6 characters
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 4 }
 end
-
