@@ -13,11 +13,11 @@ Rails.application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  root 'sessions#new'
 
-  resources :movies
+  resources :items
   # map '/' to be a redirect to '/items'
-  root :to => redirect('/items')
-  post '/movies/search_results'
+
 
 
 
