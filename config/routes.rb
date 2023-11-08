@@ -21,4 +21,7 @@ Rails.application.routes.draw do
   # Search route for searching items with optional category filtering
   get 'search', to: 'search#index'
 
+  # Category routes for showing items by category
+  get 'home/filter_by_category/:category_id', to: 'home#filter_by_category', as: 'filter_by_category'
+
 end

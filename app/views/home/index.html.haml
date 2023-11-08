@@ -2,19 +2,27 @@
   .container
     %h1 Welcome to Deal Docks
   .container
-    .items-carousel-container
-      .items-carousel.slick-slider
-        - @suggested_items.each_slice(3) do |group_of_items|
-          .slick-slide
-            - group_of_items.each do |item|
-              .item
-                %h3= item.title
-                %p= item.description
-    %ul.category-list
-      %li Category 1
-      %li Category 2
-      %li Category 3
-      %li Category 4
+    .category-list
+      - @categories.each do |category|
+        %button.category-button{ type: 'button', onclick: "window.location='#{filter_by_category_path(category[:id])}'" }
+          = category[:name]
+  .container
+    #suggested-items
+    - @suggested_items.each do |item|
+      .item
+        %h3= "Item Title"
+        %h3= "Picture"
+        %h3= "Price"
+
+  .container
+    %h1= "Your Items for Sale"
+  .container
+    #suggested-items
+    - @user_items.each do |item|
+      .item
+        %h3= "Item Title"
+        %h3= "Picture"
+        %h3= "Price"
 - else
   .container
     %h1 Welcome to Website Name
