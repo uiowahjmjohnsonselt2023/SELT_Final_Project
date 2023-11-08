@@ -3,6 +3,9 @@
 # Clear the database of existing data.
 User.delete_all
 Item.delete_all
+Address.delete_all
+PaymentMethod.delete_all
+Image.delete_all
 
 # Create a main sample user.
 User.create!(username: "mainuser", password: "password", password_confirmation: "password")

@@ -38,6 +38,8 @@ GEM
     addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
     arel (6.0.4)
+    attr_encrypted (1.3.5)
+      encryptor (~> 1.3.0)
     bcrypt (3.1.19)
     builder (3.2.4)
     byebug (11.1.3)
@@ -102,6 +104,7 @@ GEM
     debug_inspector (1.1.0)
     diff-lcs (1.3)
     docile (1.4.0)
+    encryptor (1.3.0)
     erubis (2.7.0)
     execjs (2.9.1)
     ffi (1.16.3)
@@ -126,9 +129,6 @@ GEM
       temple (>= 0.8.2)
       thor
       tilt
-    httparty (0.21.0)
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     jbuilder (2.9.1)
@@ -162,7 +162,6 @@ GEM
     mini_portile2 (2.8.5)
     minitest (5.20.0)
     multi_test (0.1.2)
-    multi_xml (0.6.0)
     nenv (0.3.0)
     net-imap (0.3.7)
       date
@@ -282,8 +281,6 @@ GEM
     sys-uname (1.2.3)
       ffi (~> 1.1)
     temple (0.10.3)
-    themoviedb (1.0.1)
-      httparty
     thor (1.3.0)
     thread_safe (0.3.6)
     tilt (2.3.0)
@@ -303,6 +300,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  attr_encrypted (~> 1.3.0)
   bcrypt (~> 3.1.7)
   byebug
   capybara
@@ -325,7 +323,6 @@ DEPENDENCIES
   simplecov
   spring (~> 1.1.3)
   sqlite3 (~> 1.3.6)
-  themoviedb
   uglifier (>= 2.7.0)
   web-console
 
