@@ -1,3 +1,34 @@
--# in app/views/items/show.html.haml
+-# app/views/items/show.html.haml
 
-%h1 Show Individual Item Details
+%section.item-page
+  %h1= @item.title
+  .item-details
+    %p#item-description= @item.description
+    .item-attributes
+      %p
+        %strong Listed on:
+        %span= @item.created_at.strftime("%B %d, %Y")
+      %p
+        %strong Last Updated:
+        %span= @item.updated_at.strftime("%B %d, %Y")
+
+  -# User information, assuming the User model has a 'name' attribute.
+  -# Replace ':name' with the actual attribute if different.
+  .user-info
+    %h2 User Information
+    %p= @item.user
+    -# %p= link_to "View User's Other Items", user_items_path(@item.user)
+
+  -# .actions
+  -#   = link_to 'Contact Seller', new_message_path(user_id: @item.user.id), class: 'contact-seller-button'
+  -#   = link_to 'Add to Wishlist', wishlist_path(@item), method: :post
+  -#
+  -# -# Dummy related items section (actual related items would require additional logic)
+  -# %section.related-items
+  -#   %h2 You might also like
+  -#   -# Placeholder for related items. Implement actual related items logic in the controller.
+  -#   - @related_items ||= []
+  -#   - @related_items.each do |related_item|
+  -#     .related-item
+  -#       = link_to related_item.title, item_path(related_item)
+  -#       = image_tag("placeholder-image.jpg") # Replace with actual image logic
