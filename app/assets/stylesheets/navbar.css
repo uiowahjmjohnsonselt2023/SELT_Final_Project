@@ -65,3 +65,19 @@
   width: auto; /* Maintain aspect ratio */
   margin-right: 10px; /* Add some space between the logo and the Home link */
 }
+
+.logout-button {
+  padding: 10px 20px;
+  background-color: #d9534f; /* A red color for the logout button to indicate a destructive action */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px; /* You can adjust the font size as needed */
+  margin-left: 10px; /* To add some space from the adjacent elements */
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c9302c; /* A darker shade for the hover state */
+}

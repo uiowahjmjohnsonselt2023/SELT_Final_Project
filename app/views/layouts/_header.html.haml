@@ -9,7 +9,7 @@
         = form_tag search_path, method: :get do
           = text_field_tag :query, params[:query], placeholder: "Search items...", class: 'search-input'
           = submit_tag "Search", class: 'search-button'
-      = link_to 'Logout', logout_path, method: :delete, data: { confirm: 'Are you sure?' }
+      = link_to 'Logout', logout_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'logout-button'
     - else
       = link_to 'Login', login_path, class: 'nav-link'
       = link_to 'Sign Up', signup_path, class: 'nav-link'
