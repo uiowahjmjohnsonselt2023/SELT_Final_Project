@@ -1,12 +1,7 @@
 -# in app/views/users/show.html.haml
-
-
--# in app/views/users/show.html.haml
 %div.profile-container
-  %h1 User Profile Page
-
   %div.profile-image
-    = image_tag("BasicProfilePic.png", alt: 'User profile image')
+    = image_tag("BasicProfilePic.png", alt: 'User profile image', class: 'profile-pic')
 
   %div.account-details
     %h2 My Account
@@ -14,15 +9,20 @@
       %strong Username:
       = @user.username
     %p
-      %strong Email:
-      = @user.email
-
-
-  %div.user-actions
-    = link_to 'Edit Profile', edit_user_path(@user), class: 'edit-profile-link'
+    %strong Email:
+    = @user.email
+  - @user.addresses.each do |address|
+    %div.address
+      %p= address.shipping_address_1
+      - if address.shipping_address_2.present?
+        %p= address.shipping_address_2
+      %p= "#{address.city}, #{address.state}, #{address.country} #{address.postal_code}"
 
   %div.navigation-links
     %ul
+      %li= link_to 'My For Sale Items', items_path
+      %li= link_to 'My Purchases', items_path
+      %li= link_to 'Contact Company', items_path
 
-
-
+  %div.user-actions
+    = link_to 'Edit Profile', edit_user_path(@user), class: 'edit-profile-link'

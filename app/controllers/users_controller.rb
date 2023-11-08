@@ -16,6 +16,11 @@ class UsersController < ApplicationController
   # Show User Profile
   def show
     @user = current_user
+    puts "WE TESTING THIS HOE!!!!!!!!!!!!!!!!!!"
+    puts Address.find_by(user_id: @user.id).inspect
+    address = @user.addresses.first
+    puts address.inspect
+    puts "WE TESTING THIS HOE!!!!!!!!!!!!!!!!!!"
   end
 
   # Edit User Profile
