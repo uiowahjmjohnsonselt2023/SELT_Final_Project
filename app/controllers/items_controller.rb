@@ -1,5 +1,8 @@
 
 class ItemsController < ApplicationController
+  before_action :correct_user, only: [:edit, :update, :destroy]
+
+
   # List all items
   def index
 
@@ -44,5 +47,12 @@ class ItemsController < ApplicationController
   end
 
 
+  private
+
+  # Confirms the correct user.
+  def correct_user
+    @item = Item.find(params[:id])
+    redirect_to(root_url) unless @item.user == current_user
+  end
 end
 
