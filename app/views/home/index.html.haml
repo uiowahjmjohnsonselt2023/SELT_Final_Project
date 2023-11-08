@@ -1,34 +1,36 @@
-- if logged_in?
-  .container
-    %h1 Welcome to Deal Docks
-  .container
-    .category-list
-      - @categories.each do |category|
-        = form_tag search_path, method: :get do
-          = hidden_field_tag category[:name], params[:category]
-          = submit_tag category[:name], class: 'category-button'
-  .container
-    #suggested-items
-    - @suggested_items.each do |item|
-      .item
-        %h3= item.title
-        %h3= item.title
-        %h3= "Item Price"
+.container
+  .home-header Welcome to Deal Docks
 
-  .container
-    %h1= "Your Items for Sale"
-  .container
-    #suggested-items
-    - @user_items.each do |item|
-      .item
-        %h3= item.title
-        %h3= item.user_id
-        %h3= "Price"
-- else
-  .container
-    %h1 Welcome to Website Name
-    = link_to 'Sign Up', signup_path, class: 'btn btn-primary'
-    = link_to 'Login', login_path, class: 'btn btn-secondary'
+.home-container
+  .category-list
+    - @categories.each do |category|
+      = form_tag search_path, method: :get do
+        = hidden_field_tag category[:name], params[:category]
+        = submit_tag category[:name], class: 'category-button'
+
+.home-container
+  .home-header2 Suggested Items
+  .items-container#suggested-items
+    - if @suggested_items.empty?
+      .home-header2 No suggested items.
+    -else
+      - @suggested_items.each do |item|
+        .item
+          %h3= item.title
+          %h3= item.user_id
+          %h3= "Item Price"
+
+.home-container
+  .home-header2 Your Items for Sale
+  .items-container#user-items
+    - if @user_items.empty?
+      .home-header2 You have no items for sale.
+    -else
+      - @user_items.each do |item|
+        .item
+          %h3= item.title
+          %h3= item.user_id
+          %h3= "Price"
 
 %footer
-  %p © 2023 Website Name. All rights reserved.
+  %p © 2023 Deal Docks. All rights reserved.

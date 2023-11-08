@@ -2,85 +2,57 @@
 
 body {
   font-family: 'Arial', sans-serif;
-}
-
-#navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.search-form input[type="text"],
-.search-bar input[type="text"] {
-  padding: 10px;
-  margin-right: 10px;
-  width: 300px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.sell-button, .user-profile,
-.search-bar input[type="submit"] {
-  padding: 10px 20px;
-  text-decoration: none;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.category-list {
-  list-style-type: none;
-  padding: 0;
-  margin-bottom: 20px; /* Added bottom margin for spacing */
-}
-
-.category-list li {
-  margin-bottom: 5px;
-}
-
-#suggested-items {
-  display: grid;
-  gap: 40px; /* Increase space between items */
-  justify-content: center; /* Center the items in the grid */
-  padding: 40px 0; /* Increase padding top and bottom */
-}
-
-.item {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 30px; /* Larger padding for larger appearance */
-  text-align: center;
-  font-size: 1.5em; /* Larger font size for item names */
-}
-
-/* Footer Styles */
-footer {
-  text-align: center;
-  padding: 20px 0;
-}
-
-footer p {
   margin: 0;
-  color: #666;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Style for the category list */
+.home-header {
+  background-color: white;
+  color: Black;
+  padding: 10px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.home-header2 {
+  background-color: white;
+  color: Black;
+  text-align: left;
+  align-content: flex-end;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 10px;
+  width: 100%;
+}
+
+/* List of categories */
 .category-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; /* allows items to wrap in case of multiple categories */
-  list-style-type: none; /* removes bullet points from list items */
-  padding: 0; /* removes default padding */
-  width: 100%; /* ensures the list takes up the full width of the container */
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-/* Style for individual category buttons */
+/* Individual category button */
 .category-button {
-  padding: 10px 20px; /* provides padding inside the buttons */
-  margin: 20px; /* space between buttons */
+  padding: 10px 20px;
+  margin: 0 10px; /* Adjust space between buttons */
   background-color: #007bff;
   color: white;
   border: none;
@@ -88,13 +60,50 @@ footer p {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
-  text-align: center; /* centers text within the button */
-  display: block; /* displays the button as a block-level element */
-  width: auto; /* allows the button to size according to its content */
-  /* remove the fixed width to allow content to determine the button size */
+  text-align: center;
+  display: inline-block;
 }
 
-/* Hover effect for buttons */
+/* Hover effect for category buttons */
 .category-button:hover {
   background-color: #0056b3;
+}
+
+/* Container for items */
+.items-container {
+  display: flex;
+  overflow-x: auto; /* Allows horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+  margin: 20px 0;
+  width: 100%;
+  align-content: center;
+  justify-content: center;
+}
+
+/* Style for individual items */
+.item {
+  flex: 0 0 auto; /* Prevents the item from growing or shrinking */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 0 10px; /* Space between items */
+  text-align: center;
+  font-size: 1em; /* Adjust font size to your preference */
+  background: white; /* Optional: set a background color for items */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow to items */
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  margin-top: auto; /* Pushes the footer to the bottom */
+  width: 100%;
+  background-color: #f8f9fa; /* Light grey background */
+  border-top: 1px solid #eaeaea; /* Top border line */
+}
+
+footer p {
+  margin: 0;
+  color: #666;
 }

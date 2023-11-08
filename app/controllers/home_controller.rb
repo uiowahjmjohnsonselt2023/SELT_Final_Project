@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_action :require_login, only: [:index]
+  skip_before_action :require_login, only: [:new, :create]
 
   def index
     # Fetch all categories. You would need a Category model for this,
@@ -11,7 +11,7 @@ class HomeController < ApplicationController
 
     # Fetch suggested items for sale, which might be a curated list based on some logic
     # Replace the 'suggested_items' method with the actual logic you want to use.
-    @suggested_items = Item.all.limit(3) # Example: get 10 items for simplicity
+    @suggested_items = Item.all.limit(10) # Example: get 10 items for simplicity
 
     # Fetch items for sale by the current user if they are logged in
     @user_items = current_user.items if current_user
