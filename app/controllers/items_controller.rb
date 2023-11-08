@@ -1,6 +1,5 @@
 
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show]
   # List all items
   def index
 
@@ -19,6 +18,7 @@ class ItemsController < ApplicationController
 
   # Show item details
   def show
+    @item = Item.find(params[:id])
     @user = @item.user
     # @related_items = related_items_for(@item)
     @related_items = "TEST"
@@ -38,16 +38,11 @@ class ItemsController < ApplicationController
   def destroy
 
   end
-
-  def set_item
-    @item = Item.find(params[:id])
-  end
-
   def related_items_for(item)
     # Fetch other items by the same user, excluding the current item
     Item.where(user_id: item.user_id).where.not(id: item.id).limit(4)
   end
 
-  
+
 end
 
