@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:new, :create]
-  # First comment
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   # Sign up Page
   def new
     # default: render 'new' template
-    #
     @user = User.new
   end
 
@@ -21,7 +20,7 @@ class UsersController < ApplicationController
 
   # Edit User Profile
   def edit
-    @user = User.find(params[:id])
+    @user = current_user
   end
 
   # Update User Profile
@@ -29,4 +28,16 @@ class UsersController < ApplicationController
 
   end
 
+  # Delete User Profile
+  def destroy
+
+  end
+
+  private
+
+  # Confirms the correct user.
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_path) unless @user == current_user
+  end
 end
