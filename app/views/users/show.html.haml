@@ -1,8 +1,34 @@
 -# in app/views/users/show.html.haml
 
-%h1 User Profile Page
 
-%ul
-  %li Username: = #{@user.username}
+-# in app/views/users/show.html.haml
+%div.profile-container
+  %h1 User Profile Page
 
-= link_to 'Edit Profile', edit_user_path(@user)
+  %div.profile-image
+    = image_tag(, alt: 'User profile image')
+
+  %div.account-details
+    %h2 My Account
+    %p
+      %strong Username:
+      = @user.username
+    %p
+      %strong Email:
+      = @user.email
+    %p
+      %strong Address:
+      = @user.address
+
+  %div.user-actions
+    = link_to 'Edit Profile', edit_user_path(@user), class: 'edit-profile-link'
+
+  %div.navigation-links
+    %ul
+      %li= link_to 'My For Sale Items', for_sale_items_user_path(@user)
+      %li= link_to 'My Purchases', purchases_user_path(@user)
+      %li= link_to 'Contact Company', contact_company_path
+
+%div.footer
+  = render 'layouts/footer'
+
