@@ -9,6 +9,10 @@ Image.delete_all
 
 # Create a main sample user.
 main_user = User.create!(username: "mainuser", password: "password", password_confirmation: "password", email: "mainuser@example.com", phone_number: "1234567890")
+main_user.addresses.create(shipping_address_1: "123 Main St", shipping_address_2: "Apt 1", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
+
+image_file_path = Rails.root.join('app', 'assets', 'images', 'test_image.jpg')
+image_data = File.open(image_file_path, 'rb') { |file| file.read }
 
 # Generate additional users.
 9.times do |n|
@@ -17,12 +21,12 @@ main_user = User.create!(username: "mainuser", password: "password", password_co
   user = User.create!(username: username, password: password, password_confirmation: password, email: "#{username}@example.com", phone_number: "123456789#{n}")
 
   # Each user will have one address and one payment method.
-  user.addresses.create(shipping_address_1: "123 Main St", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
-  user.payment_methods.create(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
+  user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_2: "Apt 1", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
+  user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
 
   # Each user will have one item for sale with one image.
   item = user.items.create!(title: "Item #{n+1}", description: "Description for item #{n+1}", tags: "tag1,tag2")
-  item.images.create!(data: "image_data")
+  item.images.create!(data: image_data)
 end
 
 # Create items for the main user.
@@ -30,5 +34,5 @@ end
   title  = "Main Item #{n+1}"
   description = "Main description #{n+1}"
   item = main_user.items.create!(title: title, description: description, tags: "tag1,tag2")
-  item.images.create!(data: "main_image_data")
+  item.images.create!(data: image_data)
 end
