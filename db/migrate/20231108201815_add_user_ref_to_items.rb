@@ -1,4 +1,4 @@
-class AddUserToItems < ActiveRecord::Migration
+class AddUserRefToItems < ActiveRecord::Migration
   def change
     add_reference :items, :user, index: true, foreign_key: true
   end
