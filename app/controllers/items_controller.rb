@@ -22,9 +22,8 @@ class ItemsController < ApplicationController
   # Show item details
   def show
     @item = Item.find(params[:id])
-    @user = @item.user
-    # @related_items = related_items_for(@item)
-    @related_items = "TEST"
+    @related_items = related_items_for(@item)
+    @user = User.find(@item.user_id)
   end
 
   # Edit item form
