@@ -6,7 +6,8 @@ ruby '2.6.6'
 # gem 'therubyracer', platforms: :ruby
 # Use Haml as the templating library
 gem 'haml'
-
+# Gem for items carousel
+gem "jquery-slick-rails"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.10'
 # Use SCSS for stylesheets

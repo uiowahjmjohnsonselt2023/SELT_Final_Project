@@ -1,8 +1,25 @@
--#  This file is app/views/home/index.html.haml
+- if logged_in?
+  .container
+    %h1 Welcome to Deal Docks
+  .container
+    .items-carousel-container
+      .items-carousel.slick-slider
+        - @suggested_items.each_slice(3) do |group_of_items|
+          .slick-slide
+            - group_of_items.each do |item|
+              .item
+                %h3= item.title
+                %p= item.description
+    %ul.category-list
+      %li Category 1
+      %li Category 2
+      %li Category 3
+      %li Category 4
+- else
+  .container
+    %h1 Welcome to Website Name
+    = link_to 'Sign Up', signup_path, class: 'btn btn-primary'
+    = link_to 'Login', login_path, class: 'btn btn-secondary'
 
-%h1 Home Page
-
-= form_tag search_path, method: :get do
-  = text_field_tag :search, params[:search_term], placeholder: "Search items"
-  = submit_tag "Search", name: nil
-
+%footer
+  %p © 2023 Website Name. All rights reserved.
