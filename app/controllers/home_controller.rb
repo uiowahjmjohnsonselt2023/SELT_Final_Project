@@ -17,17 +17,4 @@ class HomeController < ApplicationController
     @user_items = current_user.items if current_user
   end
 
-  def filter_by_category
-    puts "filter_by_category"
-    redirect_to root_path, notice: 'Categories not found.'
-    # if defined?(Category)
-    #   @categories = Category.all
-    #   @category = Category.find(params[:category_id])
-    #   @items = @category.items # Assuming you have an association set up
-    # else
-    #   # Handle the scenario where Category model does not exist
-    #   # This could be redirecting to index with a notice
-    #   redirect_to root_path, notice: 'Categories not found.'
-    # end
-  end
 end
