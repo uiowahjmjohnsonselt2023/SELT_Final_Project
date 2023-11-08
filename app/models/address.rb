@@ -9,5 +9,5 @@ class Address < ApplicationRecord
   validates :city, presence: true
   validates :state, presence: true
   validates :country, presence: true
-  validates :zip_code, presence: true, numericality: { only_integer: true }, length: { maximum: 10 }
+  validates :postal_code, presence: true, numericality: { only_integer: true }, length: { maximum: 10 }
 end
