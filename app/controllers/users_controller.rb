@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:new, :create]
+  # First comment
 
   # Sign up Page
   def new
     # default: render 'new' template
+    #
     @user = User.new
   end
 
