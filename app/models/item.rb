@@ -11,7 +11,7 @@ class Item < ApplicationRecord
 
   before_save :downcase_tags
 
-  def self.search(search_term)
+  def self.search(search_term, category)
     if search_term
       where('title LIKE :search_term OR description LIKE :search_term', search_term: "%#{search_term}%")
     else
