@@ -1,0 +1,106 @@
+/* app/assets/stylesheets/home.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+#navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+  padding: 5px;
+}
+
+.sell-button, .user-profile {
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 5px;
+}
+
+.category-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.category-list li {
+  margin-bottom: 5px;
+}
+
+.items-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  width: calc(150px * 3 + 15px * 2); /* 3 items width + 2 margins */
+}
+
+.item {
+  scroll-snap-align: start;
+  border: 1px solid #ddd;
+  margin-right: 15px;
+  padding: 10px;
+  width: 150px;
+  text-align: center;
+}
+
+.item h3 {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.item p {
+  font-size: 14px;
+}
+
+/* Add this inside your home.css file */
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.search-bar input[type="text"] {
+  padding: 10px;
+  margin-right: 10px;
+  width: 300px; /* Or any width you prefer */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-bar input[type="submit"] {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+.carousel-arrow-left, .carousel-arrow-right {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background-color: black;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.carousel-arrow-left {
+  left: 10px;
+}
+
+.carousel-arrow-right {
+  right: 10px;
+}
+
+
