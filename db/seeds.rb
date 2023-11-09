@@ -28,7 +28,7 @@ main_user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_
   user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
 
   # Each user will have one item for sale with one image and some categories.
-  item = user.items.create!(title: "Item #{n+1}", description: "Description for item #{n+1}")
+  item = user.items.create!(title: "Item #{n+1}", description: "Description for item #{n+1}", price: 10.00)
   item.images.create!(data: "image_data")
   item.categories << categories.sample(2) # Randomly assign two categories to each item
 end
@@ -37,7 +37,7 @@ end
 5.times do |n|
   title  = "Main Item #{n+1}"
   description = "Main description #{n+1}"
-  item = main_user.items.create!(title: title, description: description)
+  item = main_user.items.create!(title: title, description: description, price: 10.00)
   item.images.create!(data: "main_image_data")
   item.categories << categories.sample(2) # Randomly assign two categories to each item
 end
