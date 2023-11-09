@@ -108,3 +108,40 @@
   transform: translateY(4px);
 }
 
+.item-price {
+  font-size: 1.5em;
+  color: #333;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.buy-button {
+  display: inline-block;
+  padding: 12px 30px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #5cb85c; /* Bootstrap 'success' green */
+  border: none;
+  border-radius: 25px; /* Rounded edges */
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.buy-button:hover,
+.buy-button:focus {
+  background-color: #4cae4c; /* Slightly darker green on hover/focus */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow on hover/focus */
+}
+
+.buy-button:active {
+  background-color: #449d44; /* Even darker green when the button is clicked */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Return to subtle shadow when clicked */
+  transform: translateY(2px); /* Slight downward movement when clicked */
+}
+
+
