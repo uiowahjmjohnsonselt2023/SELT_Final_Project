@@ -96,3 +96,24 @@
   text-align: center;
 }
 
+.addresses-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.addresses-table th,
+.addresses-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.addresses-table th {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.addresses-table tr:nth-child(even){background-color: #f9f9f9;}
+
+.addresses-table tr:hover {background-color: #ddd;}

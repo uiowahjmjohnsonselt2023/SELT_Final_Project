@@ -9,14 +9,28 @@
       %strong Username:
       = @user.username
     %p
-    %strong Email:
-    = @user.email
-  - @user.addresses.each do |address|
-    %div.address
-      %p= address.shipping_address_1
-      - if address.shipping_address_2.present?
-        %p= address.shipping_address_2
-      %p= "#{address.city}, #{address.state}, #{address.country} #{address.postal_code}"
+      %strong Email:
+      = @user.email
+
+    %h3 Addresses
+    %table.addresses-table
+      %thead
+        %tr
+          %th Address Line 1
+          %th Address Line 2
+          %th City
+          %th State
+          %th Country
+          %th Postal Code
+      %tbody
+        - @user.addresses.each do |address|
+          %tr
+            %td= address.shipping_address_1
+            %td= address.shipping_address_2
+            %td= address.city
+            %td= address.state
+            %td= address.country
+            %td= address.postal_code
 
   %div.navigation-section
     = form_tag search_path, method: :get do
