@@ -15,7 +15,7 @@ main_user = User.create!(username: "mainuser", password: "password", password_co
   username  = "user#{n+1}"
   password = "password"
   user = User.create!(username: username, password: password, password_confirmation: password, email: "#{username}@example.com", phone_number: "123456789#{n}")
-
+  # update time
   # Each user will have one address and one payment method.
   user.addresses.create(shipping_address_1: "123 Main St", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
   user.payment_methods.create(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
