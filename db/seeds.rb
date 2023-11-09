@@ -17,6 +17,9 @@ end
 main_user = User.create!(username: "mainuser", password: "password", password_confirmation: "password", email: "mainuser@example.com", phone_number: "1234567890")
 main_user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_2: "Apt 1", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
 
+image_file_path = Rails.root.join('app', 'assets', 'images', 'test_image.jpg')
+image_type, image_data = Image.new.get_image_data(image_file_path)
+
 # Generate additional users.
 9.times do |n|
   username  = "user#{n+1}"
@@ -29,7 +32,7 @@ main_user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_
 
   # Each user will have one item for sale with one image and some categories.
   item = user.items.create!(title: "Item #{n+1}", description: "Description for item #{n+1}", price: 10.00)
-  item.images.create!(data: "image_data")
+  item.images.create!(data: image_data, image_type: image_type)
   item.categories << categories.sample(2) # Randomly assign two categories to each item
 end
 
@@ -38,6 +41,6 @@ end
   title  = "Main Item #{n+1}"
   description = "Main description #{n+1}"
   item = main_user.items.create!(title: title, description: description, price: 10.00)
-  item.images.create!(data: "main_image_data")
+  item.images.create!(data: image_data, image_type: image_type)
   item.categories << categories.sample(2) # Randomly assign two categories to each item
 end
