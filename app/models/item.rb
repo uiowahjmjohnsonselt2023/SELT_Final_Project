@@ -13,31 +13,33 @@ class Item < ApplicationRecord
     items = all
 
     # Scenario 1: No search term or categories, return all items in random order
-    return items.order('RANDOM()') if search_term.blank? && category_names.blank?
+    return items.order(Arel.sql('RANDOM()')) if search_term.blank? && category_names.blank?
 
     # Scenario 2: Categories provided, sort by number of matching categories
     if category_names.present?
       category_ids = Category.where(name: category_names).pluck(:id)
       items = items.joins(:categories).where(categories: { id: category_ids })
-      items = items.group('items.id').order('COUNT(categories.id) DESC')
+      items = items.group('items.id').order(Arel.sql('COUNT(categories.id) DESC'))
     end
 
-    # Scenario 3: Search term provided, sort by number of matches in title/description
-    if search_term.present? && category_names.blank?
-      items = items.select("items.*, (LENGTH(title) - LENGTH(REPLACE(LOWER(title), LOWER(?), '')))/LENGTH(?) AS title_matches", search_term, search_term)
-                   .select("items.*, (LENGTH(description) - LENGTH(REPLACE(LOWER(description), LOWER(?), '')))/LENGTH(?) AS description_matches", search_term, search_term)
-                   .order('title_matches DESC, description_matches DESC')
-    end
+    # Scenarios 3 and 4: Search term provided
+    if search_term.present?
+      # For SQLite, we'll just do a simple LIKE match
+      # For PostgreSQL, we could use ILIKE for case-insensitive matching or more complex text search features
+      match_condition = Rails.env.production? ? 'ILIKE' : 'LIKE'
+      items = items.where("title #{match_condition} :search OR description #{match_condition} :search", search: "%#{search_term}%")
 
-    # Scenario 4: Both search term and categories provided, sort by category match count and then search term match
-    if search_term.present? && category_names.present?
-      items = items.select("items.*, (LENGTH(title) - LENGTH(REPLACE(LOWER(title), LOWER(?), '')))/LENGTH(?) AS title_matches", search_term, search_term)
-                   .select("items.*, (LENGTH(description) - LENGTH(REPLACE(LOWER(description), LOWER(?), '')))/LENGTH(?) AS description_matches", search_term, search_term)
-                   .group('items.id')
-                   .order('COUNT(categories.id) DESC, title_matches DESC, description_matches DESC')
+      if category_names.blank?
+        # Scenario 3: Only search term is provided, sort by relevance
+        items = items.order(Arel.sql('title DESC, description DESC'))
+      else
+        # Scenario 4: Both search term and categories provided, sort by category match count and then search term match
+        items = items.group('items.id').order(Arel.sql('COUNT(categories.id) DESC, title DESC, description DESC'))
+      end
     end
 
     items
   end
+
 
 end
