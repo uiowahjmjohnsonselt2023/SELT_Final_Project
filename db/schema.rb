@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231109105013) do
+ActiveRecord::Schema.define(version: 20231109111704) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "shipping_address_1"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20231109105013) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "item_id"
+    t.string   "image_type"
   end
 
   add_index "images", ["item_id"], name: "index_images_on_item_id"
