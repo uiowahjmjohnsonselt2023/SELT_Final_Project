@@ -22,6 +22,7 @@
           %th State
           %th Country
           %th Postal Code
+          %th Edit
       %tbody
         - @user.addresses.each do |address|
           %tr
@@ -31,6 +32,8 @@
             %td= address.state
             %td= address.country
             %td= address.postal_code
+            %td
+              = check_box_tag "edit_address_#{address.id}"
 
   %div.navigation-section
     = form_tag search_path, method: :get do
