@@ -32,30 +32,30 @@ describe ItemsController, type: :controller do
         )
         controller.log_in(user)
       end
-    before do
-      @user = User.find_by(username: 'mainuser')
-      @item = @user.items.create!(title: "Item 1", description: "Description for item 1")
-    end
+      before do
+        @user = User.find_by(username: 'mainuser')
+        @item = @user.items.create!(title: "Item 1", description: "Description for item 1")
+      end
 
-    it "responds successfully" do
-      get :show, { :id => @item.id }
-      expect(response).to be_successful
-    end
+      it "responds successfully" do
+        get :show, { :id => @item.id }
+        expect(response).to be_successful
+      end
 
-    it "renders the show template" do
-      get :show, { :id => @item.id }
-      expect(response).to render_template(:show)
-    end
+      it "renders the show template" do
+        get :show, { :id => @item.id }
+        expect(response).to render_template(:show)
+      end
 
-    it 'assigns @related_items' do
-      get :show, { :id => @item.id }
-      expect(assigns(:related_items)).not_to be_nil
-    end
+      it 'assigns @related_items' do
+        get :show, { :id => @item.id }
+        expect(assigns(:related_items)).not_to be_nil
+      end
 
-    it 'assigns @user' do
-      get :show, { :id => @item.id }
-      expect(assigns(:user)).to eq(@user)
+      it 'assigns @user' do
+        get :show, { :id => @item.id }
+        expect(assigns(:user)).to eq(@user)
+      end
     end
   end
-  end
-  end
+end
