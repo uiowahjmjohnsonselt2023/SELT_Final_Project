@@ -35,6 +35,21 @@
             %td
               = check_box_tag "edit_address_#{address.id}"
 
+    %h3 Payment Methods
+    %table.addresses-table
+      %thead
+        %tr
+          %th Card Number
+          %th Expiration Date
+          %th Edit
+        %tbody
+          - @user.payment_methods.each do |payment_method|
+            %tr
+              %td= payment_method.encrypted_card_number
+              %td= payment_method.expiration_date.strftime("%m/%Y")
+              %td
+                = check_box_tag "edit_payment_method_#{payment_method.id}"
+
   %div.navigation-section
     = form_tag search_path, method: :get do
       = hidden_field_tag @user.id, params[:user_id]
