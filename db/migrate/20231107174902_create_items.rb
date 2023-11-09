@@ -3,9 +3,8 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.string :title, null: false
       t.text :description
-      t.string :tags
 
-      t.timestamps null: false
+      t.timestamps
     end
   end
 end
