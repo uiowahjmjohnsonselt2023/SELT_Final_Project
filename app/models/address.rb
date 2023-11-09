@@ -10,4 +10,5 @@ class Address < ApplicationRecord
   validates :state, presence: true
   validates :country, presence: true
   validates :postal_code, presence: true, numericality: { only_integer: true }, length: { maximum: 10 }
+  validates :user_id, presence: true
 end
