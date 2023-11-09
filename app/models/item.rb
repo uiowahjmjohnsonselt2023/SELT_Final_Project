@@ -8,6 +8,8 @@ class Item < ApplicationRecord
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
   validates :description, presence: true, length: { maximum: 1000 }
+  validates :price, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
+  validates :user_id, presence: true
 
   def self.search(search_term, category_names)
     items = all

@@ -12,5 +12,6 @@
             = category.name
             - unless category == item.categories.last
               = ', '
+        %img{ src: item.images.first.data_uri, alt: item.title }
 - else
   %p No items found
