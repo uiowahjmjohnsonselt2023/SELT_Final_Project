@@ -1,5 +1,5 @@
-Feature: Accessing the Item Page
-  Scenario: User navigates to the Item Page
-    Given I am on the home page
-    When I navigate to the Item Page
-    Then I should see the Item Title
+Feature: Item Page
+  Scenario: Accessing the Item Page
+    Given I am logged in as a regular user
+    When I go to the item page
+    Then I should see the item page
