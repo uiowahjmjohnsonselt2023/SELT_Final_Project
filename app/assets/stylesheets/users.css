@@ -13,6 +13,17 @@
   margin-bottom: 20px;
 }
 
+.edit-profile-form {
+  text-align: center;
+}
+
+.navigation-section {
+  width: 100%; /* Change this to 100% to use the full width */
+  margin: auto; /* This will center the div if it has a width */
+  display: flex;
+  justify-content: center; /* This will center the child elements horizontally */
+}
+
 .logo {
   max-width: 100px;
 }
@@ -50,11 +61,6 @@
 
 .address {
   margin-top: 5px;
-}
-
-.navigation-section {
-  text-align: center;
-  padding: 20px;
 }
 
 .button {
@@ -117,3 +123,33 @@
 .addresses-table tr:nth-child(even){background-color: #f9f9f9;}
 
 .addresses-table tr:hover {background-color: #ddd;}
+
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation-and-tables {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This will center the child elements horizontally */
+}
+
+.navigation-section {
+  display: flex;
+  justify-content: center; /* Center the child elements horizontally */
+  margin-top: 10px; /* Add margin to separate from the above content */
+}
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.tables-section {
+  clear: both;
+}
