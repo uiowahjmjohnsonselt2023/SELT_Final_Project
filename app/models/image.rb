@@ -5,4 +5,5 @@ class Image < ApplicationRecord
 
   # Validations
   validates :data, presence: true
+  validates :item_id, presence: true
 end
