@@ -1,5 +1,4 @@
 Feature: Accessing the Item Page
-
   Scenario: User navigates to the Item Page
     Given I am on the home page
     When I navigate to the Item Page
