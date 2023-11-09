@@ -5,6 +5,12 @@
 - if @results.any?
   %ul
     - @results.each do |item|
-      %li= link_to item.title, item_path(item)
+      %li
+        = link_to item.title, item_path(item)
+        %p
+          - item.categories.each do |category|
+            = category.name
+            - unless category == item.categories.last
+              = ', '
 - else
   %p No items found
