@@ -15,21 +15,58 @@ if RUBY_VERSION>='2.6.0'
   end
 end
 
-describe UsersController do
-  describe 'showing a user' do
-    it 'should call the model method that finds the user' do
-      user = FactoryBot.create(:user) # Assuming you have a users factory
-      expect(User).to receive(:find).with(user.id.to_s).and_return(user)
-      get :show, params: { id: user.id }
+RSpec.describe UsersController, type: :controller do
+  before(:each) do
+    controller.extend(SessionsHelper)
+  end
+  let(:user) do
+    User.create!(
+      username: 'testuser',
+      password: 'password',
+      password_confirmation: 'password',
+      email: 'test_user@test.com',
+      phone_number: '1234567890'
+    )
+  end
+
+  describe "GET #new" do
+    it "renders the new template" do
+      get :new
+      expect(response).to render_template(:new)
     end
 
-    it 'should render the show template' do
-      user = FactoryBot.create(:user) # Create a user with FactoryBot
-      allow(User).to receive(:find).and_return(user) # Stub the User.find call
-      get :show, params: { id: user.id }
-      expect(response).to render_template('show')
+    it "assigns a new User to @user" do
+      get :new
+      expect(assigns(:user)).to be_a_new(User)
     end
   end
+
+  describe "GET #show" do
+    context "when user is logged in" do
+      before do
+        controller.log_in(user)
+      end
+
+      it "renders the show template" do
+        get :show, params: { id: user.id }
+        expect(response).to render_template(:show)
+      end
+
+      it "assigns the requested user to @user" do
+        get :show, params: { id: user.id }
+        expect(assigns(:user)).to eq(user)
+      end
+    end
+
+    context "when user is not logged in" do
+      it "redirects to the login page" do
+        get :show, params: { id: user.id }
+        expect(response).to redirect_to(login_path)
+      end
+    end
+  end
+
+  # Similar structure for 'update' and 'destroy' actions
 end
 
 
