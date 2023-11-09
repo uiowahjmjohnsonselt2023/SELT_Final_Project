@@ -15,13 +15,6 @@ class UsersController < ApplicationController
 
   # Show User Profile
   def show
-    puts "TESTING Payment Methods HERE______________________________________________________"
-
-    @payment_methods = current_user.payment_methods
-    puts @payment_methods.inspect
-
-    puts "TESTING HERE______________________________________________________"
-
     @user = current_user
   end
 
