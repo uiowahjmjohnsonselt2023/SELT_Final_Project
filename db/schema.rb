@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231108202336) do
+ActiveRecord::Schema.define(version: 20231109082222) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "shipping_address_1"
@@ -20,17 +20,23 @@ ActiveRecord::Schema.define(version: 20231108202336) do
     t.string   "state"
     t.string   "country"
     t.string   "postal_code"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
   end
 
   add_index "addresses", ["user_id"], name: "index_addresses_on_user_id"
 
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "images", force: :cascade do |t|
     t.binary   "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "item_id"
   end
 
@@ -39,20 +45,27 @@ ActiveRecord::Schema.define(version: 20231108202336) do
   create_table "items", force: :cascade do |t|
     t.string   "title",       null: false
     t.text     "description"
-    t.string   "tags"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
   end
 
   add_index "items", ["user_id"], name: "index_items_on_user_id"
 
+  create_table "items_categories", id: false, force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "category_id"
+  end
+
+  add_index "items_categories", ["category_id"], name: "index_items_categories_on_category_id"
+  add_index "items_categories", ["item_id"], name: "index_items_categories_on_item_id"
+
   create_table "payment_methods", force: :cascade do |t|
     t.string   "encrypted_card_number"
     t.string   "encrypted_card_number_iv"
     t.date     "expiration_date"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
   end
 
@@ -63,8 +76,8 @@ ActiveRecord::Schema.define(version: 20231108202336) do
     t.string   "password_digest", null: false
     t.string   "email",           null: false
     t.string   "phone_number",    null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["username"], name: "index_users_on_username", unique: true
