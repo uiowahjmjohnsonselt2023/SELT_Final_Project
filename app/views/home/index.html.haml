@@ -5,7 +5,7 @@
   .category-list
     - @categories.each do |category|
       = form_tag search_path, method: :get do
-        = hidden_field_tag category[:name], params[:category]
+        = hidden_field_tag :categories, category[:name]
         = submit_tag category[:name], class: 'category-button'
 
 .home-container
