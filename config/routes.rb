@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   # Search route for searching items with optional category filtering
   get 'search', to: 'search#index'
 
+  resources :categories, only: [:index, :show]
+
 end

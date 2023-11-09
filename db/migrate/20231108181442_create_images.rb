@@ -3,7 +3,7 @@ class CreateImages < ActiveRecord::Migration
     create_table :images do |t|
       t.binary :data
 
-      t.timestamps null: false
+      t.timestamps
     end
   end
 end
