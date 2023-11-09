@@ -9,8 +9,49 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
     </content>
-    <orderEntry type="jdk" jdkName="Remote: ruby-2.6.6-p146" jdkType="RUBY_SDK" />
+    <orderEntry type="jdk" jdkName="Remote-rbenv: ruby-2.6.10-p210 (2)" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+<<<<<<< HEAD
+    <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.5, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="arel (v6.0.4, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.17.3, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="byebug (v11.1.3, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.2.2, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.3, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="docile (v1.4.0, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.2, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n (v0.9.5, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="listen (v3.8.0, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mail (v2.8.1, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.20.0, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_test (v0.1.2, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.3.7, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-pop (v0.1.2, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-protocol (v0.2.1, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="public_suffix (v5.0.3, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rack (v1.6.13, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rack-test (v0.6.3, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails-deprecated_sanitizer (v1.0.4, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v1.0.9, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rb-fsevent (v0.11.2, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rb-inotify (v0.10.1, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec (v3.12.0, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.12.2, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.12.3, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.12.6, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.12.1, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.22.0, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.12.3, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov_json_formatter (v0.1.4, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.2.2, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="thread_safe (v0.3.6, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="timeout (v0.4.0, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tzinfo (v1.2.11, Remote-rbenv: ruby-2.6.10-p210 (2)) [gem]" level="application" />
+=======
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v4.2.10, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionpack (v4.2.10, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionview (v4.2.10, Remote: ruby-2.6.6-p146) [gem]" level="application" />
@@ -116,6 +157,7 @@
     <orderEntry type="library" scope="PROVIDED" name="uglifier (v4.2.0, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="web-console (v3.3.0, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v3.2.0, Remote: ruby-2.6.6-p146) [gem]" level="application" />
+>>>>>>> main
   </component>
   <component name="RakeTasksCache">
     <option name="myRootTask">
