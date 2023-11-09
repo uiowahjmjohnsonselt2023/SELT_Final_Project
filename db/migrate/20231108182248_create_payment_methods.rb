@@ -5,7 +5,7 @@ class CreatePaymentMethods < ActiveRecord::Migration
       t.string :encrypted_card_number_iv
       t.date :expiration_date
 
-      t.timestamps null: false
+      t.timestamps
     end
   end
 end

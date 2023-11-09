@@ -3,13 +3,11 @@ class Item < ApplicationRecord
   # Associations
   belongs_to :user
   has_many :images, dependent: :destroy
+  has_and_belongs_to_many :categories, join_table: :items_categories
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
   validates :description, presence: true, length: { maximum: 1000 }
-  validates :tags, length: { maximum: 255 }
-
-  before_save :downcase_tags
 
   def self.search(search_term)
     if search_term
@@ -19,9 +17,4 @@ class Item < ApplicationRecord
     end
   end
 
-  private
-
-  def downcase_tags
-    self.tags = tags.downcase if tags.present?
-  end
 end
