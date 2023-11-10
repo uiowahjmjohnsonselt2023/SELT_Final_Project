@@ -1,22 +1,30 @@
-Given('I am on the home page') do
-  visit root_path
-end
-
-When('I navigate to the Item Page') do
-  # Assuming there's a link to the item page, perhaps with an id or text
-  click_on 'Item Page Link Text'
-end
-
 Then('I should see the Item Title') do
   # Verify that the item title is present on the page
   expect(page).to have_css('h1.item-title')
 end
 
-When(/^I go to the item page$/) do
-  visit item_path(@item)
+When(/^I click on the item link$/) do
+  # Click on the link with the given button name
+  user = User.find_by(username: 'testuser')
+  click_link_or_button user.items.first.title
 end
 
-Then(/^I should see the item page$/) do
-  expect(page).to have_content(@item.title)
-  expect(current_path).to eq(item_path(@item))
+# given I search for an item
+Given(/^I search for "(.*)"$/) do |search_term|
+  # make a search request
+  visit search_path(query: search_term)
+end
+
+Then(/^I should see the item "(.*)"$/) do |item_title|
+  # Verify that the item title is present on the page
+  expect(page).to have_content(item_title)
+end
+
+Then(/^I should see the item page:$/) do |table|
+  table.hashes.each do |item|
+    expect(page).to have_content(item['user'])
+    expect(page).to have_content(item['title'])
+    expect(page).to have_content(item['description'])
+    expect(page).to have_content(item['price'])
+  end
 end
