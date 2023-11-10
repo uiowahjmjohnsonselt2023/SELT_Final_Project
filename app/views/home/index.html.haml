@@ -1,6 +1,7 @@
 .container
   .home-header Welcome to Deal Docks
 
+-# populating categories and making them links to the search page
 .home-container
   .category-list
     - @categories.each do |category|
@@ -8,30 +9,37 @@
         = hidden_field_tag :categories, category[:name]
         = submit_tag category[:name], class: 'category-button'
 
+-# populating items for sale and making them links to the item page
 .home-container
-  .home-header2 Suggested Items
-  .items-container#suggested-items
+  .home-header2 Items for Sale
+  .items-container
     - if @suggested_items.empty?
-      .home-header2 No suggested items.
+      .home-header2 There are no items for sale.
     -else
       - @suggested_items.each do |item|
-        .item
-          %h3= item.title
-          %h3= item.user_id
-          %h3= item.price
+        = link_to item_path(item) do
+          .item
+            %h3= item.title
+            %h3= item.description
+            %h3= "$#{item.price}"
+            - if item.images.any?
+              = image_tag item.images.first.data_uri, alt: item.title, class: 'item-image'
 
-
+-# populating items for sale by the current user and making them links to the item page
 .home-container
   .home-header2 Your Items for Sale
-  .items-container#user-items
+  .items-container
     - if @user_items.empty?
       .home-header2 You have no items for sale.
     -else
       - @user_items.each do |item|
-        .item
-          %h3= item.title
-          %h3= item.user_id
-          %h3= item.price
+        = link_to item_path(item) do
+          .item
+            %h3= item.title
+            %h3= item.description
+            %h3= "$#{item.price}"
+            - if item.images.any?
+              = image_tag item.images.first.data_uri, alt: item.title, class: 'item-image'
 
 %footer
   %p © 2023 Deal Docks. All rights reserved.
