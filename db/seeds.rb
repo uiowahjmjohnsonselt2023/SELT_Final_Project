@@ -25,7 +25,7 @@ image_type, image_data = Image.new.get_image_data(image_file_path)
   username  = "user#{n+1}"
   password = "password"
   user = User.create!(username: username, password: password, password_confirmation: password, email: "#{username}@example.com", phone_number: "123456789#{n}")
-
+  # update time
   # Each user will have one address and one payment method.
   user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_2: "Apt 1", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
   user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
