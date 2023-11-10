@@ -34,3 +34,7 @@ After Your Pull Request is approved and merged into main delete the local branch
 3 git pull
 4 git fetch --prune
 5 git branch -D branch_name
+
+Before running main, you have to run 
+rake db:drop db:create db:migrate
+rake db:seed
