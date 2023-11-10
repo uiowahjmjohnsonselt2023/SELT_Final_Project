@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   before_action :require_login
 
   def index
-
     # Fetch all the categories from the database
     @categories = Category.all.limit(4)
 

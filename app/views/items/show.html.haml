@@ -2,7 +2,7 @@
 
 %section.item-page
   %h1= @item.title
-  %p.item-price= "Price: BIG MONEY"
+  %p.item-price= "Price: $#{'%.2f' % @item.price}"
 
   = button_to "Buy Now", search_path(search: @user.username), method: :get, form: {class: 'search-form'}, class: 'buy-button'
   .item-details
