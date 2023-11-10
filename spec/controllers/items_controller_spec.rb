@@ -21,19 +21,22 @@ describe ItemsController, type: :controller do
     controller.extend(SessionsHelper)
   end
   describe "GET #show" do
+    let(:items) {
+      [
+        Item.create!(title: "Item 1", description: "Description for item 1"),
+        Item.create!(title: "Item 2", description: "Description for item 2"),
+      ]
+    }
     context "when user is logged in" do
       before do
-        user = User.create!(
+        @user = User.create!(
           username: 'mainuser',
           password: 'password',
           password_confirmation: 'password',
           email: 'test_email@test.com',
           phone_number: '1234567890'
         )
-        controller.log_in(user)
-      end
-      before do
-        @user = User.find_by(username: 'mainuser')
+        controller.log_in(@user)
         @item = @user.items.create!(title: "Item 1", description: "Description for item 1")
       end
 
