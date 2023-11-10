@@ -15,6 +15,8 @@ end
 
 # Create a main sample user.
 main_user = User.create!(username: "mainuser", password: "password", password_confirmation: "password", email: "mainuser@example.com", phone_number: "1234567890")
+main_user.addresses.create!(shipping_address_1: "456 Main St",shipping_address_2: "APT 2", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
+main_user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
 main_user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_2: "Apt 1", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
 
 image_file_path = Rails.root.join('app', 'assets', 'images', 'test_image.jpg')
