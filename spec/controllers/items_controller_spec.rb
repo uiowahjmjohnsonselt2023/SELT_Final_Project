@@ -48,7 +48,7 @@ describe ItemsController, type: :controller do
       end
 
       it "sets a flash message" do
-        get :show
+        get :new
         expect(flash[:error]).to match(/You must be logged in to access this section/)
       end
     end
