@@ -5,8 +5,7 @@ end
 
 When(/^I click on the item link$/) do
   # Click on the link with the given button name
-  user = User.find_by(username: 'testuser')
-  click_link_or_button user.items.first.title
+  click_link_or_button @user.items.first.title
 end
 
 # given I search for an item
