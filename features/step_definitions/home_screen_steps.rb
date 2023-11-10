@@ -9,6 +9,13 @@ Then('I should see the following suggested items:') do |table|
   end
 end
 
+Given('there are categories created') do
+  ["Electronics", "Books", "Clothing", "Home & Garden", "Toys & Games"].map do |category_name|
+    Category.create!(name: category_name)
+  end
+end
+
+
 Then('a user has listed the following items') do |table|
   # make a new user
   user = User.create!(
@@ -22,7 +29,9 @@ Then('a user has listed the following items') do |table|
   items = table.hashes # This will convert the table to an array of hashes
 
   items.each do |item|
-    user.items.create!(title: item["title"], description: item["description"], tags: item["tags"])
+    user_item = user.items.create!(title: item["title"], description: item["description"], price: item["price"])
+    category = Category.find_by(name: item["categories"])
+    user_item.categories << category
   end
 
 end
@@ -46,11 +55,12 @@ Then('I should not see the following suggested items') do |table|
 end
 
 Given('I have the following items for sale:') do |table|
-  # Here you would create the items in the database
   items = table.hashes # This will convert the table to an array of hashes
   user = User.find_by(username: 'testuser')
 
   items.each do |item|
-    user.items.create!(title: item["title"], description: item["description"], tags: item["tags"])
+    user_item = user.items.create!(title: item["title"], description: item["description"], price: item["price"])
+    category = Category.find_by(name: item["categories"])
+    user_item.categories << category
   end
 end
