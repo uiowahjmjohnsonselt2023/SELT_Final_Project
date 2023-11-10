@@ -20,6 +20,7 @@ Given(/^I am on the "(.*)" page$/) do |page_name|
          when 'signup' then signup_path
          when 'profile' then profile_path
          when 'sell item' then sell_path
+         when 'search' then search_path("")
          # Add more pages here as needed
          else
            raise "No path defined for #{page_name}"
