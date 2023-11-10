@@ -1,8 +1,69 @@
 -# in app/views/users/show.html.haml
+%div.profile-container
 
-%h1 User Profile Page
+  %div.account-details
+    %div.profile-image
+      = image_tag("BasicProfilePic.png", alt: 'User profile image', class: 'profile-pic')
+    %h2 My Account
+    %p
+      %strong Username:
+      = @user.username
+    %p
+      %strong Email:
+      = @user.email
+    %p
+      %strong Phone Number:
+      = @user.phone_number
 
-%ul
-  %li Username: = #{@user.username}
 
-= link_to 'Edit Profile', edit_user_path(@user)
+    %h3 Addresses
+    %table.addresses-table
+      %thead
+        %tr
+          %th Address Line 1
+          %th Address Line 2
+          %th City
+          %th State
+          %th Country
+          %th Postal Code
+          %th Edit
+      %tbody
+        - @user.addresses.each do |address|
+          %tr
+            %td= address.shipping_address_1
+            %td= address.shipping_address_2
+            %td= address.city
+            %td= address.state
+            %td= address.country
+            %td= address.postal_code
+            %td
+              = check_box_tag "edit_address_#{address.id}"
+
+
+      %table.addresses-table
+        %h3 Payment Methods
+        %thead
+          %tr
+            %th Card Number
+            %th Expiration Date
+            %th Edit
+        %tbody
+          - @user.payment_methods.each do |payment_method|
+            %tr
+              %td= payment_method.encrypted_card_number
+              %td= payment_method.expiration_date.strftime("%m/%Y")
+              %td
+                = check_box_tag "edit_payment_method_#{payment_method.id}"
+      %div.navigation-and-tables
+        %div.navigation-section
+          = form_tag search_path(search: @user.username), method: :get do
+            = hidden_field_tag @user.id, params[:user_id]
+            = submit_tag "My Items for Sale", name: nil, class: 'button nav-button'
+          = form_tag search_path(search: @user.username), method: :get do
+            = hidden_field_tag @user.id, params[:user_id]
+            = submit_tag "My Purchases", name: nil, class: 'button nav-button'
+          = form_tag search_path, method: :get do
+            = hidden_field_tag @user.id, params[:user_id]
+            = submit_tag "Contact Company", name: nil, class: 'button nav-button'
+          = form_tag edit_user_path(@user), method: :get, class: 'edit-profile-form' do
+            = submit_tag 'Edit Profile', class: 'button edit-profile-button'
