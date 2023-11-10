@@ -29,6 +29,17 @@ RSpec.describe UsersController, type: :controller do
     )
   end
 
+  let(:other_user) do
+    User.create!(
+      username: 'otheruser',
+      password: 'password',
+      password_confirmation: 'password',
+      email: 'other_user@test.com',
+      phone_number: '0987654321'
+    )
+  end
+
+
   describe "GET #new" do
     it "renders the new template" do
       get :new
@@ -64,9 +75,10 @@ RSpec.describe UsersController, type: :controller do
         expect(response).to redirect_to(login_path)
       end
     end
+
   end
 
-  # Similar structure for 'update' and 'destroy' actions
+
 end
 
 
