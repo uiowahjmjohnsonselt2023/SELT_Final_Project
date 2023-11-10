@@ -56,10 +56,9 @@ end
 
 Given('I have the following items for sale:') do |table|
   items = table.hashes # This will convert the table to an array of hashes
-  user = User.find_by(username: 'testuser')
 
   items.each do |item|
-    user_item = user.items.create!(title: item["title"], description: item["description"], price: item["price"])
+    user_item = @user.items.create!(title: item["title"], description: item["description"], price: item["price"])
     category = Category.find_by(name: item["categories"])
     user_item.categories << category
   end

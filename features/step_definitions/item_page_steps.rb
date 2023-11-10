@@ -1,15 +1,6 @@
-
-
 Then('I should see the Item Title') do
   # Verify that the item title is present on the page
   expect(page).to have_css('h1.item-title')
-end
-
-Then(/^I should see the item page$/) do
-  # Verify that the item title is present on the page
-  user = User.find_by(username: 'testuser')
-  expect(page).to have_content(user.items.first.title)
-  expect(current_path).to eq(item_path(user.items.first))
 end
 
 When(/^I click on the item link$/) do
@@ -27,4 +18,13 @@ end
 Then(/^I should see the item "(.*)"$/) do |item_title|
   # Verify that the item title is present on the page
   expect(page).to have_content(item_title)
+end
+
+Then(/^I should see the item page:$/) do |table|
+  table.hashes.each do |item|
+    expect(page).to have_content(item['user'])
+    expect(page).to have_content(item['title'])
+    expect(page).to have_content(item['description'])
+    expect(page).to have_content(item['price'])
+  end
 end

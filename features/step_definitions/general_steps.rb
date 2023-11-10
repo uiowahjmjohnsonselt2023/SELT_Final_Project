@@ -1,7 +1,7 @@
 
-Given(/^I am logged in as a regular user$/) do
+Given(/^I am logged in as "(.*)"$/) do |username|
   @user = User.create!(
-    username: 'testuser',
+    username: username,
     password: 'password',
     password_confirmation: 'password',
     email: 'test_email@test.com',
@@ -43,4 +43,9 @@ Then(/^I should be redirected to the "(.*)" page$/) do |page_name|
          end
 
   expect(current_path).to eq(path)
+end
+
+When(/^I click on the "(.*)" link$/) do |link_name|
+  # Click the link with the given link name
+  click_link_or_button link_name
 end
