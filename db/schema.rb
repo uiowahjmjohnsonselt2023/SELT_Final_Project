@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20231109111704) do
     t.string   "state"
     t.string   "country"
     t.string   "postal_code"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
   end
 
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20231109111704) do
 
   create_table "images", force: :cascade do |t|
     t.binary   "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "item_id"
     t.string   "image_type"
   end
@@ -46,9 +46,8 @@ ActiveRecord::Schema.define(version: 20231109111704) do
   create_table "items", force: :cascade do |t|
     t.string   "title",                                null: false
     t.text     "description"
-    t.string   "tags"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
     t.decimal  "price",       precision: 10, scale: 2
   end
@@ -67,8 +66,8 @@ ActiveRecord::Schema.define(version: 20231109111704) do
     t.string   "encrypted_card_number"
     t.string   "encrypted_card_number_iv"
     t.date     "expiration_date"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
   end
 
@@ -79,8 +78,8 @@ ActiveRecord::Schema.define(version: 20231109111704) do
     t.string   "password_digest", null: false
     t.string   "email",           null: false
     t.string   "phone_number",    null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["username"], name: "index_users_on_username", unique: true
