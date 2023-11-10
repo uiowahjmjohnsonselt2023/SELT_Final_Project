@@ -1,7 +1,7 @@
 Feature: Home Screen Functionality
 
   Scenario: Viewing my for sale items on the home page
-    Given I am logged in as a regular user
+    Given I am logged in as "testuser"
     Given there are categories created
     Given I have the following items for sale:
       | title          | description  | categories  | price |
@@ -14,7 +14,7 @@ Feature: Home Screen Functionality
       | Skis          |
 
   Scenario: Viewing user items on the home page when logged in
-    Given I am logged in as a regular user
+    Given I am logged in as "testuser"
     Given there are categories created
     Given a user has listed the following items
       | title          | description  | categories  | price |
@@ -38,3 +38,21 @@ Feature: Home Screen Functionality
       | title         |
       | Baseball      |
       | Skis          |
+
+  Scenario: Navigating to items from the home page
+    Given I am logged in as "testuser"
+    Given there are categories created
+    Given a user has listed the following items
+      | title          | description  | categories  | price |
+      | Baseball       | temp         | Electronics | 1.00  |
+      | Skis           | temp2        | Books       | 1.00  |
+    And I am on the "home" page
+    When I click on the "Baseball" link
+    Then I should see the item page:
+      | user       | title    | description  | price |
+      | testuser   | Baseball | temp         | 1.00  |
+    Given I am on the "home" page
+    When I click on the "Skis" link
+    Then I should see the item page:
+      | user       | title    | description  | price |
+      | testuser   | Skis     | temp2        | 1.00  |

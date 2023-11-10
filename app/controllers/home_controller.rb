@@ -1,8 +1,7 @@
 class HomeController < ApplicationController
-  skip_before_action :require_login, only: [:new, :create]
+  before_action :require_login
 
   def index
-
     # Fetch all the categories from the database
     @categories = Category.all.limit(4)
 
