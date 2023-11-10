@@ -14,12 +14,12 @@
     - if @suggested_items.empty?
       .home-header2 No suggested items.
     -else
-      - @suggested_items.each do |item|
+    - @suggested_items.each do |item|
+      = link_to item_path(item) do
         .item
           %h3= item.title
           %h3= item.user_id
           %h3= item.price
-
 
 .home-container
   .home-header2 Your Items for Sale
