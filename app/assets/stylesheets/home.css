@@ -82,6 +82,16 @@ body {
   justify-content: center;
 }
 
+.suggest_items_container{
+  display: flex;
+  flex: 0 0 auto;
+  overflow-x: auto; /* Allows horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+  margin: 20px 0;
+  width: 100%;
+  justify-content: center;
+}
+
 /* Style for individual items */
 .item {
   flex: 1 1 auto; /* Prevents the item from growing or shrinking */

@@ -12,6 +12,7 @@ class HomeController < ApplicationController
 
     # Fetch items for sale by the current user if they are logged in
     @user_items = current_user.items if current_user
+
   end
 
 end

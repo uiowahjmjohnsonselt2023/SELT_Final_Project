@@ -12,9 +12,9 @@
 -# populating items for sale and making them links to the item page
 .home-container
   .home-header2 Items for Sale
-  .items-container#suggested-items
+  .items-container
     - if @suggested_items.empty?
-      .home-header2 No items for sale.
+      .home-header2 There are no items for sale.
     -else
       - @suggested_items.each do |item|
         = link_to item_path(item) do
@@ -28,7 +28,7 @@
 -# populating items for sale by the current user and making them links to the item page
 .home-container
   .home-header2 Your Items for Sale
-  .items-container#user-items
+  .items-container
     - if @user_items.empty?
       .home-header2 You have no items for sale.
     -else
