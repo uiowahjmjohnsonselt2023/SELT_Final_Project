@@ -12,6 +12,7 @@
       %strong Email:
       = @user.email
 
+
     %h3 Addresses
     %table.addresses-table
       %thead
@@ -34,8 +35,10 @@
             %td= address.postal_code
             %td
               = check_box_tag "edit_address_#{address.id}"
-      %h3 Payment Methods
+
+
       %table.addresses-table
+        %h3 Payment Methods
         %thead
           %tr
             %th Card Number
@@ -50,10 +53,10 @@
                 = check_box_tag "edit_payment_method_#{payment_method.id}"
       %div.navigation-and-tables
         %div.navigation-section
-          = form_tag search_path, method: :get do
+          = form_tag search_path(search: @user.username), method: :get do
             = hidden_field_tag @user.id, params[:user_id]
             = submit_tag "My Items for Sale", name: nil, class: 'button nav-button'
-          = form_tag search_path, method: :get do
+          = form_tag search_path(search: @user.username), method: :get do
             = hidden_field_tag @user.id, params[:user_id]
             = submit_tag "My Purchases", name: nil, class: 'button nav-button'
           = form_tag search_path, method: :get do

@@ -63,25 +63,6 @@
   margin-top: 5px;
 }
 
-.button {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-}
-
-.nav-button {
-  margin-top: 10px;
-}
-
-.edit-profile-button {
-  background-color: #28a745;
-}
-
 .profile-image img {
   height: 50px;
   width: 50px;
@@ -144,11 +125,23 @@
   display: inline-block;
   padding: 10px 20px;
   margin: 5px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border: none;
+  font-size: 16px;
   cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #3e8e41;
+  border: none;
+  border-radius: 5px;
+}
+
+.button:hover { background-color: #45a049 }
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 .tables-section {
   clear: both;
