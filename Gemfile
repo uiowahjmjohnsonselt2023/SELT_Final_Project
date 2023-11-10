@@ -32,7 +32,6 @@ gem 'attr_encrypted', '~> 1.3.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-
 group :development do
    # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'

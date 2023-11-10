@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # Item routes for creating, showing, editing, updating, and deleting item listings
   resources :items, only: [:new, :create, :show, :edit, :update, :destroy]
   get 'sell', to: 'items#new'
+  get 'item', to: 'items#show'
 
   # Search route for searching items with optional category filtering
   get 'search', to: 'search#index'
