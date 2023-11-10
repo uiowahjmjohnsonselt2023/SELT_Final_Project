@@ -10,11 +10,42 @@ Feature: Profile Screen Functionality
   Given I am on the "profile" page
   Then I should see the profile page with the user's information
 
-    #Given the user has the following profile information
-     # | first_name | last_name | email             | phone_number | address | city    | state | zip_code |
-    #  | John       | Doe       | test@gmail.com   | 1234567890   | 1234    | Denver  | CO    | 80202    |
-    #Then I should see my profile information
-    #  | first_name | last_name | email             | phone_number | address | city    | state | zip_code |
-    #  | John       | Doe       | test@gmail.com  | 1234567890   | 1234    | Denver  | CO    | 80202    |
+  Scenario: Viewing addresses on profile page
+    Given I am logged in as a regular user
+    And I have added an address to my profile
+    When I am on the "profile" page
+    Then I should see the added addresses
+
+  Scenario: Viewing payment methods on profile page
+    Given I am logged in as a regular user
+    And I have added a payment method to my profile
+    When I am on the "profile" page
+    Then I should see the added payment methods
+
+  Scenario: Editing my profile information
+    Given I am logged in as a regular user
+    And I am on the "profile" page
+    When I click the "Edit" button
+    Then I should be redirected to the edit profile page
+
+  Scenario: Pressing My Items for Sale button
+    Given I am logged in as a regular user
+    And I am on the "profile" page
+    When I click the "My Items for Sale" button
+    Then I should be redirected to the my items for sale page
+
+  Scenario: Pressing My Purchases button
+    Given I am logged in as a regular user
+    And I am on the "profile" page
+    When I click the "My Purchases" button
+    Then I should be redirected to the my purchases page
+
+  Scenario: Pressing My Purchases button
+    Given I am logged in as a regular user
+    And I am on the "profile" page
+    When I click the "Contact Company" button
+    Then I should be redirected to the FAQ page
+
+
 
 

@@ -1,6 +1,6 @@
 
 Given(/^I am logged in as a regular user$/) do
-  user = User.create!(
+  @user = User.create!(
     username: 'testuser',
     password: 'password',
     password_confirmation: 'password',
@@ -8,8 +8,8 @@ Given(/^I am logged in as a regular user$/) do
     phone_number: '1234567890'
   )
   visit login_path
-  fill_in 'session[username]', with: user.username
-  fill_in 'session[password]', with: user.password
+  fill_in 'session[username]', with: @user.username
+  fill_in 'session[password]', with: @user.password
   click_button 'Login'
 end
 
