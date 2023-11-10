@@ -28,11 +28,6 @@
   max-width: 100px;
 }
 
-.search-bar {
-  flex-grow: 1;
-  margin: 0 10px;
-}
-
 .sell-button {
   padding: 5px 15px;
   background-color: #4CAF50;

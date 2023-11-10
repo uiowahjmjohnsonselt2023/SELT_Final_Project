@@ -19,7 +19,7 @@ main_user.addresses.create!(shipping_address_1: "456 Main St",shipping_address_2
 main_user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
 main_user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_2: "Apt 1", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
 
-image_file_path = Rails.root.join('app', 'assets', 'images', 'test_image.jpg')
+image_file_path = Rails.root.join('app', 'assets', 'images', 'Basketball.jpeg')
 image_type, image_data = Image.new.get_image_data(image_file_path)
 
 # Generate additional users.
@@ -33,7 +33,7 @@ image_type, image_data = Image.new.get_image_data(image_file_path)
   user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.today + 1.year)
 
   # Each user will have one item for sale with one image and some categories.
-  item = user.items.create!(title: "Item #{n+1}", description: "Description for item #{n+1}", price: 10.00)
+  item = user.items.create!(title: "Basketball #{n+1}", description: "A nice basketball in good condition #{n+1}", price: 10.00)
   item.images.create!(data: image_data, image_type: image_type)
   item.categories << categories.sample(2) # Randomly assign two categories to each item
 end
