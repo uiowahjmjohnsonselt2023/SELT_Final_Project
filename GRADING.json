@@ -2,3 +2,13 @@
   "heroku_url": "http://blah.blee.boo/myapp",
   "instructions": "Change the string associated with heroku_url to your heroku application url to be graded."
 }
+
+{
+  "GROUP" : "004",
+  "ALL_SPRINTS" : {
+    "Sprint1_URL" : http,
+     "Sprint2_URL" : http,
+    "Sprint3_URL" : http,
+     "FINAL_URL"   : http
+  }
+}
