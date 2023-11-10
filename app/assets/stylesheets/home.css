@@ -28,6 +28,7 @@ body {
 }
 
 .home-container {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,6 +73,7 @@ body {
 /* Container for items */
 .items-container {
   display: flex;
+  flex: 1 1 auto;
   overflow-x: auto; /* Allows horizontal scrolling */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
   margin: 20px 0;
@@ -82,7 +84,7 @@ body {
 
 /* Style for individual items */
 .item {
-  flex: 0 0 auto; /* Prevents the item from growing or shrinking */
+  flex: 1 1 auto; /* Prevents the item from growing or shrinking */
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 20px;
