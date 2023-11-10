@@ -43,5 +43,10 @@ class Item < ApplicationRecord
     items
   end
 
+  def self.find_related_items
+    # Fetch other items by the same user, excluding the current item
+    Item.where(user_id: item.user_id).where.not(id: item.id).limit(4)
+  end
+
 
 end
