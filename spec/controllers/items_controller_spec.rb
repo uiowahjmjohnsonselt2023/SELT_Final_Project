@@ -34,7 +34,7 @@ describe ItemsController, type: :controller do
       end
       before do
         @user = User.find_by(username: 'mainuser')
-        @item = @user.items.create!(title: "Item 1", description: "Description for item 1")
+        @item = @user.items.create!(title: "Item 1", price: 1, description: "Description for item 1")
       end
 
       it "responds successfully" do
