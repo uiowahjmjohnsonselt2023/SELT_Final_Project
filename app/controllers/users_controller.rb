@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: [:new, :create]
+  before_action :require_login, except: [:new, :create]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   # Sign up Page
@@ -38,6 +38,9 @@ class UsersController < ApplicationController
   # Confirms the correct user.
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_path) unless @user == current_user
+    if @user != current_user
+      flash[:error] = "You do not have permission to edit or delete this user"
+      redirect_to(root_path)
+    end
   end
 end

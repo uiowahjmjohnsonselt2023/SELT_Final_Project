@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_action :require_login
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   # List all items
@@ -21,8 +22,9 @@ class ItemsController < ApplicationController
   # Show item details
   def show
     @item = Item.find(params[:id])
-    @related_items = related_items_for(@item)
+    @related_items = @item.find_related_items
     @user = User.find(@item.user_id)
+    @bookmarked = current_user.bookmarked_items.include?(@item)
   end
 
   # Edit item form
@@ -50,7 +52,10 @@ class ItemsController < ApplicationController
   # Confirms the correct user.
   def correct_user
     @item = Item.find(params[:id])
-    redirect_to(root_path) unless @item.user == current_user
+    if @item.user != current_user
+      flash[:error] = "You do not have permission to edit or delete this item"
+      redirect_to(root_path)
+    end
   end
 end
 
