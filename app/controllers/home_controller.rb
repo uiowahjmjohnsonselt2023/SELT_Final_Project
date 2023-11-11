@@ -9,8 +9,8 @@ class HomeController < ApplicationController
     # Replace the 'suggested_items' method with the actual logic you want to use.
     @suggested_items = Item.all.limit(4) # Example: get 10 items for simplicity
 
-    # Fetch items for sale by the current user if they are logged in
-    @user_items = current_user.items if current_user
+    # Fetch items for sale by the current user
+    @user_items = current_user.items
 
   end
 

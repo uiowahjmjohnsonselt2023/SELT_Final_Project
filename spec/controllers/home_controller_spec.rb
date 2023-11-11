@@ -68,11 +68,12 @@ describe HomeController, type: :controller do
       end
       it 'assigns @user_items for logged in user' do
         # Stub the current_user method to return a user
-        current_user = double('user')
+        current_user = double('testuser')
+        @user = current_user
 
         # Create a test user and items
-        test_user_items = [Item.new(title: 'item1'), Item.new(title: 'item2')]
-        allow(current_user).to receive(:items).and_return(test_user_items)
+        test_user_items = [Item.new(title: 'item1', description: "", price: 1, user_id: "1"), Item.new(title: 'item2', description: "", price: 1, user_id: "1")]
+        allow(@user).to receive(:items).and_return(test_user_items)
 
         # Make a GET request to the index action
         get :index
