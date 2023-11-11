@@ -1,16 +1,19 @@
+require 'spec_helper'
 require 'rails_helper'
 
-if RUBY_VERSION >= '2.6.0' && Rails.version < '5'
-  # Monkeypatch for ActionController::TestResponse to avoid double-initialize error
-  class ActionController::TestResponse < ActionDispatch::TestResponse
-    def recycle!
-      @mon_mutex_owner_object_id = nil
-      @mon_mutex = nil
-      initialize
+if RUBY_VERSION >= '2.6.0'
+  if Rails.version < '5'
+    class ActionController::TestResponse < ActionDispatch::TestResponse
+      def recycle!
+        # hack to avoid MonitorMixin double-initialize error:
+        @mon_mutex_owner_object_id = nil
+        @mon_mutex = nil
+        initialize
+      end
     end
+  else
+    puts "Monkeypatch for ActionController::TestResponse no longer needed"
   end
-else
-  puts "Monkeypatch for ActionController::TestResponse no longer needed"
 end
 
 describe HomeController, type: :controller do
@@ -20,7 +23,7 @@ describe HomeController, type: :controller do
 
   describe "GET #index" do
     context "when user is logged in" do
-      let(:user) do
+      let(:user) {
         User.create!(
           username: 'testuser',
           password: 'password',
@@ -28,7 +31,19 @@ describe HomeController, type: :controller do
           email: 'test_email@test.com',
           phone_number: '1234567890'
         )
-      end
+      }
+      let(:items) {
+        [
+          user.items.create!(title: 'Item1', description: 'test', price: 1),
+          user.items.create!(title: 'Item2', description: 'test', price: 2),
+        ]
+      }
+      let(:categories) {
+        [
+          Category.create!(name: 'Category1'),
+          Category.create!(name: 'Category2'),
+        ]
+      }
 
       before do
         controller.log_in(user)
@@ -45,21 +60,18 @@ describe HomeController, type: :controller do
       end
 
       it 'assigns @categories' do
-        test_categories = [Category.create!(name: 'Category1'), Category.create!(name: 'Category2')]
         get :index
-        expect(assigns(:categories)).to match_array(test_categories)
+        expect(assigns(:categories)).to match_array(categories)
       end
 
       it 'assigns @suggested_items' do
-        test_items = [Item.create!(title: 'Item1', description: 'test', price: 1, user_id: '1'), Item.create!(title: 'Item2', description: 'test', price: 2, user_id: '2')]
         get :index
-        expect(assigns(:suggested_items)).to match_array(test_items)
+        expect(assigns(:suggested_items)).to match_array(items)
       end
 
       it 'assigns @user_items for logged in user' do
-        test_items = [Item.create!(title: 'Item1', description: 'test', price: 1, user_id: '1'), Item.create!(title: 'Item2', description: 'test', price: 2, user_id: '1')]
         get :index
-        expect(assigns(:user_items)).to match_array(test_items)
+        expect(assigns(:user_items)).to match_array(items)
       end
     end
 
