@@ -4,6 +4,8 @@ class Item < ApplicationRecord
   belongs_to :user
   has_many :images, dependent: :destroy
   has_and_belongs_to_many :categories, join_table: :items_categories
+  has_many :bookmarks
+  has_many :bookmarked_by, through: :bookmarks, source: :user
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
@@ -61,5 +63,8 @@ class Item < ApplicationRecord
     item
   end
 
-
+  def find_related_items
+    # Fetch other items by the same user, excluding the current item
+    Item.where(user_id: user_id).where.not(id: id).limit(4)
+  end
 end

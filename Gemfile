@@ -58,6 +58,7 @@ group :test do
   gem 'rspec-expectations'
   gem 'cucumber-rails', :require=>false
   gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :production do

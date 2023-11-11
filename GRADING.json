@@ -1,4 +1,9 @@
 {
-  "heroku_url": "http://blah.blee.boo/myapp",
-  "instructions": "Change the string associated with heroku_url to your heroku application url to be graded."
+  "GROUP": "004",
+  "ALL_SPRINTS": {
+    "Sprint1_URL": "https://vast-basin-96640-5beb05baa773.herokuapp.com/",
+    "Sprint2_URL": "",
+    "Sprint3_URL": "",
+    "FINAL_URL": ""
+  }
 }
