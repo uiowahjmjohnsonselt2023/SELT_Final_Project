@@ -15,4 +15,16 @@ class User < ApplicationRecord
   validates :password_digest, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone_number, presence: true, numericality: true, length: { minimum: 10, maximum: 15 }
+
+  def add_bookmark(item)
+    bookmarked_items << item
+  end
+
+  def remove_bookmark(item)
+    if bookmarked_items.include?(item)
+      bookmarked_items.delete(item)
+    else
+      false
+    end
+  end
 end

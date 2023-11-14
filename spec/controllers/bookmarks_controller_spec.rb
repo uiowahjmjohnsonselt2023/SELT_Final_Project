@@ -85,9 +85,9 @@ describe "POST #create" do
       }.not_to change(Bookmark, :count)
 
       expect(response.content_type).to eq("application/json")
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:not_found)
       json_response = JSON.parse(response.body)
-      expect(json_response["message"]).to eq("Unable to bookmark item!")
+      expect(json_response["message"]).to eq("Item not found!")
     end
   end
 end
@@ -102,7 +102,7 @@ describe "DELETE #destroy" do
       }.to change(current_user.bookmarked_items, :count).by(-1)
 
       expect(response.content_type).to eq("application/json")
-      expect(response).to have_http_status(:created)
+      expect(response).to have_http_status(:ok)
       json_response = JSON.parse(response.body)
       expect(json_response["message"]).to eq("Bookmark Deleted!")
     end
