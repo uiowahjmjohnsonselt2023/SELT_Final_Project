@@ -7,7 +7,12 @@ class HomeController < ApplicationController
 
     # Fetch suggested items for sale, which might be a curated list based on some logic
     # Replace the 'suggested_items' method with the actual logic you want to use.
-    @suggested_items = Item.all.limit(4) # Example: get 10 items for simplicity
+    # Fetch your bookmarked items if you are logged in
+    @suggested_items = current_user.bookmarked_items if current_user
+    num_items = @suggested_items.length
+    if num_items < 4
+      @suggested_items = @suggested_items + Item.all.limit(4 - num_items)
+    end
 
     # Fetch items for sale by the current user if they are logged in
     @user_items = current_user.items if current_user
