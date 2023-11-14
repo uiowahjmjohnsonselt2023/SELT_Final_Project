@@ -8,13 +8,13 @@ class ItemsController < ApplicationController
 
   # Form for new item
   def new
-
+    @item = Item.new
+    @categories = Category.all
   end
 
   # Create new item listing
   def create
     @item = Item.new
-
   end
 
   # Show item details
