@@ -17,7 +17,9 @@ class User < ApplicationRecord
   validates :phone_number, presence: true, numericality: true, length: { minimum: 10, maximum: 15 }
 
   def add_bookmark(item)
-    bookmarked_items << item
+    unless bookmarked_items.include?(item)
+      bookmarked_items << item
+    end
   end
 
   def remove_bookmark(item)
@@ -27,4 +29,9 @@ class User < ApplicationRecord
       false
     end
   end
+
+  def bookmarked(item)
+    bookmarked_items.include?(item)
+  end
+
 end

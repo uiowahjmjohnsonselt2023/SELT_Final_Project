@@ -18,7 +18,7 @@ class BookmarksController < ApplicationController
     begin
       item = Item.find(params[:item_id])
       if current_user.remove_bookmark(item)
-        render json: { status: :removed, message: "Bookmark Deleted!" }
+        render json: { status: :removed, message: "Bookmark Deleted!" }, status: :ok
       else
         render json: { status: :unprocessable_entity, message: "Unable to delete bookmark!" }, status: :unprocessable_entity
       end

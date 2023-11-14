@@ -144,4 +144,15 @@
   transform: translateY(2px); /* Slight downward movement when clicked */
 }
 
+/* Add these styles to your CSS file */
+.bookmark-button {
+  /* Default styles for the button */
+  background-color: #007bff; /* Blue color, change as needed */
+  color: #fff; /* White text color, change as needed */
+}
 
+.bookmarked-button {
+  /* Styles for the bookmarked button */
+  background-color: #28a745; /* Green color, change as needed */
+  color: #fff; /* White text color, change as needed */
+}
