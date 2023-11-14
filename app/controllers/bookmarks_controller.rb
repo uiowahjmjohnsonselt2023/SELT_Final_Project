@@ -1,16 +1,29 @@
 class BookmarksController < ApplicationController
+  before_action :require_login
 
   def create
-    item = Item.find(params[:item_id])
-    current_user.bookmarked_items << item
-    # Redirect or respond as appropriate
+    begin
+      item = Item.find(params[:item_id])
+      if current_user.add_bookmark(item)
+        render json: { status: :created, message: "Item bookmarked!" }, status: :created
+      else
+        render json: { status: :unprocessable_entity, message: "Unable to bookmark item!" }, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { status: :not_found, message: "Item not found!" }, status: :not_found
+    end
   end
 
   def destroy
-    item = Item.find(params[:item_id])
-    bookmark = current_user.bookmarks.find_by(item_id: item.id)
-    bookmark.destroy if bookmark
-    # Redirect or respond as appropriate
+    begin
+      item = Item.find(params[:item_id])
+      if current_user.remove_bookmark(item)
+        render json: { status: :removed, message: "Bookmark Deleted!" }
+      else
+        render json: { status: :unprocessable_entity, message: "Unable to delete bookmark!" }, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { status: :not_found, message: "Item not found!" }, status: :not_found
+    end
   end
-
 end
