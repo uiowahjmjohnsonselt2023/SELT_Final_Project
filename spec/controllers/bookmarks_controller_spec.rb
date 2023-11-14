@@ -56,18 +56,72 @@ RSpec.describe BookmarksController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested bookmark" do
-      Bookmark.create!(user: current_user, item: item)
+      post :create, item_id: item.id
       expect {
-        delete :destroy, params: { item_id: item.id }
-      }.to change(current_user, :count).by(-1)
+        delete :destroy, item_id: item.id
+      }.to change(current_user.bookmarked_items, :count).by(-1)
     end
   end
 
-  describe "GET #show" do
-    it "should show the bookmarks" do
-      get :show
-      expect(response).to render_template(:show)
+describe "POST #create" do
+  context "with valid params" do
+    it "creates a new bookmark and returns a success response" do
+      expect {
+        post :create, item_id: item.id, xhr: true
+      }.to change(current_user.bookmarked_items, :count).by(1)
+
+      expect(response.content_type).to eq("application/json")
+      expect(response).to have_http_status(:created)
+      json_response = JSON.parse(response.body)
+      expect(json_response["message"]).to eq("Item bookmarked!")
     end
   end
 
+  context "with invalid params" do
+    it "does not create a bookmark and returns an error response" do
+      # Assuming `item_id` is invalid, adjust this as per your application's logic
+      expect {
+        post :create, item_id: nil , xhr: true
+      }.not_to change(Bookmark, :count)
+
+      expect(response.content_type).to eq("application/json")
+      expect(response).to have_http_status(:unprocessable_entity)
+      json_response = JSON.parse(response.body)
+      expect(json_response["message"]).to eq("Unable to bookmark item!")
+    end
+  end
 end
+
+describe "DELETE #destroy" do
+  context "when the bookmark exists" do
+    before { current_user.bookmarked_items << item }
+
+    it "destroys the requested bookmark" do
+      expect {
+        delete :destroy, item_id: item.id, xhr: true
+      }.to change(current_user.bookmarked_items, :count).by(-1)
+
+      expect(response.content_type).to eq("application/json")
+      expect(response).to have_http_status(:created)
+      json_response = JSON.parse(response.body)
+      expect(json_response["message"]).to eq("Bookmark Deleted!")
+    end
+  end
+
+  context "when the bookmark does not exist" do
+    it "does not destroy a bookmark and returns an error response" do
+      expect {
+        delete :destroy, item_id: item.id, xhr: true
+      }.not_to change(Bookmark, :count)
+
+      expect(response.content_type).to eq("application/json")
+      expect(response).to have_http_status(:unprocessable_entity)
+      json_response = JSON.parse(response.body)
+      expect(json_response["message"]).to eq("Unable to delete bookmark!")
+    end
+  end
+end
+end
+
+
+
