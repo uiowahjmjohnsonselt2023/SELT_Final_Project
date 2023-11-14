@@ -24,6 +24,6 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:index, :show]
 
-  resource :bookmark, only: [:create, :destroy]
+  resources :bookmarks, only: [:create, :destroy]
 
 end
