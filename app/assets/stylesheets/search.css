@@ -88,6 +88,7 @@
   font-size: 18px; /* Slightly larger font for readability */
   font-weight: normal;
   color: #333; /* Darker color for text */
+  min-height: 20px;
 }
 
 .category_checkbox input {
