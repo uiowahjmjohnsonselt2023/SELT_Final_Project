@@ -16,9 +16,6 @@ class Item < ApplicationRecord
   def self.search(search_term, category_names)
     items = all
 
-    puts("search_term: #{search_term}")
-    puts("category_names: #{category_names}")
-
     # Scenario 1: No search term or categories, return all items in random order
     return items.order(Arel.sql('RANDOM()')) if search_term.blank? && category_names.blank?
 
