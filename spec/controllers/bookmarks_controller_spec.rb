@@ -55,10 +55,10 @@ RSpec.describe BookmarksController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    before { current_user.bookmarked_items << item }
     it "destroys the requested bookmark" do
-      post :create, item_id: item.id
       expect {
-        delete :destroy, item_id: item.id
+        delete :destroy, id: item.id, item_id: item.id
       }.to change(current_user.bookmarked_items, :count).by(-1)
     end
   end
@@ -98,7 +98,7 @@ describe "DELETE #destroy" do
 
     it "destroys the requested bookmark" do
       expect {
-        delete :destroy, item_id: item.id, xhr: true
+        delete :destroy, id: item.id, item_id: item.id
       }.to change(current_user.bookmarked_items, :count).by(-1)
 
       expect(response.content_type).to eq("application/json")
@@ -111,7 +111,7 @@ describe "DELETE #destroy" do
   context "when the bookmark does not exist" do
     it "does not destroy a bookmark and returns an error response" do
       expect {
-        delete :destroy, item_id: item.id, xhr: true
+        delete :destroy, id: item.id, item_id: item.id
       }.not_to change(Bookmark, :count)
 
       expect(response.content_type).to eq("application/json")
