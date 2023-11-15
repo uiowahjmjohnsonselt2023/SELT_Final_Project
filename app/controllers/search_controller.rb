@@ -5,7 +5,6 @@ class SearchController < ApplicationController
   def index
     # Start with all items or just bookmarked items based on the bookmarks param
     if params[:bookmarks].present? and params[:bookmarks] == '1'
-      puts "bookmarks param is true"
       # Only get the user's bookmarked items
       @results = current_user.bookmarked_items
     else
