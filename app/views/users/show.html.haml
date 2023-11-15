@@ -67,3 +67,6 @@
             = submit_tag "Contact Company", name: nil, class: 'button nav-button'
           = form_tag edit_user_path(@user), method: :get, class: 'edit-profile-form' do
             = submit_tag 'Edit Profile', class: 'button edit-profile-button'
+
+= link_to "View user's other items", search_path(bookmarks: '1'), class: 'search-button'
+
