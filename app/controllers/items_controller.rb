@@ -14,8 +14,7 @@ class ItemsController < ApplicationController
 
   # Create new item listing
   def create
-    user = User.find(current_user.id)
-    item = user.items.create!(title: params[:item][:title], description: params[:item][:description], price: params[:item][:price])
+    item = Item.new.insert_item(params[:item][:title], params[:item][:description], params[:item][:price], current_user.id, params[:item][:category_ids], params[:item][:images])
     redirect_to item_path(item)
   end
 
