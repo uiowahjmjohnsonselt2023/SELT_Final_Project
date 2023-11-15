@@ -3,6 +3,8 @@
   .search_header Displaying results for: #{params[:search_term]}
   %hr
   = form_tag(search_path, method: :get, class: 'filter_form') do
+    = hidden_field_tag :search_term, params[:search_term]
+
     .filters_container
       %fieldset.categories_filter
         %legend Filter by categories
@@ -26,7 +28,7 @@
         %legend My Bookmarks Only
         .category_checkbox
           = label_tag :bookmarks, 'My bookmarked items' do
-            = check_box_tag :bookmarks, 1, params[:bookmarks].present?, id: :bookmarks
+            = check_box_tag :bookmarks, '1', params[:bookmarks] == '1', id: :bookmarks
             %span.checkmark
 
     = submit_tag 'Filter', class: 'filter_button'
