@@ -192,6 +192,7 @@
   border-radius: 4px;
   cursor: pointer;
   align-self: start; /* Align button to the top */
+  font-size: 1.2rem;
 }
 
 fieldset legend {
