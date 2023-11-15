@@ -68,6 +68,38 @@
   margin: 10px 0;
 }
 
+.category_filter_form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.category_filter_form .category_checkbox {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 0.9em;
+}
+
+.filter_form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Adjust the spacing between checkboxes */
+}
+
+.filter_button {
+  margin-top: 10px; /* Align with checkboxes */
+  padding: 5px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter_button:hover {
+  background-color: #0056b3;
+}
+
 @media (max-width: 768px) {
   /* Adjust layout for smaller screens */
   .result_item {

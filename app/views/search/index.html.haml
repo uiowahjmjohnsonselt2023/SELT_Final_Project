@@ -1,8 +1,16 @@
 -# in app/views/search/index.html.haml
 
 %section.search_page_container
-  .search_header Displaying results for: #{params[:search_term]}
-
+  %h1 Displaying results for: #{params[:search_term]}
+  .category_filter_form
+    = form_tag(search_path, method: :get, class: 'filter_form') do
+      %fieldset
+        %legend Filter by categories
+        - Category.all.each do |category|
+          .category_checkbox
+            = label_tag "categories_#{category.name}", category.name
+            = check_box_tag 'categories[]', category.name, params[:categories].blank? || params[:categories].include?(category.name), id: "categories_#{category.name.parameterize}"
+      = submit_tag 'Filter', class: 'filter_button'
   - if @results.any?
     %ul.results_list
       - @results.each do |item|
