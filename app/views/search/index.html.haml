@@ -1,7 +1,7 @@
 -# in app/views/search/index.html.haml
 %section.search_page_container
-  %h1.search_header Displaying results for: #{params[:search_term]}
-
+  .search_header Displaying results for: #{params[:search_term]}
+  %hr
   = form_tag(search_path, method: :get, class: 'filter_form') do
     .filters_container
       %fieldset.categories_filter
@@ -25,7 +25,7 @@
           = text_field_tag :max_price, params[:max_price], placeholder: 'No maximum'
 
     = submit_tag 'Filter', class: 'filter_button'
-
+  %hr
   - if @results.any?
     %ul.results_list
       - @results.each do |item|
