@@ -6,6 +6,15 @@
   min-height: 100vh;
 }
 
+.search_header {
+  background-color: #f8f8f8;
+  color: Black;
+  padding: 10px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
 .results_list {
   display: flex;
   flex-wrap: wrap;
