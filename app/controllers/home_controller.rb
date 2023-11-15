@@ -7,6 +7,7 @@ class HomeController < ApplicationController
 
     # Fetch suggested items for sale, which might be a curated list based on some logic
     # Replace the 'suggested_items' method with the actual logic you want to use.
+    # Suggest bookmark items first then random others for four total items
     # Fetch your bookmarked items if you are logged in
     @suggested_items = current_user.bookmarked_items if current_user
     num_items = @suggested_items.length

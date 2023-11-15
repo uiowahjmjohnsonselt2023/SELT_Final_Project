@@ -4,7 +4,7 @@ Given(/^I am logged in as "(.*)"$/) do |username|
     username: username,
     password: 'password',
     password_confirmation: 'password',
-    email: 'test_email@test.com',
+    email: username+'@test.com',
     phone_number: '1234567890'
   )
   visit login_path

@@ -8,7 +8,6 @@ Feature: Bookmarking functionality
       | Skis           | Skis         | Books       | 1.00  |
 
   Scenario: Seeing the bookmark button
-    Given I am logged in as "newuser"
     Given I am on the "search" page
     Given I search for "Baseball"
     When I click on the "Baseball" link
