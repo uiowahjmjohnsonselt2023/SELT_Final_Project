@@ -136,15 +136,6 @@
   transform: rotate(45deg);
 }
 
-.filter_button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px; /* Same as category font size */
-}
 
 .filter_button:hover {
   background-color: #0056b3;
@@ -164,3 +155,37 @@
     flex-direction: column;
   }
 }
+
+.filters_container {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.categories_filter, .price_filter {
+  margin-right: 20px; /* Adjust space between filters */
+}
+
+/* Styles for the price filter section */
+.price_filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.price_range {
+  margin-bottom: 10px; /* Space between inputs */
+}
+
+/* Adjust the submit button to align with the filters */
+.filter_button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: start; /* Align button to the top */
+}
+
