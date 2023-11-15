@@ -3,14 +3,13 @@ Feature: Seeing the search results
     Given I am on the "home" page
     Given I am logged in as "searching_user"
     Given there are categories created
-    Given a user has listed the following items
-      | title          | description  | categories    | price |
-      | Baseball       | Baseball     | Electronics   | 1.00  |
-      | Skis           | Skis         | Toys & Games  | 10.00  |
-      | Snowboard      | Snowboard    | Books         | 100.00  |
+    Given "test_search_user" has listed the following items
+      | title          | description  | categories    | price    |
+      | Baseball       | Baseball     | Electronics   | 1.00     |
+      | Skis           | Skis         | Toys & Games  | 10.00    |
+      | Snowboard      | Snowboard    | Books         | 100.00   |
       | Football       | Football     | Books         | 1000.00  |
-      | Baseball 2     | Baseball 2   | Clothing      | 10000.00  |
-
+      | Baseball 2     | Baseball 2   | Clothing      | 10000.00 |
 
   Scenario: Seeing the search results
     When I search for "Baseball"
@@ -82,6 +81,21 @@ Feature: Seeing the search results
     And I click the "Filter" button
     Then I should not see the "Baseball 2" item
     And I should see the "Baseball" item
+
+  Scenario: Filtering by seller
+    Given "test_search_user2" has listed the following items
+      | title       | description  | categories    | price    |
+      | Chevy Truck | Big Truck    | Electronics   | 10000.00 |
+    Given "test_search_user3" has listed the following items
+      | title       | description  | categories    | price    |
+      | Ford Truck  | Little Truck | Toys & Games  | 1.00     |
+    Given I search for "Truck"
+    Then I should see the "Chevy Truck" item
+    Then I should see the "Ford Truck" item
+    And I fill in "seller" with "test_search_user2"
+    And I click the "Filter" button
+    Then I should not see the "Ford Truck" item
+    And I should see the "Chevy Truck" item
 
   Scenario: Filtering by price, categories, and my bookmarks
     Given I search for ""
