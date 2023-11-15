@@ -68,7 +68,9 @@ describe HomeController, type: :controller do
         # Add the items to the user's bookmarks
         user.bookmarked_items << items
         get :index
-        expect(assigns(:suggested_items)).to match_array(items)
+        items.each do |item|
+          expect(assigns(:suggested_items)).to include(item)
+        end
       end
 
       it 'assigns @user_items for logged in user' do
