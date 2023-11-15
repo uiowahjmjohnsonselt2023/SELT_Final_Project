@@ -3,9 +3,4 @@
 
 %h1 Login Page
 
-= form_tag login_path, method: :post, id: 'login_form' do
-  %a Username:
-  = text_field_tag 'session[username]', nil, id: "username_field"
-  %a Password:
-  = text_field_tag 'session[password]', nil, id: "password_field"
-  = submit_tag "Login", id: "login_button"
+= button_to "Login with Google", "/auth/google_oauth2"

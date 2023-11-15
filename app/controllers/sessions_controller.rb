@@ -32,4 +32,40 @@ class SessionsController < ApplicationController
     log_out if logged_in?
     redirect_to root_path
   end
+
+  def omniauth
+    puts ""
+    puts "HERE 1"
+    puts ""
+    @user = User.find_or_create_by(uid: request.env['omniauth.auth']['uid'], provider: request.env['omniauth.auth']['provider']) do |u|
+      puts ""
+      puts request.env['omniauth.auth'].inspect
+      puts ""
+      puts request.env['omniauth.auth']['info'].inspect
+      puts ""
+      puts request.env['omniauth.auth']['info']['name']
+      puts ""
+
+      u.username = request.env['omniauth.auth']['info']['name']
+      u.email = request.env['omniauth.auth']['info']['email']
+      u.phone_number = request.env['omniauth.auth']['info']['phone']
+    end
+    puts ""
+    puts "HERE 2"
+    puts ""
+    puts @user.valid?
+    puts ""
+    if @user.valid?
+      puts ""
+      puts "HERE 3"
+      puts ""
+      session[:user_id] = @user.id
+      redirect_to root_path
+    else
+      puts ""
+      puts "HERE 4"
+      puts ""
+      render :new
+    end
+  end
 end

@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  has_secure_password
-
   # Associations
   has_many :items, dependent: :destroy
   has_many :addresses, dependent: :destroy
@@ -10,7 +8,5 @@ class User < ApplicationRecord
 
   # Validations
   validates :username, presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }
-  validates :password_digest, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :phone_number, presence: true, numericality: true, length: { minimum: 10, maximum: 15 }
 end
