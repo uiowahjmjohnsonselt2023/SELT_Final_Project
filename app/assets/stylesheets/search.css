@@ -1,0 +1,67 @@
+/* in app/assets/stylesheets/search_results.css */
+
+.search_page_container {
+  padding: 20px;
+  background: #f8f8f8;
+  min-height: 100vh;
+}
+
+.results_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* This will space out the items evenly */
+  margin-left: -10px; /* Adjust margins as needed for spacing */
+  margin-right: -10px;
+}
+
+.result_item {
+  flex: 0 0 calc(50% - 20px); /* Do not grow or shrink, start at 50% width minus margins */
+  box-sizing: border-box; /* Include padding and borders in the element's total width and height */
+  margin: 10px; /* Spacing between items */
+}
+
+.item_link {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 2em;
+}
+
+.item_categories {
+  color: #777;
+  margin: 5px 0;
+}
+
+.separator {
+  margin: 0 5px;
+}
+
+.item_image {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.item_image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.no_results {
+  color: #999;
+  text-align: center;
+}
+
+.item_price {
+  color: #555;
+  font-size: 2em;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  /* Adjust layout for smaller screens */
+  .result_item {
+    flex-basis: 100%; /* Each item takes full width on small screens */
+  }
+}
