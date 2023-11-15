@@ -3,6 +3,7 @@ class SearchController < ApplicationController
 
   # Perform search and display results, with optional category filtering
   def index
+    puts "SELLER Ay Yo: #{params[:seller]}"
     # Start with all items or just bookmarked items based on the bookmarks param
     if params[:bookmarks].present? and params[:bookmarks] == '1'
       # Only get the user's bookmarked items
