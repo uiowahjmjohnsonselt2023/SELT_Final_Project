@@ -1,7 +1,7 @@
 -# in app/views/search/index.html.haml
 
 %section.search_page_container
-  %h1 Displaying results for: #{params[:search_terms]}
+  .search_header Displaying results for: #{params[:search_term]}
 
   - if @results.any?
     %ul.results_list
