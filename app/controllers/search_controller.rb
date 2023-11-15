@@ -22,7 +22,12 @@ class SearchController < ApplicationController
     if params[:seller].present?
       # Filter to only the specified seller
       # Need to get the user ID from the username
-      @results = @results.where("user_id = ?", User.find_by(username: params[:seller]).id)
+      seller = User.find_by(username: params[:seller])
+      if seller
+        @results = @results.where("items.user_id = ?", seller.id)
+      else
+        @results = Item.none
+      end
     end
 
     # Filter by price range if specified
@@ -32,5 +37,6 @@ class SearchController < ApplicationController
     if params[:max_price].present?
       @results = @results.where("price <= ?", params[:max_price])
     end
+
   end
 end
