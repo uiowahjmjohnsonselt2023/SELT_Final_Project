@@ -11,7 +11,7 @@
   color: black;
   padding: 10px;
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: bold;
 }
 
@@ -160,7 +160,7 @@
   display: flex;
   justify-content: start;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .categories_filter, .price_filter {
@@ -174,9 +174,6 @@
   justify-content: flex-start;
 }
 
-.price_range {
-  margin-bottom: 10px; /* Space between inputs */
-}
 
 /* Adjust the submit button to align with the filters */
 .filter_button {
@@ -189,3 +186,39 @@
   align-self: start; /* Align button to the top */
 }
 
+fieldset legend {
+  color: #5a5a5a; /* Your desired color for legends */
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Style for labels within the price filter */
+.price_filter label,
+.categories_filter label {
+  color: #5a5a5a; /* Your desired color for labels */
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+/* Adjust the margin for the price range inputs for alignment */
+.price_range {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Style for input placeholders */
+.price_range input::placeholder {
+  color: #a9a9a9; /* Lighter color for placeholders */
+}
+
+/* Style for the input fields */
+.price_range input {
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  padding: 5px;
+  width: 100%;
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
