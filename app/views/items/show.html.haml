@@ -12,6 +12,7 @@
         %strong Listed by:
         %span= @user.username
 
+    = button_to "Buy Now", search_path(search: @user.username), method: :get, form: {class: 'search-form'}, class: 'buy-button'
     = button_to "View users other item's", search_path(search: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
 
   %section.related-items
