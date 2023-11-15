@@ -12,7 +12,7 @@
         %strong Listed by:
         %span= @user.username
 
-    = button_to "View users other item's", search_path(search: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
+    = link_to "View users other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
 
   %section.related-items
     %h2 You might also like
