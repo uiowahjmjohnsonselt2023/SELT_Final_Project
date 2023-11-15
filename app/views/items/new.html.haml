@@ -1,4 +1,5 @@
 %div.form-container
+  %h1= action_name == 'new' ? 'List a new item' : 'Edit item'
   = form_for @item, html: { multipart: true, class: 'item-form' } do |f|
     - if @item.errors.any?
       #error_explanation
