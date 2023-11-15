@@ -8,10 +8,6 @@ $(document).ready(function() {
     var method = isBookmarked ? 'DELETE' : 'POST';
     var url = '/bookmarks' + (isBookmarked ? '/' + itemId : '');
 
-    // debug
-    console.log('itemId: ' + itemId);
-    console.log('isBookmarked: ' + isBookmarked);
-
     $.ajax({
       method: method,
       url: url,

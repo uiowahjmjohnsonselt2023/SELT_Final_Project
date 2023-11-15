@@ -3,7 +3,6 @@ class SearchController < ApplicationController
 
   # Perform search and display results, with optional category filtering
   def index
-    puts "SELLER Ay Yo: #{params[:seller]}"
     # Start with all items or just bookmarked items based on the bookmarks param
     if params[:bookmarks].present? and params[:bookmarks] == '1'
       # Only get the user's bookmarked items
@@ -27,7 +26,11 @@ class SearchController < ApplicationController
     end
 
     # Filter by price range if specified
-    @results = @results.where("price >= ?", params[:min_price]) if params[:min_price].present?
-    @results = @results.where("price <= ?", params[:max_price]) if params[:max_price].present?
+    if params[:min_price].present?
+      @results = @results.where("price >= ?", params[:min_price])
+    end
+    if params[:max_price].present?
+      @results = @results.where("price <= ?", params[:max_price])
+    end
   end
 end
