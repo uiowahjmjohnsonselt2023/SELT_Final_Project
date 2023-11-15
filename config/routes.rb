@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
+  get '/auth/:provider/callback', to: 'sessions#omniauth'
 
   # User routes for new, create, show, edit, update
   resources :users, only: [:new, :create, :show, :edit, :update]
@@ -23,5 +24,7 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index'
 
   resources :categories, only: [:index, :show]
+
+
 
 end
