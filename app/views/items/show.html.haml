@@ -1,10 +1,7 @@
--# app/views/items/show.html.haml
-
 %section.item-page
   %h1= @item.title
   %p.item-price= "Price: $#{'%.2f' % @item.price}"
 
-  = button_to "Buy Now", search_path(search: @user.username), method: :get, form: {class: 'search-form'}, class: 'buy-button'
   .item-details
     %p#item-description= @item.description
     .item-attributes
@@ -24,3 +21,7 @@
       .related-item
         = link_to related_item.title, item_path(related_item)
         = image_tag("placeholder-image.jpg") # Replace with actual image logic
+
+%section.parent-container
+  %button#bookmark-button.bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }
+    = @bookmarked ? 'Unbookmark' : 'Bookmark'
