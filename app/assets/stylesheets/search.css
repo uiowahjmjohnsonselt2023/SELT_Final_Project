@@ -2,13 +2,13 @@
 
 .search_page_container {
   padding: 20px;
-  background: #f8f8f8;
+  background: #f8f8f8; /* Main background color for consistency */
   min-height: 100vh;
 }
 
 .search_header {
-  background-color: #f8f8f8;
-  color: Black;
+  background-color: #f8f8f8; /* Matches the search_page_container */
+  color: black;
   padding: 10px;
   text-align: center;
   font-size: 40px;
@@ -18,36 +18,37 @@
 .results_list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* This will space out the items evenly */
-  margin-left: -10px; /* Adjust margins as needed for spacing */
-  margin-right: -10px;
+  justify-content: space-between;
+  margin: -10px;
 }
 
 .result_item {
-  flex: 0 0 calc(50% - 20px); /* Do not grow or shrink, start at 50% width minus margins */
-  box-sizing: border-box; /* Include padding and borders in the element's total width and height */
-  margin: 10px; /* Spacing between items */
+  flex: 0 0 calc(50% - 20px);
+  box-sizing: border-box;
+  margin: 10px;
+  background: #ffffff; /* White background for items */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
 .item_link {
   color: #333;
   font-weight: bold;
   text-decoration: none;
-  font-size: 2em;
+  font-size: 24px; /* Adjusted for better legibility */
 }
 
 .item_categories {
   color: #777;
   margin: 5px 0;
+  font-size: 16px; /* Smaller font size for categories */
+  font-weight: 500;
+  text-transform: uppercase; /* Stylish uppercase for category names */
 }
 
 .separator {
   margin: 0 5px;
-}
-
-.item_image {
-  margin-top: 10px;
-  text-align: center;
 }
 
 .item_image img {
@@ -63,46 +64,103 @@
 
 .item_price {
   color: #555;
-  font-size: 2em;
+  font-size: 24px; /* Size consistent with .item_link */
   font-weight: 600;
   margin: 10px 0;
 }
 
-.category_filter_form fieldset {
-  border: none;
-  padding: 0;
-  margin: 0 0 20px 0;
+/* Style for the category filter form and checkboxes */
+.category_filter_form {
+  padding: 10px;
+  background: #e7e7e7; /* Slightly lighter than item background for contrast */
+  border-radius: 4px;
+  margin-bottom: 20px;
 }
 
-.category_filter_form .category_checkbox {
-  display: inline-block;
-  margin-right: 15px;
-  font-size: 0.9em;
-}
-
-.filter_form {
+.category_checkbox {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* Adjust the spacing between checkboxes */
+  align-items: center;
+  margin-bottom: 5px;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 18px; /* Slightly larger font for readability */
+  font-weight: normal;
+  color: #333; /* Darker color for text */
+}
+
+.category_checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.category_checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+.category_checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.category_checkbox input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.category_checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.category_checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.category_checkbox .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
 }
 
 .filter_button {
-  margin-top: 10px; /* Align with checkboxes */
-  padding: 5px 15px;
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 16px; /* Same as category font size */
 }
 
 .filter_button:hover {
   background-color: #0056b3;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  /* Adjust layout for smaller screens */
+  .results_list {
+    justify-content: center;
+  }
+
   .result_item {
-    flex-basis: 100%; /* Each item takes full width on small screens */
+    flex-basis: 100%; /* Full width on smaller screens */
+  }
+
+  .filter_form {
+    flex-direction: column;
   }
 }
