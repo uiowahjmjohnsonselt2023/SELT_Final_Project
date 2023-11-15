@@ -14,7 +14,9 @@ class ItemsController < ApplicationController
 
   # Create new item listing
   def create
-    @item = Item.new
+    user = User.find(current_user.id)
+    item = user.items.create!(title: params[:item][:title], description: params[:item][:description], price: params[:item][:price])
+    redirect_to item_path(item)
   end
 
   # Show item details
@@ -26,7 +28,7 @@ class ItemsController < ApplicationController
 
   # Edit item form
   def edit
-
+    puts "HERE 2"
   end
 
   # Update item listing
