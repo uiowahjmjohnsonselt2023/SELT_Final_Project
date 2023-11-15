@@ -31,6 +31,12 @@
             = check_box_tag :bookmarks, '1', params[:bookmarks] == '1', id: :bookmarks
             %span.checkmark
 
+      %fieldset.seller_filter
+        %legend Filter by seller
+        .price_range
+          = label_tag :seller, 'Seller:'
+          = text_field_tag :seller, params[:seller], placeholder: 'Seller name'
+
     = submit_tag 'Filter', class: 'filter_button'
   %hr
   - if @results.any?
