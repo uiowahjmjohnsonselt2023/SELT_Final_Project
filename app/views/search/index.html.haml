@@ -1,17 +1,20 @@
 -# in app/views/search/index.html.haml
 
-%h1 Display search results with optional category filtering
+%section.search_page_container
+  %h1 Displaying results for: #{params[:search_terms]}
 
-- if @results.any?
-  %ul
-    - @results.each do |item|
-      %li
-        = link_to item.title, item_path(item)
-        %p
-          - item.categories.each do |category|
-            = category.name
-            - unless category == item.categories.last
-              = ', '
-        %img{ src: item.images.first.data_uri, alt: item.title }
-- else
-  %p No items found
+  - if @results.any?
+    %ul.results_list
+      - @results.each do |item|
+        %li.result_item
+          = link_to item.title, item_path(item), class: 'item_link'
+          %p.item_price= number_to_currency(item.price)
+          %p.item_categories
+            - item.categories.each_with_index do |category, index|
+              = category.name
+              - unless index == item.categories.size - 1
+                %span.separator ,
+          %figure.item_image
+            %img{ src: item.images.first.data_uri, alt: item.title }
+  - else
+    %p.no_results No items found
