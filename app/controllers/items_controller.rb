@@ -17,6 +17,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     @related_items = @item.find_related_items
     @user = User.find(@item.user_id)
+    @bookmarked = current_user.bookmarked_items.include?(@item)
   end
 
   # Edit item form
