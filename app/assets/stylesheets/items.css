@@ -144,4 +144,21 @@
   transform: translateY(2px); /* Slight downward movement when clicked */
 }
 
+/* Parent container styles */
+.parent-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
 
+/* Button styles */
+.bookmark-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: background-color 0.3s;
+}
