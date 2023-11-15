@@ -144,15 +144,21 @@
   transform: translateY(2px); /* Slight downward movement when clicked */
 }
 
-/* Add these styles to your CSS file */
-.bookmark-button {
-  /* Default styles for the button */
-  background-color: #007bff; /* Blue color, change as needed */
-  color: #fff; /* White text color, change as needed */
+/* Parent container styles */
+.parent-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
-.bookmarked-button {
-  /* Styles for the bookmarked button */
-  background-color: #28a745; /* Green color, change as needed */
-  color: #fff; /* White text color, change as needed */
+/* Button styles */
+.bookmark-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: background-color 0.3s;
 }

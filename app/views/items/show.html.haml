@@ -22,7 +22,6 @@
         = link_to related_item.title, item_path(related_item)
         = image_tag("placeholder-image.jpg") # Replace with actual image logic
 
-%p= "Bookmarked: #{@bookmarked}"
-
-%button#bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }
-  = @bookmarked ? 'Unbookmark' : 'Bookmark'
+%section.parent-container
+  %button#bookmark-button.bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }
+    = @bookmarked ? 'Unbookmark' : 'Bookmark'
