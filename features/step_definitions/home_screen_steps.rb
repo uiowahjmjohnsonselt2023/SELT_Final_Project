@@ -16,13 +16,13 @@ Given('there are categories created') do
 end
 
 
-Then('a user has listed the following items') do |table|
+Then(/^"(.*?)" has listed the following items$/) do |username, table|
   # make a new user
   user = User.create!(
-    username: 'testuser2',
+    username: username,
     password: 'password',
     password_confirmation: 'password',
-    email: 'test2_email@test.com',
+    email: username + '@test.com',
     phone_number: '1234567891'
   )
 
