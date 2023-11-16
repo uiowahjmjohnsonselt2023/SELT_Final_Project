@@ -1,0 +1,10 @@
+%h1 Checkout
+%p Purchasing: #{@item.title}
+%p Description: #{@item.description}
+%p
+  - @item.categories.each do |category|
+    = category.name
+    - unless category == @item.categories.last
+      = ', '
+%p Price: $#{'%.2f' % @item.price}
+
