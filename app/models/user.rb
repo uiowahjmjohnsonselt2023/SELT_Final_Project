@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :payment_methods, dependent: :destroy
   has_many :bookmarks
   has_many :bookmarked_items, through: :bookmarks, source: :item
+  has_many :purchases
+  has_many :purchased_items, through: :purchases, source: :item
 
   before_save { self.username = username.downcase }
 
