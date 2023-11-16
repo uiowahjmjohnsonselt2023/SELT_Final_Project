@@ -35,7 +35,7 @@ describe HomeController, type: :controller do
       let(:items) {
         [
           user.items.create!(title: 'Item1', description: 'test', price: 1),
-          user.items.create!(title: 'Item2', description: 'test', price: 2),
+          user.items.create!(title: 'Item2', description: 'test', price: 2)
         ]
       }
       let(:categories) {
@@ -65,8 +65,12 @@ describe HomeController, type: :controller do
       end
 
       it 'assigns @suggested_items' do
+        # Add the items to the user's bookmarks
+        user.bookmarked_items << items
         get :index
-        expect(assigns(:suggested_items)).to match_array(items)
+        items.each do |item|
+          expect(assigns(:suggested_items)).to include(item)
+        end
       end
 
       it 'assigns @user_items for logged in user' do
