@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :require_login
+  before_filter :set_current_user, :only => [:new, :create, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   # Form for new item

@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-  before_action :require_login
 
   def index
     # Fetch all the categories from the database
@@ -10,7 +9,7 @@ class HomeController < ApplicationController
     @suggested_items = Item.all.limit(4) # Example: get 10 items for simplicity
 
     # Fetch items for sale by the current user
-    @user_items = current_user.items
+    @user_items = current_user.items if logged_in?
 
   end
 

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, except: [:new, :create]
+  before_filter :set_current_user, :only => [:edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   # Sign up Page
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
   # Show User Profile
   def show
-    @user = current_user
+    @user = User.find(params[:id])
   end
 
   # Edit User Profile
