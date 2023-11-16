@@ -10,10 +10,19 @@ Feature: Checkout Screen Rendering
     Given I am on the "search" page
     Given I search for "Baseball"
     When I click on the "Baseball" link
-    When I click on the Buy Now button
+
 
   Scenario: Seeing the checkout page
-    Then I should see the checkout page
+    When I click on the Buy Now button
+    Then I should be on the checkout page
+
+
+  Scenario: Seeing the checkout page
+    When I click on the Buy Now button
+    Then I should see the correct content on the checkout page:
+      | title          | description  | categories  | price |
+      | Baseball       | Baseball     | Electronics | 1.00  |
+
 
 
 
