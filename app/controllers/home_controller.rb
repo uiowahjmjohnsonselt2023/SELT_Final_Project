@@ -11,6 +11,7 @@ class HomeController < ApplicationController
     # Fetch your bookmarked items if you are logged in
     @suggested_items = current_user.bookmarked_items if current_user
     num_items = @suggested_items.length
+
     if num_items < 4
       @suggested_items = @suggested_items + Item.all.limit(4 - num_items)
     end
