@@ -36,4 +36,22 @@ class User < ApplicationRecord
     bookmarked_items.include?(item)
   end
 
+
+  def purchase_item(item)
+    return { success: false, message: 'Item not found.' } unless item
+
+    if item.purchase.present?
+      { success: false, message: 'This item has already been purchased.' }
+    else
+      purchase = purchases.create(item: item)
+      if purchase.persisted?
+        { success: true, message: 'Purchase successful!' }
+      else
+        { success: false, message: 'Purchase could not be completed.' }
+      end
+    end
+  end
+
+
+
 end
