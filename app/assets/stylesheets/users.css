@@ -1,10 +1,4 @@
 /* main.css */
-.profile-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
 
 .profile-header {
   display: flex;
@@ -17,22 +11,8 @@
   text-align: center;
 }
 
-.navigation-section {
-  width: 100%; /* Change this to 100% to use the full width */
-  margin: auto; /* This will center the div if it has a width */
-  display: flex;
-  justify-content: center; /* This will center the child elements horizontally */
-}
-
 .logo {
   max-width: 100px;
-}
-
-.sell-button {
-  padding: 5px 15px;
-  background-color: #4CAF50;
-  color: white;
-  text-decoration: none;
 }
 
 .profile-section {
@@ -103,6 +83,10 @@
 .profile-container {
   display: flex;
   justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
 .navigation-and-tables {
@@ -140,4 +124,26 @@
 }
 .tables-section {
   clear: both;
+}
+
+.my-bookmarked-items-btn {
+  display: block; /* Or inline-block, depending on your layout */
+  width: auto; /* Or a specific width, if you prefer */
+  padding: 10px 20px;
+  /* Centers the button if display is block */
+  margin: 5px auto 20px;
+  background-color: #3498db; /* Choose a color that fits your design */
+  color: white;
+  text-align: center;
+  font-size: 16px; /* Adjust as necessary */
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #2980b9; /* Darken button color on hover */
+  }
 }
