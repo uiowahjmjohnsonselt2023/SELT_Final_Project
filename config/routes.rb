@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get 'sell', to: 'items#new'
   get 'item', to: 'items#show'
 
+  # Checkout route for showing the checkout page
+  get 'checkout/:item_id', to: 'checkout#show', as: 'checkout_show'
+
   # Search route for searching items with optional category filtering
   get 'search', to: 'search#index'
 
