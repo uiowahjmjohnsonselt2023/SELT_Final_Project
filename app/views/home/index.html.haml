@@ -29,7 +29,9 @@
 .home-container
   .home-header2 Your Items for Sale
   .items-container
-    - if @user_items.empty?
+    - if @user_items.nil?
+      .home-header2 You are not signed in.
+    - elsif @user_items.empty?
       .home-header2 You have no items for sale.
     -else
       - @user_items.each do |item|

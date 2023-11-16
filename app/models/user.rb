@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  before_save :create_session_token
   # Associations
   has_many :items, dependent: :destroy
   has_many :addresses, dependent: :destroy
@@ -9,4 +10,20 @@ class User < ApplicationRecord
   # Validations
   validates :username, presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  def self.create_with_omniauth(auth)
+    create!(
+      provider: auth['provider'],
+      uid: auth['uid'],
+      username: auth['info']['name'],
+      email: auth['info']['email'],
+    )
+  end
+
+  def create_session_token
+    puts ""
+    puts "CREATING SESSION TOKEN"
+    puts ""
+    self.session_token = SecureRandom.urlsafe_base64
+  end
 end
