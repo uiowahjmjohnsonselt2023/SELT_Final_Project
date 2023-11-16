@@ -7,7 +7,7 @@ class CheckoutController < ApplicationController
   end
 
   def purchase
-    @item = Item.find_by(id: params[:item_id])
+    @item = Item.find_by(params[:item_id])
     result = current_user.purchase_item(@item)
 
     if result[:success]
