@@ -1,5 +1,4 @@
 class Item < ApplicationRecord
-  require "mini_magick"
   # Associations
   belongs_to :user
   has_many :images, dependent: :destroy
