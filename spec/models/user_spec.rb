@@ -46,4 +46,22 @@ describe User, type: :model do
       expect(new_user.errors[:email]).to include('has already been taken')
     end
   end
+
+  describe 'bookmarked method' do
+    let!(:user) { User.create!(username: 'existinguser', email: 'test@example.com', password: 'password', phone_number: '1234567890') }
+    let!(:item) { Item.create!(title: 'Test Item', description: 'Test Description', price: 10.00, user_id: user.id) }
+
+    it 'returns false if item is not bookmarked' do
+      expect(user.bookmarked(item)).to eq(false)
+    end
+    it 'returns true if item is bookmarked' do
+      user.bookmarked_items << item
+      expect(user.bookmarked(item)).to eq(true)
+    end
+    it 'returns false if item is removed from bookmarks' do
+      user.bookmarked_items << item
+      user.bookmarked_items.delete(item)
+      expect(user.bookmarked(item)).to eq(false)
+    end
+  end
 end

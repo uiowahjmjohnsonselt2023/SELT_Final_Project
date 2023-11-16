@@ -5,7 +5,6 @@ class Item < ApplicationRecord
   has_many :images, dependent: :destroy
   has_and_belongs_to_many :categories, join_table: :items_categories
   has_many :bookmarks
-  has_many :bookmarked_by, through: :bookmarks, source: :user
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
