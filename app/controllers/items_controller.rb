@@ -24,12 +24,11 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     @related_items = @item.find_related_items
     @user = User.find(@item.user_id)
-    @bookmarked = current_user.bookmarked_items.include?(@item)
+    @bookmarked = current_user.bookmarked_items.include?(@item) if current_user
   end
 
   # Edit item form
   def edit
-    puts "HERE 2"
   end
 
   # Update item listing
@@ -51,6 +50,10 @@ class ItemsController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
+    unless current_user
+      flash[:error] = "You must be logged in to edit or delete an item"
+      redirect_to(root_path)
+    end
     @item = Item.find(params[:id])
     if @item.user != current_user
       flash[:error] = "You do not have permission to edit or delete this item"

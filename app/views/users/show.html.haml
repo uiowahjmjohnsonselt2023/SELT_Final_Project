@@ -16,7 +16,7 @@
       = @user.phone_number
 
     - if logged_in?
-      - if @current_user.id == @user.id
+      - if current_user.id == @user.id
         %h3 Addresses
         %table.addresses-table
           %thead
@@ -53,8 +53,8 @@
                   %td= payment_method.expiration_date.strftime("%m/%Y")
                   %td= check_box_tag "edit_payment_method_#{payment_method.id}"
 
-    - if logged_in?
-      - if @current_user.id == @user.id
+    - if !current_user.nil?
+      - if current_user.id == @user.id
         %div.navigation-and-tables
           %div.navigation-section
             = form_tag search_path(search: @user.username), method: :get do
