@@ -16,7 +16,7 @@ Feature: Home Screen Functionality
   Scenario: Viewing user items on the home page when logged in
     Given I am logged in as "testuser"
     Given there are categories created
-    Given a user has listed the following items
+    Given "home_test_user" has listed the following items
       | title          | description  | categories  | price |
       | Baseball       | Baseball     | Electronics | 1.00  |
       | Skis           | Skis         | Books       | 1.00  |
@@ -29,7 +29,7 @@ Feature: Home Screen Functionality
   Scenario: Not viewing user items on the home page when not logged in
     Given I am on the "home" page
     Given there are categories created
-    Given a user has listed the following items
+    Given "home_test_user" has listed the following items
       | title          | description  | categories  | price |
       | Baseball       | Baseball     | Electronics | 1.00  |
       | Skis           | Skis         | Books       | 1.00  |
@@ -42,17 +42,17 @@ Feature: Home Screen Functionality
   Scenario: Navigating to items from the home page
     Given I am logged in as "testuser"
     Given there are categories created
-    Given a user has listed the following items
+    Given "home_test_user" has listed the following items
       | title          | description  | categories  | price |
       | Baseball       | temp         | Electronics | 1.00  |
       | Skis           | temp2        | Books       | 1.00  |
     And I am on the "home" page
     When I click on the "Baseball" link
     Then I should see the item page:
-      | user       | title    | description  | price |
-      | testuser   | Baseball | temp         | 1.00  |
+      | user           | title    | description  | price |
+      | home_test_user | Baseball | temp         | 1.00  |
     Given I am on the "home" page
     When I click on the "Skis" link
     Then I should see the item page:
-      | user       | title    | description  | price |
-      | testuser   | Skis     | temp2        | 1.00  |
+      | user           | title    | description  | price |
+      | home_test_user | Skis     | temp2        | 1.00  |
