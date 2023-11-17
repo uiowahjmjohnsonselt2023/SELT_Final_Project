@@ -5,10 +5,12 @@ class CheckoutController < ApplicationController
   def show
     # @item is already set by set_item
     puts "Made it to show controller call --------------------------------------------"
-    def show
-      @item = Item.find(params[:item_id])
-    end
+
+    @user = current_user
+    puts @user.inspect
+    @item
   end
+
 
   def purchase
 
@@ -27,10 +29,10 @@ class CheckoutController < ApplicationController
 
     if result[:success]
       puts "Success --------------------------------------------"
-      redirect_to item_path(@item), notice: result[:message]
+      redirect_to root_path, notice: result[:message]
     else
       puts "Failure --------------------------------------------"
-      redirect_to item_path(@item), alert: result[:message]
+      redirect_to root_path, alert: result[:message]
     end
   end
 
@@ -43,6 +45,14 @@ class CheckoutController < ApplicationController
       redirect_to root_path, alert: "Item not found." # Change to root_path or an existing path
     end
   end
+
+  #def correct_user
+  #  @user = User.find(params[:id])
+  #  if @user != current_user
+  #    flash[:error] = "You do not have permission to edit or delete this user"
+  #    redirect_to(root_path)
+  #  end
+  #end
 
   def require_login
     unless current_user

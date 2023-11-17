@@ -1,5 +1,6 @@
 %h1 Checkout
 %p Purchasing: #{@item.title}
+%p User: #{@user.username}
 %p Description: #{@item.description}
 %p
   - @item.categories.each do |category|
@@ -7,7 +8,36 @@
     - unless category == @item.categories.last
       = ', '
 %p Price: $#{'%.2f' % @item.price}
+
+%h2 Addresses
+%table.addresses-table
+  %thead
+    %tr
+      %th Address Line 1
+      %th Address Line 2
+      %th City
+      %th State
+      %th Country
+      %th Postal Code
+  %tbody
+    - @user.addresses.each do |address|
+      %tr
+        %td= address.shipping_address_1
+        %td= address.shipping_address_2
+        %td= address.city
+        %td= address.state
+        %td= address.country
+        %td= address.postal_code
+%table.addresses-table
+  %h2 Payment Methods
+  %thead
+    %tr
+      %th Card Number
+      %th Expiration Date
+  %tbody
+    - @user.payment_methods.each do |payment_method|
+      %tr
+        %td= payment_method.encrypted_card_number
+        %td= payment_method.expiration_date.strftime("%m/%Y")
+
 = button_to 'Purchase', purchase_checkout_path(@item), method: :post, class: "btn btn-primary"
-
-
-
