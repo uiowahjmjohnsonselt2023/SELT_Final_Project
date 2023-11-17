@@ -21,7 +21,7 @@
           .item
             %h3= item.title
             %h3= item.description
-            %h3= "$#{item.price}"
+            %h3= "$#{'%.2f' % item.price}"
             - if item.images.any?
               = image_tag item.images.first.data_uri, alt: item.title, class: 'item-image'
 
