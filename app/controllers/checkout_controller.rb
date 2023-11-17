@@ -11,21 +11,26 @@ class CheckoutController < ApplicationController
   end
 
   def purchase
-    @item = Item.find_by(id: params[:item_id])
+
     puts "Made it to purchase controller call --------------------------------------------"
 
+
     # No need to find @item again, it's already set by set_item
-    #result = current_user.purchase_item(@item)
+    result = current_user.purchase_item(@item)
 
-    #puts "Made it here --------------------------------------------"
-    #puts result.inspect
-    #puts "Made it here --------------------------------------------"
+    puts "Made it here --------------------------------------------"
+    puts "Outputting current items purchased"
+    puts @current_user.purchased_items.inspect
+    puts "Made it here --------------------------------------------"
 
-    #if result[:success]
-    #  redirect_to item_path(@item), notice: result[:message]
-    #else
-    #  redirect_to item_path(@item), alert: result[:message]
-    #end
+
+    if result[:success]
+      puts "Success --------------------------------------------"
+      redirect_to item_path(@item), notice: result[:message]
+    else
+      puts "Failure --------------------------------------------"
+      redirect_to item_path(@item), alert: result[:message]
+    end
   end
 
   private
