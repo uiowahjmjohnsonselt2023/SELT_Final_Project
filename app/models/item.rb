@@ -68,4 +68,9 @@ class Item < ApplicationRecord
     # Fetch other items by the same user, excluding the current item
     Item.where(user_id: user_id).where.not(id: id).limit(4)
   end
+
+  def purchased?
+    # Assuming there's a 'purchase' association
+    purchase.present?
+  end
 end

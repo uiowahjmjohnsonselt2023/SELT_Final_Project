@@ -40,4 +40,9 @@
         %td= payment_method.encrypted_card_number
         %td= payment_method.expiration_date.strftime("%m/%Y")
 
-= button_to 'Purchase', purchase_checkout_path(@item), method: :post, class: "btn btn-primary"
+- if @item.purchased?
+  %p This item has already been purchased.
+- else
+  = button_to 'Purchase', purchase_checkout_path(@item), method: :post, class: "btn btn-primary"
+
+
