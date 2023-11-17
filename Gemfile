@@ -32,6 +32,10 @@ gem 'attr_encrypted', '~> 1.3.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
 group :development do
    # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
@@ -52,6 +56,9 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '~> 1.1.3'
+
+  gem 'dotenv-rails'
+
 end
 
 group :test do

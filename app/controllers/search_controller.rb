@@ -1,8 +1,7 @@
 class SearchController < ApplicationController
-  before_action :require_login
-
+  # Perform search and display results, with optional category filtering
   def index
-    @results = if params[:bookmarks].present? && params[:bookmarks] == '1'
+    @results = if params[:bookmarks].present? && params[:bookmarks] == '1' && current_user
                  current_user.bookmarked_items
                else
                  Item.all
