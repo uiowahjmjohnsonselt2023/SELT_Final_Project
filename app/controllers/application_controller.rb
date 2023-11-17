@@ -1,6 +1,17 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
-  before_action :require_login, except: [:new, :create]
+
+
+  protected
+
+  def set_current_user
+    @current_user ||= User.find_by_session_token(session[:session_token])
+    redirect_to login_path unless @current_user
+  end
+
+  def current_user?(id)
+    @current_user.id.to_s == id.to_s
+  end
 
   private
   def require_login
@@ -9,5 +20,6 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
     end
   end
+
 
 end
