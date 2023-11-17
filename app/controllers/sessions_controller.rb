@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :require_login, only: [:destroy]
+  skip_before_filter :set_current_user
 
   # Login page
   def new
@@ -12,24 +12,17 @@ class SessionsController < ApplicationController
 
   # Create Login Session
   def create
-    if logged_in?
-      flash[:error] = "You are already logged in"
-      redirect_to root_path
-      return
-    end
-    user = User.find_by(username: params[:session][:username].downcase)
-    if user && user.authenticate(params[:session][:password])
-      log_in user
-      redirect_to root_path
-    else
-      flash.now[:danger] = 'Invalid username/password combination'
-      render 'new'
-    end
+    auth = request.env['omniauth.auth']
+    user = User.find_by_provider_and_uid(auth['provider'], auth['uid']) || User.create_with_omniauth(auth)
+    session[:session_token] = user.session_token
+    redirect_to root_path
   end
 
   # Destroy Login Session
   def destroy
-    log_out if logged_in?
+    session[:session_token] = nil
+    @current_user = nil
+    flash[:notice] = "You have been logged out"
     redirect_to root_path
   end
 end

@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  has_secure_password
-
+  before_save :create_session_token
   # Associations
   has_many :items, dependent: :destroy
   has_many :addresses, dependent: :destroy
@@ -12,9 +11,20 @@ class User < ApplicationRecord
 
   # Validations
   validates :username, presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }
-  validates :password_digest, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :phone_number, presence: true, numericality: true, length: { minimum: 10, maximum: 15 }
+
+  def self.create_with_omniauth(auth)
+    create!(
+      provider: auth['provider'],
+      uid: auth['uid'],
+      username: auth['info']['name'],
+      email: auth['info']['email'],
+    )
+  end
+
+  def create_session_token
+    self.session_token = SecureRandom.urlsafe_base64
+  end
 
   def add_bookmark(item)
     unless bookmarked_items.include?(item)
