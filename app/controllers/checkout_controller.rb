@@ -21,6 +21,7 @@ class CheckoutController < ApplicationController
     puts "Made it here --------------------------------------------"
     puts "Outputting current items purchased"
     puts @current_user.purchased_items.inspect
+    puts @item.purchase.inspect
     puts "Made it here --------------------------------------------"
 
 
