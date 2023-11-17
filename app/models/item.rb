@@ -69,8 +69,8 @@ class Item < ApplicationRecord
     Item.where(user_id: user_id).where.not(id: id).limit(4)
   end
 
+  # Returns true if the item has been purchased
   def purchased?
-    # Assuming there's a 'purchase' association
     purchase.present?
   end
 end
