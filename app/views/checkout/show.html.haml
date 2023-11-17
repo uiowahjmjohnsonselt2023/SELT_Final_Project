@@ -7,7 +7,7 @@
     - unless category == @item.categories.last
       = ', '
 %p Price: $#{'%.2f' % @item.price}
-= link_to 'Purchase', purchase_checkout_path(@item), method: :post, class: "btn btn-primary"
+= button_to 'Purchase', purchase_checkout_path(@item), method: :post, class: "btn btn-primary"
 
 
 

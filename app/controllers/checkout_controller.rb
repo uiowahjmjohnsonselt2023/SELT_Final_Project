@@ -3,32 +3,45 @@ class CheckoutController < ApplicationController
   before_action :set_item, only: [:show, :purchase]
 
   def show
-    @item = Item.find(params[:item_id])
+    # @item is already set by set_item
+    puts "Made it to show controller call --------------------------------------------"
+    def show
+      @item = Item.find(params[:item_id])
+    end
   end
 
   def purchase
-    @item = Item.find_by(params[:item_id])
-    result = current_user.purchase_item(@item)
+    @item = Item.find_by(id: params[:item_id])
+    puts "Made it to purchase controller call --------------------------------------------"
 
-    if result[:success]
-      redirect_to item_path(@item), notice: result[:message]
-    else
-      redirect_to item_path(@item), alert: result[:message]
-    end
+    # No need to find @item again, it's already set by set_item
+    #result = current_user.purchase_item(@item)
+
+    #puts "Made it here --------------------------------------------"
+    #puts result.inspect
+    #puts "Made it here --------------------------------------------"
+
+    #if result[:success]
+    #  redirect_to item_path(@item), notice: result[:message]
+    #else
+    #  redirect_to item_path(@item), alert: result[:message]
+    #end
   end
 
   private
 
   def set_item
-    @item = Item.find(params[:item_id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to items_path, alert: "Item not found."
+    @item = Item.find_by(id: params[:id])
+    unless @item
+      puts "Item not found --------------------------------------------"
+      redirect_to root_path, alert: "Item not found." # Change to root_path or an existing path
+    end
   end
 
   def require_login
     unless current_user
       flash[:error] = "You must be logged in to access this section"
-      redirect_to login_path # or whatever your login path is
+      redirect_to login_path # Ensure this path is correct
     end
   end
 end
