@@ -21,7 +21,8 @@
     - @related_items.each do |related_item|
       .related-item
         = link_to related_item.title, item_path(related_item)
-        = image_tag("placeholder-image.jpg") # Replace with actual image logic
+        - if related_item.images.any?
+          = image_tag related_item.images.first.data_uri, alt: related_item.title, class: 'related-item-image'
 
 %section.parent-container
   %button#bookmark-button.bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }

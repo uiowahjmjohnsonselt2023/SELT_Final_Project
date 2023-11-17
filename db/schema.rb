@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231116045708) do
+ActiveRecord::Schema.define(version: 20231114153119) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "shipping_address_1"
@@ -93,12 +93,14 @@ ActiveRecord::Schema.define(version: 20231116045708) do
   add_index "purchases", ["item_id"], name: "index_purchases_on_item_id", unique: true
 
   create_table "users", force: :cascade do |t|
-    t.string   "username",        null: false
-    t.string   "password_digest", null: false
-    t.string   "email",           null: false
-    t.string   "phone_number",    null: false
+    t.string   "username",      null: false
+    t.string   "email",         null: false
+    t.string   "phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uid"
+    t.string   "provider"
+    t.string   "session_token"
   end
 
   add_index "users", ["username"], name: "index_users_on_username", unique: true

@@ -8,10 +8,11 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
+  get '/auth/:provider/callback', to: 'sessions#create'
 
   # User routes for new, create, show, edit, update
   resources :users, only: [:new, :create, :show, :edit, :update]
-  get 'profile', to: 'users#show'
+  get '/profile/:id', to: 'users#show'
 
 
   # Item routes for creating, showing, editing, updating, and deleting item listings
