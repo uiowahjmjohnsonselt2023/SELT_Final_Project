@@ -20,14 +20,16 @@ Rails.application.routes.draw do
   get 'item', to: 'items#show'
 
   # Checkout route for showing the checkout page
-  get 'checkout/:item_id', to: 'checkout#show', as: 'checkout_show'
+  #get 'checkout/:item_id', to: 'checkout#show', as: 'checkout_show'
   # Set up to handle the purchase of an item
-  post 'checkout/:item_id', to: 'checkout#purchase', as: 'checkout_purchase'
+  #post 'checkout/:id/purchase', to: 'checkout#purchase', as: 'checkout_purchase'
+
   resources :checkout, only: [:show] do
     member do
       post 'purchase'
     end
   end
+
 
   # Search route for searching items with optional category filtering
   get 'search', to: 'search#index'
