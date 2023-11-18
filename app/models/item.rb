@@ -42,15 +42,15 @@ class Item < ApplicationRecord
 
     items
   end
-  def insert_item(title, description, price, user_id, category_ids, images)
-    user = User.find(user_id)
-    item = user.items.create!(title: title, description: description, price: price, user_id: user_id)
+
+  def self.insert_item(title, description, price, category_ids, images)
+    item = current_user.items.create!(title: title, description: description, price: price)
     images.each do |uploaded_image|
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
       image = MiniMagick::Image.new(image_file_path)
       image.resize('256x256')
-      image_type, image_data = Image.new.get_image_data(image_file_path)
+      image_type, image_data = Image.get_image_data(image_file_path)
       item.images.create!(data: image_data, image_type: image_type)
     end
     category_ids.each do |category_id|

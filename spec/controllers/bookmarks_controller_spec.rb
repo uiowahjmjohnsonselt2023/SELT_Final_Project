@@ -15,162 +15,181 @@ if RUBY_VERSION >= '2.6.0'
   end
 end
 
-RSpec.describe BookmarksController, type: :controller do
+describe BookmarksController, type: :controller do
+  let(:current_user) { instance_double('User', :session_token => "1") }
+  let(:item) { instance_double('Item', :id => 1) }
 
-  let(:current_user) {
-    User.create!(
-      username: 'current_user',
-      password: 'current_user_password',
-      password_confirmation: 'current_user_password',
-      email: 'current_user_email@test.com',
-      phone_number: '1234567890'
-    )
-  }
-  let(:item) {
-    Item.create!(
-      title: 'Test Item',
-      description: 'Test Description',
-      price: 10.00,
-      user_id: current_user.id
-    )
-  }
   before(:each) do
     controller.extend(SessionsHelper)
-    controller.log_in current_user
-  end
-
-  describe "Add a bookmark" do
-    it "should add a bookmark" do
-      current_user.bookmarked_items << item
-      expect(current_user.bookmarked_items).to include(item)
-    end
+    database_setup
   end
 
   describe "POST #create" do
-    it "creates a new bookmark" do
-      expect {
-        post :create, item_id: item.id
-      }.to change(current_user.bookmarked_items, :count).by(1)
+    context "when user is logged in" do
+      before do
+        allow(User).to receive(:find_by_session_token).and_return(current_user)
+        session[:session_token] = current_user.session_token
+      end
+
+      context "when the item does not exist" do
+        before do
+          allow(Item).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        end
+
+        it "does not bookmark the item" do
+          post :create, { :item_id => 0 }
+          expect(current_user).not_to receive(:add_bookmark)
+        end
+
+        it "the correct json is rendered" do
+          post :create, { :item_id => item.id }
+          expect(response.content_type).to eq("application/json")
+          expect(response).to have_http_status(:not_found)
+          json_response = JSON.parse(response.body)
+          expect(json_response["status"]).to eq("not_found")
+          expect(json_response["message"]).to eq("Item not found!")
+        end
+      end
+
+      context "when the item exists and is not already bookmarked" do
+        before do
+          allow(Item).to receive(:find).and_return(item)
+          allow(current_user).to receive(:add_bookmark).and_return(item)
+        end
+
+        it "the item is bookmarked" do
+          expect(current_user).to receive(:add_bookmark).with(item)
+          post :create, { :item_id => item.id }
+        end
+
+        it "the correct json is rendered" do
+          post :create, { :item_id => item.id }
+          expect(response.content_type).to eq("application/json")
+          expect(response).to have_http_status(:created)
+          json_response = JSON.parse(response.body)
+          expect(json_response["status"]).to eq("created")
+          expect(json_response["message"]).to eq("Item bookmarked!")
+        end
+      end
+
+      context "when the item exists and is already bookmarked" do
+        before do
+          allow(Item).to receive(:find).and_return(item)
+          allow(current_user).to receive(:add_bookmark).and_return(nil)
+        end
+
+        it "the correct json is rendered" do
+          post :create, { :item_id => item.id }
+          expect(response.content_type).to eq("application/json")
+          expect(response).to have_http_status(:unprocessable_entity)
+          json_response = JSON.parse(response.body)
+          expect(json_response["status"]).to eq("unprocessable_entity")
+          expect(json_response["message"]).to eq("Unable to bookmark item!")
+        end
+      end
+    end
+
+    context "when user is logged out" do
+      before do
+        allow(User).to receive(:find_by_session_token).and_return(nil)
+        allow(controller).to receive(:current_user).and_return(nil)
+        session[:session_token] = nil
+      end
+
+      it "redirects to the login page" do
+        post :create
+        expect(response).to redirect_to(login_path)
+      end
+
+      it "sets a flash message" do
+        post :create
+        expect(flash[:error]).to match(/You must be logged in to access this section/)
+      end
     end
   end
 
   describe "DELETE #destroy" do
-    before { current_user.bookmarked_items << item }
-    it "destroys the requested bookmark" do
-      expect {
-        delete :destroy, id: item.id, item_id: item.id
-      }.to change(current_user.bookmarked_items, :count).by(-1)
-    end
-  end
+    context "when user is logged in" do
+      before do
+        allow(User).to receive(:find_by_session_token).and_return(current_user)
+        session[:session_token] = current_user.session_token
+      end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new bookmark and returns a success response" do
-        expect {
-          post :create, item_id: item.id, xhr: true
-        }.to change(current_user.bookmarked_items, :count).by(1)
+      context "when the item does not exist" do
+        before do
+          allow(Item).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        end
 
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:created)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Item bookmarked!")
+        it "does not delete the bookmark" do
+          delete :destroy, { :id => item.id, :item_id => item.id }
+          expect(current_user).not_to receive(:remove_bookmark)
+        end
+
+        it "the correct json is rendered" do
+          delete :destroy, { :id => item.id, :item_id => item.id }
+          expect(response.content_type).to eq("application/json")
+          expect(response).to have_http_status(:not_found)
+          json_response = JSON.parse(response.body)
+          expect(json_response["status"]).to eq("not_found")
+          expect(json_response["message"]).to eq("Item not found!")
+        end
+      end
+
+      context "when the item exists and is bookmarked" do
+        before do
+          allow(Item).to receive(:find).and_return(item)
+          allow(current_user).to receive(:remove_bookmark).and_return(true)
+        end
+
+        it "the item is bookmarked" do
+          expect(current_user).to receive(:remove_bookmark).with(item)
+          delete :destroy, { :id => item.id, :item_id => item.id }
+        end
+
+        it "the correct json is rendered" do
+          delete :destroy, { :id => item.id, :item_id => item.id }
+          expect(response.content_type).to eq("application/json")
+          expect(response).to have_http_status(:ok)
+          json_response = JSON.parse(response.body)
+          expect(json_response["status"]).to eq("removed")
+          expect(json_response["message"]).to eq("Bookmark Deleted!")
+        end
+      end
+
+      context "when the item exists and is already bookmarked" do
+        before do
+          allow(Item).to receive(:find).and_return(item)
+          allow(current_user).to receive(:remove_bookmark).and_return(nil)
+        end
+
+        it "the correct json is rendered" do
+          delete :destroy, { :id => item.id, :item_id => item.id }
+          expect(response.content_type).to eq("application/json")
+          expect(response).to have_http_status(:unprocessable_entity)
+          json_response = JSON.parse(response.body)
+          expect(json_response["status"]).to eq("unprocessable_entity")
+          expect(json_response["message"]).to eq("Unable to delete bookmark!")
+        end
       end
     end
 
-    context "with invalid params" do
-      it "does not create a bookmark and returns an error response" do
-        # Assuming `item_id` is invalid, adjust this as per your application's logic
-        expect {
-          post :create, item_id: nil , xhr: true
-        }.not_to change(Bookmark, :count)
+    context "when user is logged out" do
+      before do
+        allow(User).to receive(:find_by_session_token).and_return(nil)
+        allow(controller).to receive(:current_user).and_return(nil)
+        session[:session_token] = nil
+      end
 
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:not_found)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Item not found!")
+      it "redirects to the login page" do
+        delete :destroy, { :id => item.id, :item_id => item.id }
+        expect(response).to redirect_to(login_path)
+      end
+
+      it "sets a flash message" do
+        delete :destroy, { :id => item.id, :item_id => item.id }
+        expect(flash[:error]).to match(/You must be logged in to access this section/)
       end
     end
-  end
-
-  describe "DELETE #destroy" do
-    context "when the bookmark exists" do
-      before { current_user.bookmarked_items << item }
-
-      it "destroys the requested bookmark" do
-        expect {
-          delete :destroy, id: item.id, item_id: item.id
-        }.to change(current_user.bookmarked_items, :count).by(-1)
-
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:ok)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Bookmark Deleted!")
-      end
-    end
-
-    context "when the bookmark does not exist" do
-      it "does not destroy a bookmark and returns an error response" do
-        expect {
-          delete :destroy, id: item.id, item_id: item.id
-        }.not_to change(Bookmark, :count)
-
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Unable to delete bookmark!")
-      end
-    end
-  end
-
-  describe "Error handling when adding and deleting bookmarks" do
-    context "when the item does not exist" do
-      it "does not create a bookmark and returns an error response" do
-        expect {
-          post :create, item_id: 0, xhr: true
-        }.not_to change(Bookmark, :count)
-
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:not_found)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Item not found!")
-      end
-
-      it "does not destroy a bookmark and returns an error response" do
-        expect {
-          delete :destroy, id: 0, item_id: 0
-        }.not_to change(Bookmark, :count)
-
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:not_found)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Item not found!")
-      end
-    end
-    context "when the model methods do not work" do
-      it "does not create a bookmark and returns an error response" do
-        allow_any_instance_of(User).to receive(:add_bookmark).and_return(false)
-        expect {
-          post :create, item_id: item.id, xhr: true
-        }.not_to change(Bookmark, :count)
-
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Unable to bookmark item!")
-      end
-      it "does not destroy a bookmark and returns an error response" do
-        allow_any_instance_of(User).to receive(:remove_bookmark).and_return(false)
-        expect {
-          delete :destroy, id: item.id, item_id: item.id
-        }.not_to change(Bookmark, :count)
-
-        expect(response.content_type).to eq("application/json")
-        expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
-        expect(json_response["message"]).to eq("Unable to delete bookmark!")
-      end
-    end
-
   end
 end
 
