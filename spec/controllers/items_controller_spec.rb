@@ -79,6 +79,7 @@ describe ItemsController, type: :controller do
         session[:session_token] = current_user.session_token
         allow(controller).to receive(:current_user).and_return(current_user)
         allow(Item).to receive(:insert_item).with(
+          current_user,
           params[:item][:title],
           params[:item][:description],
           params[:item][:price],
@@ -258,6 +259,7 @@ describe ItemsController, type: :controller do
         allow(User).to receive(:find_by_session_token).and_return(current_user)
         allow(controller).to receive(:current_user).and_return(current_user)
         session[:session_token] = current_user.session_token
+        allow(Item).to receive(:find).and_return(other_user_item)
       end
 
       context "when the user does not own the item" do

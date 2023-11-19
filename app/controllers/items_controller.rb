@@ -11,6 +11,7 @@ class ItemsController < ApplicationController
   # Create new item listing
   def create
     item = Item.insert_item(
+      current_user,
       params[:item][:title],
       params[:item][:description],
       params[:item][:price],

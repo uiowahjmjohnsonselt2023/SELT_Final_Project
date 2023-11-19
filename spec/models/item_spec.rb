@@ -10,7 +10,6 @@ describe Item, type: :model do
 
   describe 'validations' do
     it { should validate_presence_of(:title) }
-
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:price) }
     it { should validate_presence_of(:user_id) }
@@ -23,7 +22,7 @@ describe Item, type: :model do
   describe 'Item.search' do
     before(:all) do
       # Create users
-      user = User.create!(username: 'testuser', email: 'test@example.com', password: 'password', phone_number: '1234567890')
+      user = User.create!(username: 'testuser', email: 'test@example.com')
 
       # Create categories
       @category1 = Category.create!(name: 'Electronics')
@@ -89,14 +88,48 @@ describe Item, type: :model do
     end
   end
 
+  describe 'Item.insert_item' do
+    let(:current_user) {
+      User.create!(
+        username: 'current_user',
+        email: 'current_user@gmail.com'
+      )
+    }
+    let(:title) { 'Sample Item' }
+    let(:description) { 'Sample Description' }
+    let(:price) { 100 }
+    let(:image) { MiniMagick::Image.open('spec/support/fixtures/test_image.png') }
+    let(:category) { Category.create!(name: 'Electronics') }
+    let(:category_ids) { [category.id] }
+
+    before do
+      allow(User).to receive(:find_by_session_token).and_return(current_user)
+    end
+
+    it 'creates an item with correct attributes' do
+      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      expect(item).to be_persisted
+      expect(item.title).to eq(title)
+      expect(item.description).to eq(description)
+      expect(item.price).to eq(price)
+    end
+
+    it 'attaches images to the item' do
+      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      expect(item.images).not_to be_empty
+    end
+
+    it 'assigns categories to the item' do
+      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      expect(item.categories).to include(category)
+    end
+  end
+
   describe '#find_related_items' do
     let(:user) {
       User.create!(
         username: 'current_user',
-        password: 'current_user_password',
-        password_confirmation: 'current_user_password',
         email: 'current_user_email@test.com',
-        phone_number: '1234567890'
       )
     }
     let(:search_item) {
@@ -116,5 +149,4 @@ describe Item, type: :model do
       expect(search_item.find_related_items).to match_array(other_items[0..3])
     end
   end
-
 end

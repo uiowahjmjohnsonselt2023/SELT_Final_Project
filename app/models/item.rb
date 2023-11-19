@@ -43,8 +43,8 @@ class Item < ApplicationRecord
     items
   end
 
-  def self.insert_item(title, description, price, category_ids, images)
-    item = current_user.items.create!(title: title, description: description, price: price)
+  def self.insert_item(user, title, description, price, category_ids, images)
+    item = user.items.create!(title: title, description: description, price: price)
     images.each do |uploaded_image|
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
@@ -54,9 +54,9 @@ class Item < ApplicationRecord
       item.images.create!(data: image_data, image_type: image_type)
     end
     category_ids.each do |category_id|
-      if !category_id.blank?
+      unless category_id.blank?
         item.categories << Category.find(category_id)
-        end
+      end
     end
     item
   end
