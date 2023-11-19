@@ -17,119 +17,46 @@ if RUBY_VERSION >= '2.6.0'
 end
 
 describe SessionsController, type: :controller do
-  let(:current_user) {
-    User.create!(
-      username: 'current_user',
-      password: 'current_user_password',
-      password_confirmation: 'current_user_password',
-      email: 'current_user_email@test.com',
-      phone_number: '1234567890'
-    )
-  }
+  let(:current_user) { instance_double('User', :session_token => "1") }
 
   before(:each) do
     controller.extend(SessionsHelper)
-  end
-
-  describe "GET #new" do
-    context "when user is logged in" do
-      before do
-        controller.log_in(current_user)
-      end
-      it "redirects to the home page" do
-        get :new
-        expect(response).to redirect_to(root_path)
-      end
-      it "sets a flash message" do
-        get :new
-        expect(flash[:error]).to match(/You are already logged in/)
-      end
-    end
-
-    context "when user is logged out" do
-      it "renders the new template" do
-        get :new
-        expect(response).to render_template(:new)
-      end
-    end
+    database_setup
+    request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
   end
 
   describe "POST #create" do
-    context "when user is logged in" do
-      before do
-        controller.log_in(current_user)
-      end
-      it "redirects to the home page" do
-        get :create
-        expect(response).to redirect_to(root_path)
-      end
-      it "sets a flash message" do
-        get :create
-        expect(flash[:error]).to match(/You are already logged in/)
-      end
+    before do
+      allow(User).to receive(:find_by_provider_and_uid).and_return(current_user)
+      allow(User).to receive(:create_with_omniauth).and_return(current_user)
     end
 
-    context "when user is logged out and the entered credentials" do
-      let(:user) {
-        User.create!(
-          username: 'test_user',
-          password: 'test_password',
-          password_confirmation: 'test_password',
-          email: 'test_email@test.com',
-          phone_number: '1234567890'
-        )
-      }
-      context "do not match a user in the database" do
-        before do
-          allow(User).to receive(:find_by).and_return(nil)
-        end
-        it "renders the new template" do
-          get :create, :session => { :username => 'test_user', :password => 'test_password' }
-          expect(response).to render_template(:new)
-        end
-        it "sets a flash message" do
-          get :create, :session => { :username => 'test_user', :password => 'test_password' }
-          expect(flash[:danger]).to match(/Invalid username\/password combination/)
-        end
-      end
-
-      context "match a user in the database" do
-        before do
-          allow(User).to receive(:find_by).and_return(user)
-          allow(controller).to receive(:log_in)
-        end
-
-        it "logs the user in" do
-          get :create, :session => { :username => 'test_user', :password => 'test_password' }
-          expect(controller).to have_received(:log_in).with(user)
-        end
-
-        it "redirects to the home page" do
-          get :create, :session => { :username => 'test_user', :password => 'test_password' }
-          expect(response).to redirect_to(root_path)
-        end
-      end
+    it "redirects to the home page" do
+      post :create
+      expect(response).to redirect_to(root_path)
+    end
+    it "assigns the session token correctly" do
+      post :create
+      expect(session[:session_token]).to eq("1")
     end
   end
 
   describe "DELETE #destroy" do
-    context "when user is logged in" do
-      before do
-        controller.log_in(current_user)
-        allow(controller).to receive(:log_out)
-      end
-
-      it "logs the user out" do
-        delete :destroy
-        expect(controller).to have_received(:log_out)
-      end
+    it "assigns the session token correctly" do
+      delete :destroy
+      expect(session[:session_token]).to eq(nil)
     end
-
-    context "when user is logged out" do
-      it "redirects to the home page" do
-        delete :destroy
-        expect(response).to redirect_to(login_path)
-      end
+    it "assigns the current user correctly" do
+      delete :destroy
+      expect(assigns(:current_user)).to eq(nil)
+    end
+    it "flashes a notice" do
+      delete :destroy
+      expect(flash[:notice]).to eq("You have been logged out")
+    end
+    it "redirects to the home page" do
+      delete :destroy
+      expect(response).to redirect_to(root_path)
     end
   end
 end

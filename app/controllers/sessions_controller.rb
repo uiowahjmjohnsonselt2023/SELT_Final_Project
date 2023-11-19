@@ -1,15 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_filter :set_current_user
 
-  # Login page
-  def new
-    # Renders the login form if user is not logged in
-    if logged_in?
-      flash[:error] = "You are already logged in"
-      redirect_to root_path
-    end
-  end
-
   # Create Login Session
   def create
     auth = request.env['omniauth.auth']
