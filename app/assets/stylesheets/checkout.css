@@ -1,50 +1,81 @@
 .checkout-container {
-  width: 70%;
-  margin: auto;
+  font-family: Arial, sans-serif;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .checkout-item {
   display: flex;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .item-details {
-  flex: 1;
+  flex-grow: 1;
+  padding-right: 20px;
 }
 
 .item-image {
-  width: 100px; /* or whatever size you prefer */
+  width: 150px; /* Adjust as needed */
+  height: auto;
+  margin-right: 20px;
+}
+
+.seller {
+  font-size: 0.9em;
+  color: #555;
 }
 
 .item-price {
-  display: flex;
-  align-items: center;
-}
-
-.current-price {
-  font-size: 1.5em;
-  color: #E53333; /* eBay red */
+  font-size: 1.4em;
+  color: #333;
   font-weight: bold;
-  margin-right: 10px;
-}
-
-.original-price {
-  font-size: 1.2em;
-  text-decoration: line-through;
+  margin: 10px 0;
 }
 
 .address-selection, .payment-selection {
-  margin-top: 20px;
+  margin: 20px 0;
+}
+
+#address-select, #payment-method-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
 }
 
 .confirm-button {
-  background-color: #333; /* eBay gray */
+  background-color: #3665f3; /* eBay-like blue color */
   color: white;
-  padding: 10px 20px;
-  text-transform: uppercase;
   border: none;
-  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
   cursor: pointer;
+  display: block; /* Make the button block level */
+  width: 100%;
+  box-sizing: border-box; /* Make sure padding doesn't affect overall width */
 }
 
+.confirm-button:hover {
+  background-color: #2a52c4; /* Slightly darker blue on hover */
+}
+
+/* Additional styles for 'This item has already been purchased' message */
+.item-purchased-message {
+  color: #ff0000; /* Red color for the purchased message */
+  font-weight: bold;
+}
+
+/* Hide the select dropdowns and purchase button if the item is purchased */
+.purchased .address-selection,
+.purchased .payment-selection,
+.purchased .confirm-button {
+  display: none;
+}

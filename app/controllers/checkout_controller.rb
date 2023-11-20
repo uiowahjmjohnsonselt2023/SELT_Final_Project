@@ -7,8 +7,8 @@ class CheckoutController < ApplicationController
     puts "Made it to show controller call --------------------------------------------"
 
     @user = current_user
-    puts @user.inspect
     @item
+    @seller = User.find(@item.user_id)
   end
 
 
