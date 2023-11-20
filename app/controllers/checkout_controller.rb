@@ -15,10 +15,12 @@ class CheckoutController < ApplicationController
   def purchase
 
     puts "Made it to purchase controller call --------------------------------------------"
+    selected_address_id = params[:address_id]
+    selected_payment_method_id = params[:payment_method_id]
 
 
     # No need to find @item again, it's already set by set_item
-    result = current_user.purchase_item(@item)
+    result = current_user.purchase_item(@item, selected_address_id, selected_payment_method_id)
 
     selected_address_id = params[:address_id]
     selected_payment_method_id = params[:payment_method_id]

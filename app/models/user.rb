@@ -47,17 +47,17 @@ class User < ApplicationRecord
   end
 
 
-  def purchase_item(item)
+  def purchase_item(item, address_id, payment_method_id)
     return { success: false, message: 'Item not found.' } unless item
 
     if item.purchase.present?
       { success: false, message: 'This item has already been purchased.' }
     else
-      purchase = purchases.create(item: item)
+      purchase = purchases.create(item: item, address_id: address_id, payment_method_id: payment_method_id)
       if purchase.persisted?
         { success: true, message: 'Purchase successful!' }
       else
-        { success: false, message: 'Purchase could not be completed.' }
+        { success: false, message: purchase.errors.full_messages.to_sentence }
       end
     end
   end
