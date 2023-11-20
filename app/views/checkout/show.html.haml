@@ -31,5 +31,7 @@
 
     - if @item.purchased?
       %p This item has already been purchased.
+      = link_to 'Back', item_path(@item), class: "back-button"
     - else
       = submit_tag 'Confirm and pay', class: "confirm-button"
+      = link_to 'Back', item_path(@item), class: "back-button"
