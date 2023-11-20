@@ -1,239 +1,205 @@
-/* in app/assets/stylesheets/search_results.css */
-
-.search_page_container {
-  padding: 20px;
-  background: #f8f8f8; /* Main background color for consistency */
+.search-page-container {
+  padding: 1em;
+  background: #f8f8f8;
   min-height: 100vh;
 }
 
-.search_header {
-  background-color: #f8f8f8; /* Matches the search_page_container */
-  color: black;
-  padding: 10px;
-  text-align: center;
-  font-size: 30px;
-  font-weight: bold;
+.search-header {
+  /* Existing styles with scalable units */
+  font-size: 2rem;
 }
 
-.results_list {
+.search-results-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-result-item {
+  background: #ffffff;
+  border-radius: 0.5em;
+  box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
+  margin-bottom: 1em; /* Space between items */
+}
+
+.search-item-link {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: -10px;
-}
-
-.result_item {
-  flex: 0 0 calc(50% - 20px);
-  box-sizing: border-box;
-  margin: 10px;
-  background: #ffffff; /* White background for items */
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
-.item_link {
-  color: #333;
-  font-weight: bold;
+  align-items: center; /* Align image and text vertically */
   text-decoration: none;
-  font-size: 24px; /* Adjusted for better legibility */
+  color: #333;
 }
 
-.item_categories {
-  color: #777;
-  margin: 5px 0;
-  font-size: 16px; /* Smaller font size for categories */
-  font-weight: 500;
-  text-transform: uppercase; /* Stylish uppercase for category names */
-}
-
-.separator {
-  margin: 0 5px;
-}
-
-.item_image img {
-  max-width: 100%;
+.search-item-image img {
+  max-width: 10vw;
   height: auto;
-  border-radius: 4px;
+  border-radius: 0.25em;
+  margin-right: 1em;
 }
 
-.no_results {
+.search-item-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.search-item-price {
+  color: #555;
+  font-size: 1.4rem;
+  margin: 0.5em 0;
+}
+
+.search-item-categories {
+  color: #777;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  margin: 0.5em 0;
+}
+
+.search-separator {
+  margin: 0 0.25em;
+}
+
+.search-no-results {
   color: #999;
   text-align: center;
+  font-size: 1.5rem;
 }
 
-.item_price {
-  color: #555;
-  font-size: 24px; /* Size consistent with .item_link */
-  font-weight: 600;
-  margin: 10px 0;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-results-list {
+    justify-content: center;
+  }
+
+  .search-result-item {
+    flex-basis: 100%;
+  }
+
+  .search-filter-form {
+    flex-direction: column;
+  }
 }
 
-/* Style for the category filter form and checkboxes */
-.category_filter_form {
-  padding: 10px;
-  background: #e7e7e7; /* Slightly lighter than item background for contrast */
-  border-radius: 4px;
-  margin-bottom: 20px;
+.search-page-container {
+  /* ... existing styles ... */
 }
 
-.category_checkbox {
+.search-filters-container {
+  background-color: #f2f2f2; /* Light background for the filter area */
+  padding: 1em;
+  border-radius: 0.5em;
+  margin-bottom: 1em;
+  display: flex;
+  flex-wrap: wrap; /* Allow filters to wrap on smaller screens */
+  gap: 1em;
+}
+
+.search-categories-filter,
+.search-price-filter,
+.search-bookmarks-filter,
+.search-seller-filter {
+  flex: 1; /* Each filter takes equal width */
+  margin-right: 1em;
+}
+
+fieldset {
+  border: none; /* Remove default fieldset border */
+  padding: 0;
+}
+
+legend {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.search-category-checkbox,
+.search-price-range {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
-  position: relative;
-  padding-left: 35px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 18px; /* Slightly larger font for readability */
-  font-weight: normal;
-  color: #333; /* Darker color for text */
-  min-height: 20px;
+  margin-bottom: 0.5em;
 }
 
-.category_checkbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+.search-category-checkbox label,
+.search-price-range label {
+  margin-right: 0.5em;
 }
 
-.category_checkbox .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #eee;
-  border-radius: 4px;
+.search-category-checkbox input[type="checkbox"],
+.search-price-range input[type="text"] {
+  margin-right: 0.5em;
 }
 
-.category_checkbox:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-.category_checkbox input:checked ~ .checkmark {
-  background-color: #2196F3;
-}
-
-.category_checkbox .checkmark:after {
-  content: "";
+.search-checkmark:after {
+  /* Checkmark icon */
+  content: '';
   position: absolute;
   display: none;
 }
 
-.category_checkbox input:checked ~ .checkmark:after {
+.search-category-checkbox input[type="checkbox"]:checked ~ .search-checkmark:after {
   display: block;
 }
 
-.category_checkbox .checkmark:after {
-  left: 7px;
-  top: 3px;
-  width: 6px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
+.search-filter-button {
+  padding: 0.5em 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25em;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-
-.filter_button:hover {
+.search-filter-button:hover {
   background-color: #0056b3;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .results_list {
-    justify-content: center;
-  }
-
-  .result_item {
-    flex-basis: 100%; /* Full width on smaller screens */
-  }
-
-  .filter_form {
+  .search-filters-container {
     flex-direction: column;
   }
+
+  .search-categories-filter,
+  .search-price-filter,
+  .search-bookmarks-filter,
+  .search-seller-filter {
+    flex-basis: 100%;
+    margin-right: 0;
+  }
 }
 
-.filters_container {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 14px;
-  flex-wrap: wrap; /* This allows fieldsets to wrap onto the next line on smaller screens */
-  gap: 10px; /* This adds space between the fieldsets if they wrap */
+.search-category-checkbox input[type="checkbox"] {
+  /* Hide the default checkbox */
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
 }
 
-.categories_filter, .price_filter, .bookmarks_filter {
-  margin-right: 20px; /* Adjust space between filters */
-}
-
-/* Styles for the price filter section */
-.price_filter {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.seller_filter {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-
-/* Adjust the submit button to align with the filters */
-.filter_button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+.search-checkmark {
+  /* Custom checkmark box */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 1px solid #aaa;
+  border-radius: 0.25em;
+  position: relative;
   cursor: pointer;
-  align-self: start; /* Align button to the top */
-  font-size: 1.2rem;
 }
 
-fieldset legend {
-  color: #5a5a5a; /* Your desired color for legends */
-  font-size: 1.2rem;
-  margin-bottom: 5px;
-  font-weight: bold;
-
+/* Style the custom checkmark when the hidden checkbox is checked */
+.search-category-checkbox input[type="checkbox"]:checked + .search-checkmark {
+  background-color: #2196F3;
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0.25em;
+    top: 0.1em;
+    width: 0.3em;
+    height: 0.6em;
+    border: solid white;
+    border-width: 0 0.2em 0.2em 0;
+    transform: rotate(45deg);
+  }
 }
 
-/* Style for labels within the price filter */
-.price_filter label,
-.categories_filter label, .seller_filter label {
-  color: #5a5a5a; /* Your desired color for labels */
-  font-size: 1.2rem;
-  font-weight: normal;
-}
-
-/* Adjust the margin for the price range inputs for alignment */
-.price_range {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.seller_input {
-  margin-left: 10px;
-  width: 100%;
-}
-
-/* Style for input placeholders */
-.price_range input::placeholder {
-  color: #a9a9a9; /* Lighter color for placeholders */
-}
-
-/* Style for the input fields */
-.price_range input {
-  border: 1px solid #dedede;
-  border-radius: 4px;
-  padding: 5px;
-  width: 100%;
-  margin-left: 10px;
-  font-size: 1.2rem;
-}
