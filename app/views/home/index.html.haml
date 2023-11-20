@@ -1,47 +1,44 @@
-.container
+.container.home-container
   .home-header Welcome to Deal Docks
 
--# populating categories and making them links to the search page
 .home-container
-  .category-list
+  .home-category-list
     - @categories.each do |category|
       = form_tag search_path, method: :get do
         = hidden_field_tag :categories, category[:name]
-        = submit_tag category[:name], class: 'category-button'
+        = submit_tag category[:name], class: 'home-category-button'
 
--# populating items for sale and making them links to the item page
 .home-container
-  .home-header2 Items for Sale
-  .items-container
+  .home-subheader Items for Sale
+  .home-items-container
     - if @suggested_items.empty?
-      .home-header2 There are no items for sale.
+      .home-subheader There are no items for sale.
     -else
       - @suggested_items.each do |item|
         = link_to item_path(item) do
-          .item
+          .home-item
             %h3= item.title
             %h3= item.description
             %h3= "$#{'%.2f' % item.price}"
             - if item.images.any?
-              = image_tag item.images.first.data_uri, alt: item.title, class: 'item-image'
+              = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 
--# populating items for sale by the current user and making them links to the item page
 .home-container
-  .home-header2 Your Items for Sale
-  .items-container
+  .home-subheader Your Items for Sale
+  .home-items-container
     - if current_user.nil?
-      .home-header2 You are not signed in.
+      .home-subheader You are not signed in.
     - elsif @user_items.empty?
-      .home-header2 You have no items for sale.
+      .home-subheader You have no items for sale.
     -else
       - @user_items.each do |item|
         = link_to item_path(item) do
-          .item
+          .home-item
             %h3= item.title
             %h3= item.description
-            %h3= "$#{item.price}"
+            %h3= "$#{'%.2f' % item.price}"
             - if item.images.any?
-              = image_tag item.images.first.data_uri, alt: item.title, class: 'item-image'
+              = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 
-%footer
-  %p © 2023 Deal Docks. All rights reserved.
+%footer.home-footer
+  %p.home-footer-text © 2023 Deal Docks. All rights reserved.
