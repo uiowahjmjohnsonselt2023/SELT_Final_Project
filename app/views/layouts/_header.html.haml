@@ -1,14 +1,14 @@
-%nav.navbar
-  .container
-    = link_to root_path, class: 'navbar-brand' do
-      = image_tag('logo.png', alt: 'Logo', class: 'navbar-logo')
-    .search-bar
+%nav.global-navbar
+  .global-container
+    = link_to root_path, class: 'global-navbar-brand' do
+      = image_tag('logo.png', alt: 'Logo', class: 'global-navbar-logo')
+    .global-search-bar
       = form_tag search_path, method: :get do
-        = text_field_tag :search_term, params[:search_term], placeholder: "Search items...", class: 'search-input'
-        = submit_tag "Search", class: 'search-button'
+        = text_field_tag :search_term, params[:search_term], placeholder: "Search items...", class: 'global-search-input'
+        = submit_tag "Search", class: 'global-search-button'
     - if logged_in?
-      = link_to 'Sell Item', sell_path, class: 'nav-link'
-      = link_to 'Profile', "/profile/#{current_user.id}", class: 'nav-link'
-      = link_to 'Logout', logout_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'logout-button'
+      = link_to 'Sell Item', sell_path, class: 'global-nav-link'
+      = link_to 'Profile', "/profile/#{current_user.id}", class: 'global-nav-link'
+      = link_to 'Logout', logout_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'global-logout-button'
     - else
-      = link_to 'Login', '/auth/google_oauth2', method: :post, class: 'nav-link'
+      = link_to 'Login', '/auth/google_oauth2', method: :post, class: 'global-nav-link'
