@@ -16,7 +16,7 @@
     .address-selection
       %label{for: "address-select"} Select Shipping Address:
       %select#address-select{name: "address_id"}
-        %option{value: ""} Choose an address
+        %option{value: nil} Choose an address
         %option{value: "1"} 123 Main St, Anytown, USA
         - @user.addresses.each do |address|
           %option{value: address.id}= "#{address.shipping_address_1}, #{address.city}, #{address.state}"
@@ -24,7 +24,7 @@
     .payment-selection
       %label{for: "payment-method-select"} Select a Payment Method:
       %select#payment-method-select{name: "payment_method_id"}
-        %option{value: ""} Choose a payment method
+        %option{value: nil} Choose a payment method
         %option{value: "1"} Visa ending in 1234
         - @user.payment_methods.each do |payment_method|
           %option{value: payment_method.id}= "Card ending in #{payment_method.encrypted_card_number[-4..-1]}"
