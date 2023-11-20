@@ -19,6 +19,9 @@ class CheckoutController < ApplicationController
 
     # No need to find @item again, it's already set by set_item
     result = current_user.purchase_item(@item)
+    selected_address_id = params[:address_id]
+    selected_payment_method_id = params[:payment_method_id]
+
 
     puts "Made it here --------------------------------------------"
     puts "Outputting current items purchased"
