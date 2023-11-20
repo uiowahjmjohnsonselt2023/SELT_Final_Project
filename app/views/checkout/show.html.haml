@@ -1,31 +1,35 @@
-.checkout-container
-  %h1 Review item and shipping
+= form_tag purchase_checkout_path(@item), method: :post do
+  .checkout-container
+    %h1 Review item and shipping
 
-  .checkout-item
-    .item-details
-      %h2= @item.title
-      %p.seller Seller: #{@user.username}
-      - if @item.images.any?
-        = image_tag @item.images.first.data_uri, alt: @item.title, class: 'item-image'
-      %p= @item.description
-      %p.item-price
-        %span.current-price= "$#{'%.2f' % @item.price}"
+    .checkout-item
+      .item-details
+        %h2= @item.title
+        %p.seller Buyer: #{@user.username}
+        %p.seller Seller: #{@seller.username}
+        - if @item.images.any?
+          = image_tag @item.images.first.data_uri, alt: @item.title, class: 'item-image'
+        %p= @item.description
+        %p.item-price
+          %span.current-price= "$#{'%.2f' % @item.price}"
 
+    .address-selection
+      %label{for: "address-select"} Select Shipping Address:
+      %select#address-select{name: "address_id"}
+        %option{value: ""} Choose an address
+        %option{value: "1"} 123 Main St, Anytown, USA
+        - @user.addresses.each do |address|
+          %option{value: address.id}= "#{address.shipping_address_1}, #{address.city}, #{address.state}"
 
-  .address-selection
-    %label{for: "address-select"} Select an Address:
-    %select#address-select{name: "address_id"}
-      - @user.addresses.each do |address|
-        %option{value: address.id}= address.full_address
+    .payment-selection
+      %label{for: "payment-method-select"} Select a Payment Method:
+      %select#payment-method-select{name: "payment_method_id"}
+        %option{value: ""} Choose a payment method
+        %option{value: "1"} Visa ending in 1234
+        - @user.payment_methods.each do |payment_method|
+          %option{value: payment_method.id}= "Card ending in #{payment_method.encrypted_card_number[-4..-1]}"
 
-  .payment-selection
-    %label{for: "payment-method-select"} Select a Payment Method:
-    %select#payment-method-select{name: "payment_method_id"}
-      - @user.payment_methods.each do |payment_method|
-        %option{value: payment_method.id}= "Ending in #{payment_method.encrypted_card_number[-4..-1]} - Expires #{payment_method.expiration_date.strftime('%m/%Y')}"
-
-  - if @item.purchased?
-    %p This item has already been purchased.
-  - else
-    = button_to 'Confirm and pay', purchase_checkout_path(@item), method: :post, class: "confirm-button"
-
+    - if @item.purchased?
+      %p This item has already been purchased.
+    - else
+      = submit_tag 'Confirm and pay', class: "confirm-button"
