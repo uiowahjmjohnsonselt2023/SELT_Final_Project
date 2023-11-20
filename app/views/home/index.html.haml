@@ -1,12 +1,7 @@
+-# app/views/home/index.html.haml
+
 .container.home-container
   .home-header Welcome to Deal Docks
-
-.home-container
-  .home-category-list
-    - @categories.each do |category|
-      = form_tag search_path, method: :get do
-        = hidden_field_tag :categories, category[:name]
-        = submit_tag category[:name], class: 'home-category-button'
 
 .home-container
   .home-subheader Items for Sale
@@ -15,13 +10,12 @@
       .home-subheader There are no items for sale.
     -else
       - @suggested_items.each do |item|
-        = link_to item_path(item) do
-          .home-item
-            %h3= item.title
-            %h3= item.description
-            %h3= "$#{'%.2f' % item.price}"
-            - if item.images.any?
-              = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
+        .home-item
+          = link_to item.title, item_path(item), class: 'item-title-link'
+          %h3= "$#{'%.2f' % item.price}"
+          - if item.images.any?
+            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
+
 
 .home-container
   .home-subheader Your Items for Sale
@@ -32,13 +26,11 @@
       .home-subheader You have no items for sale.
     -else
       - @user_items.each do |item|
-        = link_to item_path(item) do
-          .home-item
-            %h3= item.title
-            %h3= item.description
-            %h3= "$#{'%.2f' % item.price}"
-            - if item.images.any?
-              = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
+        .home-item
+          = link_to item.title, item_path(item), class: 'item-title-link'
+          %h3= "$#{'%.2f' % item.price}"
+          - if item.images.any?
+            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 
 %footer.home-footer
   %p.home-footer-text © 2023 Deal Docks. All rights reserved.
