@@ -1,48 +1,31 @@
-%h1 Checkout
-%p Purchasing: #{@item.title}
-%p User: #{@user.username}
-%p Description: #{@item.description}
-%p
-  - @item.categories.each do |category|
-    = category.name
-    - unless category == @item.categories.last
-      = ', '
-%p Price: $#{'%.2f' % @item.price}
+.checkout-container
+  %h1 Review item and shipping
 
-%h2 Addresses
-%table.addresses-table
-  %thead
-    %tr
-      %th Address Line 1
-      %th Address Line 2
-      %th City
-      %th State
-      %th Country
-      %th Postal Code
-  %tbody
-    - @user.addresses.each do |address|
-      %tr
-        %td= address.shipping_address_1
-        %td= address.shipping_address_2
-        %td= address.city
-        %td= address.state
-        %td= address.country
-        %td= address.postal_code
-%table.addresses-table
-  %h2 Payment Methods
-  %thead
-    %tr
-      %th Card Number
-      %th Expiration Date
-  %tbody
-    - @user.payment_methods.each do |payment_method|
-      %tr
-        %td= payment_method.encrypted_card_number
-        %td= payment_method.expiration_date.strftime("%m/%Y")
+  .checkout-item
+    .item-details
+      %h2= @item.title
+      %p.seller Seller: #{@user.username}
+      - if @item.images.any?
+        = image_tag @item.images.first.data_uri, alt: @item.title, class: 'item-image'
+      %p= @item.description
+      %p.item-price
+        %span.current-price= "$#{'%.2f' % @item.price}"
 
-- if @item.purchased?
-  %p This item has already been purchased.
-- else
-  = button_to 'Purchase', purchase_checkout_path(@item), method: :post, class: "btn btn-primary"
 
+  .address-selection
+    %label{for: "address-select"} Select an Address:
+    %select#address-select{name: "address_id"}
+      - @user.addresses.each do |address|
+        %option{value: address.id}= address.full_address
+
+  .payment-selection
+    %label{for: "payment-method-select"} Select a Payment Method:
+    %select#payment-method-select{name: "payment_method_id"}
+      - @user.payment_methods.each do |payment_method|
+        %option{value: payment_method.id}= "Ending in #{payment_method.encrypted_card_number[-4..-1]} - Expires #{payment_method.expiration_date.strftime('%m/%Y')}"
+
+  - if @item.purchased?
+    %p This item has already been purchased.
+  - else
+    = button_to 'Confirm and pay', purchase_checkout_path(@item), method: :post, class: "confirm-button"
 

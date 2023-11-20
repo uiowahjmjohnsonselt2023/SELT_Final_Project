@@ -1,0 +1,50 @@
+.checkout-container {
+  width: 70%;
+  margin: auto;
+}
+
+.checkout-item {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-image {
+  width: 100px; /* or whatever size you prefer */
+}
+
+.item-price {
+  display: flex;
+  align-items: center;
+}
+
+.current-price {
+  font-size: 1.5em;
+  color: #E53333; /* eBay red */
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.original-price {
+  font-size: 1.2em;
+  text-decoration: line-through;
+}
+
+.address-selection, .payment-selection {
+  margin-top: 20px;
+}
+
+.confirm-button {
+  background-color: #333; /* eBay gray */
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
