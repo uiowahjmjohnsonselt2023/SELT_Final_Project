@@ -11,8 +11,6 @@ class CheckoutController < ApplicationController
 
 
   def purchase
-
-    puts "Made it to purchase controller call --------------------------------------------"
     selected_address_id = params[:address_id]
     selected_payment_method_id = params[:payment_method_id]
 
@@ -33,23 +31,14 @@ class CheckoutController < ApplicationController
   def set_item
     @item = Item.find_by(id: params[:id])
     unless @item
-      puts "Item not found --------------------------------------------"
       redirect_to root_path, alert: "Item not found." # Change to root_path or an existing path
     end
   end
 
-  #def correct_user
-  #  @user = User.find(params[:id])
-  #  if @user != current_user
-  #    flash[:error] = "You do not have permission to edit or delete this user"
-  #    redirect_to(root_path)
-  #  end
-  #end
-
   def require_login
     unless current_user
       flash[:error] = "You must be logged in to access this section"
-      redirect_to login_path # Ensure this path is correct
+      redirect_to root_path # Ensure this path is correct
     end
   end
 end
