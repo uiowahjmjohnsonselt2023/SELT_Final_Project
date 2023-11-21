@@ -15,183 +15,245 @@ if RUBY_VERSION>='2.6.0'
   end
 end
 
-RSpec.describe SearchController, type: :controller do
-  before(:each) do
-    controller.extend(SessionsHelper)
-  end
-
-  let(:user){
-    User.create!(
-      username: 'testuser',
-      password: 'password',
-      password_confirmation: 'password',
-      email: 'test_email@test.com',
-      phone_number: '1234567890'
-    )
-  }
-
-  let(:items){
+describe SearchController, type: :controller do
+  let(:current_user) { instance_double('User', :session_token => "1", :id => 1) }
+  let(:current_user_items) {
     [
-      user.items.create!(title: "Item 1", price: 1, description: "Description for item 1"),
-      user.items.create!(title: "Item 2", price: 2, description: "Description for item 2")
+      instance_double('Item', :user_id => 1),
+      instance_double('Item', :user_id => 1),
+      instance_double('Item', :user_id => 1),
+      instance_double('Item', :user_id => 1),
+      instance_double('Item', :user_id => 1)
+    ]
+  }
+  let(:seller) { instance_double('User', :session_token => "2", :username => "seller", :id => 2) }
+
+  let(:categories) {
+    [
+      instance_double('Category', :name => 'Category 1'),
+      instance_double('Category', :name => 'Category 2'),
+      instance_double('Category', :name => 'Category 3')
     ]
   }
 
-  let(:seller) do
-    User.create!(
-      username: 'seller',
-      password: 'password',
-      password_confirmation: 'password',
-      email: 'seller_email@test.com',
-      phone_number: '1234567890'
-    )
+  let(:items) {
+    [
+      instance_double('Item', :categories => categories[0], :user_id => 2),
+      instance_double('Item', :categories => categories[1], :user_id => 2),
+      instance_double('Item', :categories => categories[2], :user_id => 2),
+    ]
+  }
+
+  before(:each) do
+    controller.extend(SessionsHelper)
+    database_setup
   end
-  let(:low_priced_item) { user.items.create!(title: "Low Priced Item", price: 5, description: "Cheap item") }
-  let(:mid_priced_item) { user.items.create!(title: "Mid Priced Item", price: 50, description: "Moderately priced item") }
-  let(:high_priced_item) { user.items.create!(title: "High Priced Item", price: 500, description: "Expensive item") }
-  let(:bookmarked_item) { user.items.create!(title: "Bookmarked Item", price: 10, description: "Bookmarked item description") }
-  let(:non_bookmarked_item) { user.items.create!(title: "Non-Bookmarked Item", price: 20, description: "Non-bookmarked item description") }
-
-  let(:category1) { Category.create!(name: 'Category1') }
-  let(:category2) { Category.create!(name: 'Category2') }
-  let(:item1) { seller.items.create!(title: "Item1", categories: [category1], price: 10, description: "test") }
-  let(:item2) { seller.items.create!(title: "Item2", categories: [category2], price: 20, description: "test") }
-  let(:item3) { seller.items.create!(title: "Item3", categories: [category1], price: 30, description: "test") }
-
 
   describe "Get #index" do
     context "when user is logged in" do
       before do
-        controller.log_in(user)
+        session[:session_token] = current_user.session_token
+        allow(controller).to receive(:current_user).and_return(current_user)
       end
-      it "responds successfully" do
-        get :index
-        expect(response).to be_successful
+
+      context "when user does a blank search" do
+        before do
+          allow(Item).to receive(:all).and_return(items)
+        end
+
+        it "assigns @results to all items" do
+          get :index
+          expect(assigns(:results)).to match_array(items)
+        end
       end
-      it "renders the index template" do
-        get :index
-        expect(response).to render_template(:index)
-      end
-      it 'assigns @results' do
-        get :index
-        expect(assigns(:results)).not_to be_nil
-      end
-      it 'assigns results to expected value' do
-        get :index
-        allow(Item).to receive(:search).and_return(items)
-        expect(assigns(:results).to_a).to match_array(items)
-      end
-      # Calls Item.search method
-      it 'calls Item.search method' do
-        expect(Item).to receive(:search)
-        get :index
-      end
-      # Calls Item.search method with search_term and categories
-      it 'calls Item.search method with search_term and categories' do
-        params = { search_term: 'test', categories: ['1', '2'] }
-        expect(Item).to receive(:search).with(params[:search_term], params[:categories])
-        get :index, :search_term => 'test', :categories => ['1', '2']
+
+      context "when user searches for only bookmarked items" do
+        before do
+          allow(current_user).to receive(:bookmarked_items).and_return(items)
+        end
+
+        it "assigns @results to bookmarked items" do
+          get :index, :bookmarks => '1'
+          expect(assigns(:results)).to match_array(items)
+        end
       end
     end
 
-    context "when user is logged out" do
-      it "redirects to the login page" do
-        get :index
-        expect(response).to redirect_to(login_path)
+    context "when user is not logged in" do
+      before do
+        session[:session_token] = nil
+        allow(controller).to receive(:current_user).and_return(nil)
       end
-      it "sets a flash message" do
-        get :index
-        expect(flash[:error]).to match(/You must be logged in to access this section/)
+
+      context "when user does a blank search" do
+        before do
+          allow(Item).to receive(:all).and_return(items)
+        end
+
+        it "assigns @results to all items" do
+          get :index
+          expect(assigns(:results)).to match_array(items)
+        end
+      end
+
+      context "when user searches for only bookmarked items" do
+        before do
+          allow(Item).to receive(:all).and_return(items)
+        end
+
+        it "assigns @results to all items" do
+          get :index, :bookmarks => '1'
+          expect(assigns(:results)).to match_array(items)
+        end
+      end
+    end
+
+    context "when user searches with categories only" do
+      before do
+        session[:session_token] = nil
+        allow(controller).to receive(:current_user).and_return(nil)
+        allow(Item).to receive(:search).and_return(items[0..1])
+      end
+
+      it "calls Item.search with correct parameters" do
+        expect(Item).to receive(:search).with(nil, %w[1 2])
+        get :index, :categories => %w[1 2]
+      end
+
+      it "assigns @results correctly" do
+        get :index, :categories => %w[1 2]
+        expect(assigns(:results)).to match_array(items[0..1])
+      end
+    end
+
+    context "when user searches with search term only" do
+      before do
+        session[:session_token] = nil
+        allow(controller).to receive(:current_user).and_return(nil)
+        allow(Item).to receive(:search).and_return(items[0..1])
+        allow(Category).to receive(:all).and_return(categories)
+      end
+
+      it "calls Item.search with correct parameters" do
+        expect(Item).to receive(:search).with('test', ["Category 1", "Category 2", "Category 3"])
+        get :index, :search_term => 'test'
+      end
+
+      it "assigns @results correctly" do
+        get :index, :search_term => 'test'
+        expect(assigns(:results)).to match_array(items[0..1])
+      end
+    end
+
+    context "when user searches with search term and categories" do
+      before do
+        session[:session_token] = nil
+        allow(controller).to receive(:current_user).and_return(nil)
+        allow(Item).to receive(:search).and_return(items[0..1])
+        allow(Category).to receive(:all).and_return(categories)
+      end
+
+      it "calls Item.search with correct parameters" do
+        expect(Item).to receive(:search).with('test', %w[1 2])
+        get :index, :search_term => 'test', :categories => %w[1 2]
+      end
+
+      it "assigns @results correctly" do
+        get :index, :search_term => 'test', :categories => %w[1 2]
+        expect(assigns(:results)).to match_array(items[0..1])
+      end
+    end
+
+    context "when user searches with seller" do
+      before do
+        session[:session_token] = nil
+        allow(controller).to receive(:current_user).and_return(nil)
+        allow(Item).to receive(:all).and_return(items)
+      end
+
+      context "when seller exists" do
+        before do
+          allow(User).to receive(:find_by).with(username: seller.username).and_return(seller)
+          allow(items).to receive(:where).and_return(items)
+        end
+
+        it "calls Item.where with correct parameters" do
+          expect(items).to receive(:where).with("items.user_id = ?", seller.id)
+          get :index, :seller => seller.username
+        end
+
+        it "assigns @results correctly" do
+          get :index, :seller => seller.username
+          expect(assigns(:results)).to match_array(items)
+        end
+      end
+
+      context "when seller does not exist" do
+        before do
+          allow(User).to receive(:find_by).with(username: seller.username).and_return(nil)
+        end
+
+        it "doesnt call Item.where" do
+          expect(items).not_to receive(:where)
+          get :index, :seller => seller.username
+        end
+
+        it "assigns @results correctly" do
+          get :index, :seller => seller.username
+          expect(assigns(:results)).to match_array([])
+        end
+      end
+    end
+
+    context "when user searches with price" do
+      before do
+        session[:session_token] = nil
+        allow(controller).to receive(:current_user).and_return(nil)
+        allow(Item).to receive(:all).and_return(items)
+        allow(items).to receive(:where).and_return(items)
+      end
+
+      context "when user searches with just min_price" do
+        it "calls Item.where with correct parameters" do
+          expect(items).to receive(:where).with("price >= ?", "10")
+          get :index, :min_price => "10"
+        end
+
+        it "assigns @results correctly" do
+          get :index, :min_price => "10"
+          expect(assigns(:results)).to match_array(items)
+        end
+      end
+
+      context "when user searches with just max_price" do
+        it "calls Item.where with correct parameters" do
+          expect(items).to receive(:where).with("price <= ?", "10")
+          get :index, :max_price => "10"
+        end
+
+        it "assigns @results correctly" do
+          get :index, :max_price => "10"
+          expect(assigns(:results)).to match_array(items)
+        end
+      end
+
+      context "when user searches with both min_price and max_price" do
+        it "calls Item.where with correct parameters" do
+          expect(items).to receive(:where).with("price >= ?", "10")
+          expect(items).to receive(:where).with("price <= ?", "20")
+          get :index, :min_price => "10", :max_price => "20"
+        end
+
+        it "assigns @results correctly" do
+          get :index, :min_price => "10", :max_price => "20"
+          expect(assigns(:results)).to match_array(items)
+        end
       end
     end
   end
-
-  describe "Get #index with filtering for the search" do
-    before(:each) do
-      controller.log_in(user)
-    end
-
-    it 'filters by category' do
-      params = { search_term: 'test', categories: %w[1 2] }
-      expect(Item).to receive(:search).with(params[:search_term], params[:categories])
-      get :index, :search_term => 'test', :categories => ['1', '2']
-    end
-
-    it 'filters by seller where items are found' do
-      # Stub `User.find_by` to return the seller
-      allow(User).to receive(:find_by).with(id: user.id).and_return(user)
-      allow(User).to receive(:find_by).with(username: 'seller').and_return(user)
-      get :index, search_term: 'Item', seller: 'seller'
-    end
-
-    it 'filters by seller where no items are found' do
-      nonexistent_seller = 'nonexistent_user'
-      allow(User).to receive(:find_by).with(id: user.id).and_return(user)
-      allow(User).to receive(:find_by).with(username: nonexistent_seller).and_return(nil)
-
-      get :index, params: { search_term: 'No Match', seller: nonexistent_seller }
-
-      expect(assigns(:results)).to be_empty
-    end
-
-    it 'filters by min price' do
-      get :index, min_price: 10, search_term: 'Item'
-      expect(assigns(:results)).to include(mid_priced_item, high_priced_item)
-      expect(assigns(:results)).not_to include(low_priced_item)
-    end
-
-    it 'filters by max price' do
-      get :index, max_price: 100, search_term: 'Item'
-      expect(assigns(:results)).to include(low_priced_item, mid_priced_item)
-      expect(assigns(:results)).not_to include(high_priced_item)
-    end
-
-    it 'returns only bookmarked items when bookmark filter is applied' do
-      user.bookmarks.create!(item: bookmarked_item)
-      get :index, bookmarks: '1', search_term: 'Item'
-      expect(assigns(:results)).to include(bookmarked_item)
-      expect(assigns(:results)).not_to include(non_bookmarked_item)
-    end
-
-    it 'returns all items when bookmark filter is not applied' do
-      get :index
-      expect(assigns(:results)).to include(bookmarked_item, non_bookmarked_item)
-    end
-
-    it 'filters by bookmarks and seller items' do
-      # Stub `User.find_by` to return the seller
-      allow(User).to receive(:find_by).with(id: user.id).and_return(user)
-      allow(User).to receive(:find_by).with(username: 'seller').and_return(user)
-      get :index, search_term: 'Item', seller: 'seller', bookmarks: '1'
-    end
-  end
-
-  describe "Get #index with combined filters" do
-    before do
-      controller.log_in(user)
-      user.bookmarks.create!(item: item1)
-    end
-
-    it 'applies category and seller filters' do
-      get :index, categories: [category1.name], seller: seller.username, search_term: 'Item'
-      expect(assigns(:results)).to include(item1, item3)
-      expect(assigns(:results)).not_to include(item2)
-    end
-
-    it 'applies price range and bookmark filters' do
-      get :index, min_price: 10, max_price: 25, bookmarks: '1', search_term: 'Item'
-      expect(assigns(:results)).to include(item1)
-      expect(assigns(:results)).not_to include(item2, item3)
-    end
-
-    it 'applies all filters together' do
-      get :index, categories: [category1.name], seller: seller.username, min_price: 5, max_price: 15, bookmarks: '1', search_term: 'Item'
-      expect(assigns(:results)).to include(item1)
-      expect(assigns(:results)).not_to include(item2, item3)
-    end
-  end
-
 end
+
+
 
 
 

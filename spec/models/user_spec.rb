@@ -6,33 +6,29 @@ describe User, type: :model do
     it { should have_many(:items).dependent(:destroy) }
     it { should have_many(:addresses).dependent(:destroy) }
     it { should have_many(:payment_methods).dependent(:destroy) }
+    it { should have_many(:bookmarks).dependent(:destroy) }
+    it { should have_many(:bookmarked_items).through(:bookmarks).source(:item).dependent(:destroy) }
   end
 
   describe 'validations' do
     it { should validate_presence_of(:username) }
     it { should validate_length_of(:username).is_at_most(50) }
 
-    it { should validate_presence_of(:password_digest) }
-
     it { should validate_presence_of(:email) }
     it { should allow_value('user@example.com').for(:email) }
     it { should_not allow_value('invalid_email').for(:email) }
-
-    it { should validate_presence_of(:phone_number) }
-    it { should validate_numericality_of(:phone_number) }
-    it { should validate_length_of(:phone_number).is_at_least(10).is_at_most(15) }
   end
 
   describe 'callbacks' do
     it 'converts username to lowercase before saving' do
-      user = User.new(username: 'TestUser', email: 'test@example.com', password: 'password', phone_number: '1234567890')
+      user = User.new(username: 'TestUser', email: 'test@example.com')
       user.save
       expect(user.username).to eq('testuser')
     end
   end
 
   describe 'uniqueness' do
-    let!(:user) { User.create!(username: 'existinguser', email: 'test@example.com', password: 'password', phone_number: '1234567890') }
+    let!(:user) { User.create!(username: 'existinguser', email: 'test@example.com') }
 
     it 'is expected to validate that :username is case-insensitively unique' do
       new_user = User.new(username: user.username.upcase)
@@ -47,21 +43,79 @@ describe User, type: :model do
     end
   end
 
-  describe 'bookmarked method' do
-    let!(:user) { User.create!(username: 'existinguser', email: 'test@example.com', password: 'password', phone_number: '1234567890') }
-    let!(:item) { Item.create!(title: 'Test Item', description: 'Test Description', price: 10.00, user_id: user.id) }
+  describe 'bookmarked' do
+    let(:user) { User.create!(username: 'testuser', email: 'testemail@gmail.com') }
+    let(:item) { instance_double('Item') }
 
-    it 'returns false if item is not bookmarked' do
-      expect(user.bookmarked(item)).to eq(false)
+    context 'when item is bookmarked' do
+      before do
+        allow(user).to receive(:bookmarked_items).and_return([item])
+      end
+
+      it 'returns true' do
+        expect(user.bookmarked(item)).to eq(true)
+      end
     end
-    it 'returns true if item is bookmarked' do
-      user.bookmarked_items << item
-      expect(user.bookmarked(item)).to eq(true)
+
+    context 'when item is not bookmarked' do
+      before do
+        allow(user).to receive(:bookmarked_items).and_return([])
+      end
+
+      it 'returns false' do
+        expect(user.bookmarked(item)).to eq(false)
+      end
     end
-    it 'returns false if item is removed from bookmarks' do
-      user.bookmarked_items << item
-      user.bookmarked_items.delete(item)
-      expect(user.bookmarked(item)).to eq(false)
+  end
+
+  describe 'add_bookmark' do
+    let(:user) { User.create!(username: 'testuser', email: 'testemail@gmail.com') }
+    let(:item) { instance_double('Item') }
+    context 'when item is not bookmarked' do
+      before do
+        allow(user).to receive(:bookmarked_items).and_return([])
+      end
+      it 'adds item to bookmarked_items' do
+        expect(user.bookmarked_items).to receive(:<<).with(item)
+        user.add_bookmark(item)
+      end
+    end
+
+    context 'when item is already bookmarked' do
+      before do
+        allow(user).to receive(:bookmarked_items).and_return([item])
+      end
+      it 'does not add item to bookmarked_items' do
+        expect(user.bookmarked_items).not_to receive(:<<).with(item)
+        user.add_bookmark(item)
+      end
+    end
+  end
+
+  describe 'remove_bookmark' do
+    let(:user) { User.create!(username: 'testuser', email: 'testemail@gmail.com') }
+    let(:item) { instance_double('Item') }
+    context 'when item is bookmarked' do
+      before do
+        allow(user).to receive(:bookmarked_items).and_return([item])
+      end
+      it 'removes item from bookmarked_items' do
+        expect(user.bookmarked_items).to receive(:delete).with(item)
+        user.remove_bookmark(item)
+      end
+    end
+
+    context 'when item is not bookmarked' do
+      before do
+        allow(user).to receive(:bookmarked_items).and_return([])
+      end
+      it 'does not remove item from bookmarked_items' do
+        expect(user.bookmarked_items).not_to receive(:delete).with(item)
+        user.remove_bookmark(item)
+      end
+      it 'returns false' do
+        expect(user.remove_bookmark(item)).to eq(false)
+      end
     end
   end
 end
