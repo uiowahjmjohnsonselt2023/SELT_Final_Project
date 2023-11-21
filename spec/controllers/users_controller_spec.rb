@@ -38,6 +38,7 @@ describe UsersController, type: :controller do
       before do
         allow(User).to receive(:find_by_session_token).and_return(current_user)
         session[:session_token] = current_user.session_token
+        allow(User).to receive(:find).and_return(current_user)
       end
 
       it "assigns @current_user" do
