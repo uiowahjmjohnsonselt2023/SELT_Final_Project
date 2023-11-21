@@ -3,20 +3,19 @@ class SearchController < ApplicationController
   def index
     @results = if params[:bookmarks].present? && params[:bookmarks] == '1' && current_user
                  current_user.bookmarked_items
+               elsif params[:categories].present? && params[:search_term].present?
+                 Item.search(params[:search_term], params[:categories])
+               elsif params[:categories].present?
+                 Item.search(nil, params[:categories])
+               elsif params[:search_term].present?
+                 Item.search(params[:search_term], Category.all.map(&:name))
                else
                  Item.all
                end
 
-    if params[:categories].present?
-      @results = @results.joins(:categories).where(categories: { name: params[:categories] })
-      @results = @results.search(params[:search_term], params[:categories])
-    else
-      @results = @results.search(params[:search_term], Category.all.map(&:name))
-    end
-
     if params[:seller].present?
       seller = User.find_by(username: params[:seller])
-      @results = seller ? @results.where("items.user_id = ?", seller.id) : Item.none
+      @results = seller ? @results.where("items.user_id = ?", seller.id) : []
     end
 
     if params[:min_price].present?

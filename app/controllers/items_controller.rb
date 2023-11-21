@@ -1,11 +1,6 @@
 class ItemsController < ApplicationController
   before_filter :set_current_user, :only => [:new, :create, :edit, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update, :destroy]
-
-  # List all items
-  def index
-
-  end
+  before_filter :correct_user, only: [:edit, :update, :destroy]
 
   # Form for new item
   def new
@@ -15,7 +10,14 @@ class ItemsController < ApplicationController
 
   # Create new item listing
   def create
-    item = Item.new.insert_item(params[:item][:title], params[:item][:description], params[:item][:price], current_user.id, params[:item][:category_ids], params[:item][:images])
+    item = Item.insert_item(
+      current_user,
+      params[:item][:title],
+      params[:item][:description],
+      params[:item][:price],
+      params[:item][:category_ids],
+      params[:item][:images]
+    )
     redirect_to item_path(item)
   end
 
@@ -50,10 +52,6 @@ class ItemsController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
-    unless current_user
-      flash[:error] = "You must be logged in to edit or delete an item"
-      redirect_to(root_path)
-    end
     @item = Item.find(params[:id])
     if @item.user != current_user
       flash[:error] = "You do not have permission to edit or delete this item"

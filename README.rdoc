@@ -1,4 +1,24 @@
 
+Instructions before running local app:
+
+Install:
+- Make sure you have Ruby 2.6.6 installed
+- Make sure you have Rails 4.2.10 installed
+- Run "sudo apt-get install imagemagick" to install imagemagick
+- Run "bundle install --without production" to install all the gems
+
+Database:
+- Run "rake db:drop db:create db:migrate" to create the database
+- Run "rake db:seed" to seed the database
+
+Environment Variables:
+- Run "touch .env" to create the .env file
+- Inside the .env file enter "GOOGLE_CLIENT_ID" and "GOOGLE_CLIENT_SECRET"
+  with the values from the google developer console. Get the values from Cole.
+
+Start Server:
+- Run "rails server" to start the server
+
 Create new branch
 
 1 git checkout main
@@ -35,5 +55,3 @@ After Your Pull Request is approved and merged into main delete the local branch
 4 git fetch --prune
 5 git branch -D branch_name
 
-Before running main, you have to run "rake db:drop db:create db:migrate" followed by "rake db:seed"
-With the new addition of a new gem, you will have to install imagemagick for the application to run correctly: "sudo apt-get install imagemagick"

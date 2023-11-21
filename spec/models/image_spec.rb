@@ -24,7 +24,7 @@ describe Image, type: :model do
     end
 
     it 'should return image type and data' do
-      expect(subject.get_image_data(image_file_path)).to eq([image_type, image_data])
+      expect(Image.get_image_data(image_file_path)).to eq([image_type, image_data])
     end
   end
 
