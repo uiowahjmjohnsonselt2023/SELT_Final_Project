@@ -1,12 +1,12 @@
 # db/seeds.rb
 
 # Clear the database of existing data.
-User.delete_all
-Item.delete_all
-Address.delete_all
-PaymentMethod.delete_all
 Image.delete_all
+PaymentMethod.delete_all
+Address.delete_all
 Category.delete_all
+Item.delete_all
+User.delete_all
 
 # Create categories
 categories = ["Electronics", "Books", "Clothing", "Home & Garden", "Toys & Games"].map do |category_name|
