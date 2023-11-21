@@ -1,11 +1,9 @@
-
 class Item < ApplicationRecord
   # Associations
   belongs_to :user
   has_many :images, dependent: :destroy
   has_and_belongs_to_many :categories, join_table: :items_categories
-  has_many :bookmarks
-  has_many :bookmarked_by, through: :bookmarks, source: :user
+  has_many :bookmarks, dependent: :destroy
   has_one :purchase
 
   # Validations
@@ -45,21 +43,21 @@ class Item < ApplicationRecord
 
     items
   end
-  def insert_item(title, description, price, user_id, category_ids, images)
-    user = User.find(user_id)
-    item = user.items.create!(title: title, description: description, price: price, user_id: user_id)
+
+  def self.insert_item(user, title, description, price, category_ids, images)
+    item = user.items.create!(title: title, description: description, price: price)
     images.each do |uploaded_image|
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
       image = MiniMagick::Image.new(image_file_path)
       image.resize('256x256')
-      image_type, image_data = Image.new.get_image_data(image_file_path)
+      image_type, image_data = Image.get_image_data(image_file_path)
       item.images.create!(data: image_data, image_type: image_type)
     end
     category_ids.each do |category_id|
-      if !category_id.blank?
+      unless category_id.blank?
         item.categories << Category.find(category_id)
-        end
+      end
     end
     item
   end

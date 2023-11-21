@@ -1,5 +1,5 @@
 class BookmarksController < ApplicationController
-  before_action :require_login
+  before_action :set_current_user
 
   def create
     begin
