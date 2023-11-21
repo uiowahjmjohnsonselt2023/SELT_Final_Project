@@ -3,7 +3,7 @@ class Item < ApplicationRecord
   belongs_to :user
   has_many :images, dependent: :destroy
   has_and_belongs_to_many :categories, join_table: :items_categories
-  has_many :bookmarks
+  has_many :bookmarks, dependent: :destroy
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
