@@ -4,8 +4,6 @@ class CheckoutController < ApplicationController
 
   def show
     # @item is already set by set_item
-    puts "Made it to show controller call --------------------------------------------"
-
     @user = current_user
     @item
     @seller = User.find(@item.user_id)
@@ -18,18 +16,8 @@ class CheckoutController < ApplicationController
     selected_address_id = params[:address_id]
     selected_payment_method_id = params[:payment_method_id]
 
-
     # No need to find @item again, it's already set by set_item
     result = current_user.purchase_item(@item, selected_address_id, selected_payment_method_id)
-
-    selected_address_id = params[:address_id]
-    selected_payment_method_id = params[:payment_method_id]
-
-    # Log the received params
-    puts "Selected address ID: #{selected_address_id}"
-    puts "Selected payment method ID: #{selected_payment_method_id}"
-
-
 
     if result[:success]
       puts "Success --------------------------------------------"
