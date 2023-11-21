@@ -57,11 +57,8 @@ class User < ApplicationRecord
       if purchase.persisted?
         { success: true, message: 'Purchase successful!' }
       else
-        { success: false, message: purchase.errors.full_messages.to_sentence }
+        { success: false, message: "Purchase Unsuccessful!\n" + purchase.errors.full_messages.join("\n") }
       end
     end
   end
-
-
-
 end
