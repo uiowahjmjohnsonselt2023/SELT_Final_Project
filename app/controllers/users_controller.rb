@@ -44,10 +44,7 @@ class UsersController < ApplicationController
       flash[:alert] = "Address Added"
     else
       flash[:error] = "Invalid Address Inputs"
-
     end
-
-
     redirect_to user_path(@user)
   end
 

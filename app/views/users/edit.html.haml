@@ -1,5 +1,5 @@
 -# in app/views/users/edit.html.haml
-= form_tag add_payment_method_user_path(current_user), method: :post do
+= form_tag add_payment_method_user_path(current_user), method: :post, class: 'user-form' do
   .payment-fields
     = label_tag 'Card Number'
     = text_field_tag 'card_number'
@@ -9,7 +9,7 @@
     = text_field_tag 'expiration_date'
   = submit_tag 'Add Payment Method'
 
-= form_tag add_address_user_path(current_user), method: :post do
+= form_tag add_address_user_path(current_user), method: :post, class: 'user-form' do
   .address-fields
     = label_tag 'Shipping Address 1'
     = text_field_tag 'shipping_address_1'
@@ -24,4 +24,5 @@
     = label_tag 'Postal Code'
     = text_field_tag 'postal_code'
   = submit_tag 'Add Address'
+
 

@@ -129,5 +129,24 @@ describe UsersController, type: :controller do
       expect(assigns(:user)).to eq(current_user)
     end
   end
+
+  describe "POST #add_payment_method" do
+    before do
+      allow(controller).to receive(:set_current_user).and_return(true)
+      allow(controller).to receive(:current_user).and_return(current_user)
+      allow(User).to receive(:find).and_return(current_user)
+      session[:session_token] = current_user.session_token
+    end
+
+    context "with valid inputs" do
+      it "adds a new payment method and redirects" do
+        #allow(current_user.payment_methods).to receive(:create!).with(hash_including(:encrypted_card_number, :encrypted_card_number_iv, :expiration_date))
+        post :add_payment_method, params: { :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024" }
+        expect(response).to redirect_to(user_path(current_user))
+        expect(flash[:alert]).to eq("Payment Method Added")
+      end
+    end
+  end
+
 end
 
