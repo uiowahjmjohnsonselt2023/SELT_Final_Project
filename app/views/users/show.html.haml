@@ -1,4 +1,6 @@
 -# in app/views/users/show.html.haml
+- flash.each do |type, message|
+  %div{ class: "flash #{type}" }= message
 %div.profile-container
 
   %div.account-details
