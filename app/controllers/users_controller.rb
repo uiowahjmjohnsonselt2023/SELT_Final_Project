@@ -24,8 +24,17 @@ class UsersController < ApplicationController
   end
 
   def add_address
+    shipping_address_1 = params[:shipping_address_1]
+    shipping_address_2 = params[:shipping_address_2]
+    city = params[:city]
+    state = params[:state]
+    country = params[:country]
+    postal_code = params[:postal_code]
+    puts "Shipping Info ----------------------------------------------"
+    puts "#{shipping_address_1} #{shipping_address_2} #{city} #{state} #{country} #{postal_code}"
+    puts "Shipping Info ----------------------------------------------"
     @user = current_user
-    @user.addresses.create!(shipping_address_1: "123 Main St", shipping_address_2: "Apt 1", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
+    @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country:  params[:country], postal_code: params[:postal_code])
     redirect_to user_path(@user)
   end
 
