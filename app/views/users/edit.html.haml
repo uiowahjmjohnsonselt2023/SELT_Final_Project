@@ -3,6 +3,8 @@
   .payment-fields
     = label_tag 'Card Number'
     = text_field_tag 'card_number'
+    = label_tag 'CVV'
+    = text_field_tag 'cvv'
     = label_tag 'Expiration Date'
     = text_field_tag 'expiration_date'
   = submit_tag 'Add Payment Method'
@@ -23,5 +25,3 @@
     = text_field_tag 'postal_code'
   = submit_tag 'Add Address'
 
-= button_to 'Add a Payment Method', { controller: 'users', action: 'add_payment_method', id: current_user.id }, method: :post
-= button_to 'Add an Address', { controller: 'users', action: 'add_address', id: current_user.id }, method: :post
