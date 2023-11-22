@@ -28,6 +28,12 @@ describe PaymentMethod, type: :model do
       end
     end
 
+    context 'Spaces in a valid number' do
+      it 'returns true' do
+        expect(payment_method.valid_payment_method_input?('1234 5678 9012 3456', '123', '01/2020')).to eq(true)
+      end
+    end
+
     context 'when card iv is invalid' do
       it 'returns false' do
         expect(payment_method.valid_payment_method_input?('1234567890123456', '1234', '01/2020')).to eq(false)

@@ -18,11 +18,13 @@ class PaymentMethod < ApplicationRecord
   def valid_card_number?(card_number)
     # Add validation logic for the card number
     # Check to make sure the card number is a string and only contains digits
-    return false unless card_number.is_a?(String) && card_number.match?(/\A\d+\z/)
+    return false unless card_number.is_a?(String)
+
+    card_number = card_number.gsub(/\s+/, "")
 
     # Check to make sure the card number is a valid length
     valid_lengths = [15, 16, 19]
-    return false unless valid_lengths.include?(card_number.length)
+    return false unless valid_lengths.include?(card_number.length) and card_number.match?(/\A\d+\z/)
 
     true
   end
