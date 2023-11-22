@@ -1,24 +1,24 @@
 -# in app/views/users/show.html.haml
-%div.profile-container
+%div.user-profile-container
 
-  %div.account-details
-    %div.profile-image
-      = image_tag("BasicProfilePic.png", alt: 'User profile image', class: 'profile-pic')
-    %h2 My Account
-    %p
+  %div.user-account-details
+    %div.user-profile-image
+      = image_tag("BasicProfilePic.png", alt: 'User profile image', class: 'user-profile-pic')
+    %h2.user-account-title My Account
+    %p.user-username
       %strong Username:
       = @user.username
-    %p
+    %p.user-email
       %strong Email:
       = @user.email
-    %p
+    %p.user-phone-number
       %strong Phone Number:
       = @user.phone_number
 
     - if logged_in?
       - if current_user.id == @user.id
-        %h3 Addresses
-        %table.addresses-table
+        %h3.user-addresses-title Addresses
+        %table.user-addresses-table
           %thead
             %tr
               %th Address Line 1
@@ -39,52 +39,51 @@
                 %td= address.postal_code
                 %td= check_box_tag "edit_address_#{address.id}"
 
-          %table.addresses-table
-            %h3 Payment Methods
-            %thead
+        %h3.user-payment-methods-title Payment Methods
+        %table.user-payment-methods-table
+          %thead
+            %tr
+              %th Card Number
+              %th Expiration Date
+              %th Edit
+          %tbody
+            - @user.payment_methods.each do |payment_method|
               %tr
-                %th Card Number
-                %th Expiration Date
-                %th Edit
-            %tbody
-              - @user.payment_methods.each do |payment_method|
-                %tr
-                  %td= payment_method.encrypted_card_number
-                  %td= payment_method.expiration_date.strftime("%m/%Y")
-                  %td= check_box_tag "edit_payment_method_#{payment_method.id}"
+                %td= payment_method.encrypted_card_number
+                %td= payment_method.expiration_date.strftime("%m/%Y")
+                %td= check_box_tag "edit_payment_method_#{payment_method.id}"
 
     - if !current_user.nil?
       - if current_user.id == @user.id
-        %div.navigation-and-tables
-          %div.navigation-section
+        %div.user-navigation-and-tables
+          %div.user-navigation-section
             = form_tag search_path(search: @user.username), method: :get do
               = hidden_field_tag @user.id, params[:user_id]
-              = submit_tag "My Items for Sale", name: nil, class: 'button nav-button'
+              = submit_tag "My Items for Sale", name: nil, class: 'user-button user-nav-button'
             = form_tag search_path(search: @user.username), method: :get do
               = hidden_field_tag @user.id, params[:user_id]
-              = submit_tag "My Purchases", name: nil, class: 'button nav-button'
+              = submit_tag "My Purchases", name: nil, class: 'user-button user-nav-button'
             = form_tag search_path, method: :get do
               = hidden_field_tag @user.id, params[:user_id]
-              = submit_tag "Contact Company", name: nil, class: 'button nav-button'
-            = form_tag edit_user_path(@user), method: :get, class: 'edit-profile-form' do
-              = submit_tag 'Edit Profile', class: 'button edit-profile-button'
-            = link_to "My Bookmarked Items", search_path(bookmarks: '1'), class: 'my-bookmarked-items-btn'
+              = submit_tag "Contact Company", name: nil, class: 'user-button user-nav-button'
+            = form_tag edit_user_path(@user), method: :get, class: 'user-edit-profile-form' do
+              = submit_tag 'Edit Profile', class: 'user-button user-edit-profile-button'
+            = link_to "Bookmarks", search_path(bookmarks: '1'), class: 'user-button user-my-bookmarked-items-btn'
       - else
-        %div.navigation-and-tables
-        %div.navigation-section
+        %div.user-navigation-and-tables
+        %div.user-navigation-section
           = form_tag search_path(search: @user.username), method: :get do
             = hidden_field_tag @user.id, params[:user_id]
-            = submit_tag "Items for Sale", name: nil, class: 'button nav-button'
+            = submit_tag "Items for Sale", name: nil, class: 'user-button user-nav-button'
           = form_tag search_path, method: :get do
             = hidden_field_tag @user.id, params[:user_id]
-            = submit_tag "Contact Company", name: nil, class: 'button nav-button'
+            = submit_tag "Contact Company", name: nil, class: 'user-button user-nav-button'
     - else
-      %div.navigation-and-tables
-        %div.navigation-section
+      %div.user-navigation-and-tables
+        %div.user-navigation-section
           = form_tag search_path(search: @user.username), method: :get do
             = hidden_field_tag @user.id, params[:user_id]
-            = submit_tag "Items for Sale", name: nil, class: 'button nav-button'
+            = submit_tag "Items for Sale", name: nil, class: 'user-button user-nav-button'
           = form_tag search_path, method: :get do
             = hidden_field_tag @user.id, params[:user_id]
-            = submit_tag "Contact Company", name: nil, class: 'button nav-button'
-
+            = submit_tag "Contact Company", name: nil, class: 'user-button user-nav-button'
