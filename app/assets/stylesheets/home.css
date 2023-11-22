@@ -48,7 +48,7 @@ body.home-body {
   padding: 10px 0;
   box-sizing: border-box;
   margin: 20px auto;
-  width: calc(100% - 40px);
+  width: calc(100% - 40px) !important;
   justify-content: flex-start;
 }
 
@@ -63,6 +63,9 @@ body.home-body {
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: black;
+  flex: 0 0 300px;
+  max-width: 300px;
+  box-sizing: border-box;
 }
 
 /* Footer Styles */
