@@ -29,6 +29,8 @@ class UsersController < ApplicationController
     puts "-----------------------------------------------------------------------"
     @user = current_user
 
+    #User.valid_payment_method(params[:card_number], params[:cvv], expiration_date)
+
     @user.payment_methods.create!(encrypted_card_number: params[:card_number],encrypted_card_number_iv: params[:cvv] ,expiration_date: expiration_date)
     redirect_to user_path(@user)
   end
