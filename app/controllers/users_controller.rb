@@ -23,9 +23,13 @@ class UsersController < ApplicationController
     puts params[:card_number]
     puts params[:cvv]
     puts params[:expiration_date]
+    expiration_date_str = params[:expiration_date]
+    expiration_date = Date.strptime(expiration_date_str, '%m/%Y')
+    puts expiration_date
     puts "-----------------------------------------------------------------------"
     @user = current_user
-    @user.payment_methods.create!(encrypted_card_number: params[:card_number],encrypted_card_number_iv: params[:cvv] ,expiration_date: params[:expiration_date])
+
+    @user.payment_methods.create!(encrypted_card_number: params[:card_number],encrypted_card_number_iv: params[:cvv] ,expiration_date: expiration_date)
     redirect_to user_path(@user)
   end
 
