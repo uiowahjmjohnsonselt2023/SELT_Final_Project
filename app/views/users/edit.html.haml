@@ -36,7 +36,7 @@
     .payment-method-fields
       = payment_method.encrypted_card_number
       = payment_method.expiration_date
-      = link_to 'Edit', edit_payment_method_path(payment_method)
+
 
   %h2 Add New Payment Method
   = f.fields_for :payment_methods, PaymentMethod.new do |payment_fields|
@@ -48,3 +48,4 @@
   = f.submit 'Update'
 
 = button_to 'Add a Payment Method', { controller: 'users', action: 'add_payment_method', id: current_user.id }, method: :post
+= button_to 'Add an Address', { controller: 'users', action: 'add_address', id: current_user.id }, method: :post
