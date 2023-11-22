@@ -18,21 +18,18 @@ class UsersController < ApplicationController
   end
 
   def add_payment_method
+    puts "Payment Method Params----------------------------------------------------"
+    puts params.inspect
+    puts params[:card_number]
+    puts params[:cvv]
+    puts params[:expiration_date]
+    puts "-----------------------------------------------------------------------"
     @user = current_user
-    @user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.new(2025,01,01).to_s(:long))
+    @user.payment_methods.create!(encrypted_card_number: params[:card_number],encrypted_card_number_iv: params[:cvv] ,expiration_date: params[:expiration_date])
     redirect_to user_path(@user)
   end
 
   def add_address
-    shipping_address_1 = params[:shipping_address_1]
-    shipping_address_2 = params[:shipping_address_2]
-    city = params[:city]
-    state = params[:state]
-    country = params[:country]
-    postal_code = params[:postal_code]
-    puts "Shipping Info ----------------------------------------------"
-    puts "#{shipping_address_1} #{shipping_address_2} #{city} #{state} #{country} #{postal_code}"
-    puts "Shipping Info ----------------------------------------------"
     @user = current_user
     @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country:  params[:country], postal_code: params[:postal_code])
     redirect_to user_path(@user)
