@@ -18,22 +18,11 @@ class UsersController < ApplicationController
   end
 
   def add_payment_method
-    puts "Payment Method Params----------------------------------------------------"
-    puts params.inspect
-    puts params[:card_number]
-    puts params[:cvv]
-    puts params[:expiration_date]
-
-    expiration_date_str = params[:expiration_date]
-    expiration_date = Date.strptime(expiration_date_str, '%m/%Y')
-    puts expiration_date
-    puts "-----------------------------------------------------------------------"
     @user = current_user
 
-    #User.valid_payment_method(params[:card_number], params[:cvv], expiration_date)
+    payment_method = PaymentMethod.new
 
-
-    if PaymentMethod.valid_payment_method(params[:card_number], params[:cvv], params[:expiration_date])
+    if payment_method.valid_payment_method_input?(params[:card_number], params[:cvv], params[:expiration_date])
       @user.payment_methods.create!(encrypted_card_number: params[:card_number],encrypted_card_number_iv: params[:cvv] ,expiration_date: expiration_date)
       flash[:alert] = "Payment Method Added"
     else
