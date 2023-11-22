@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
   get '/auth/:provider/callback', to: 'sessions#create'
 
+  post 'users/:id/add_payment_method', to: 'users#add_payment_method'
+  post 'users/:id/add_address', to: 'users#add_address'
+
   # User routes for new, create, show, edit, update
   resources :users, only: [:new, :create, :show, :edit, :update]
   get '/profile/:id', to: 'users#show'

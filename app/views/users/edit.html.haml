@@ -1,3 +1,50 @@
 -# in app/views/users/edit.html.haml
 
 %h1 Edit User Profile
+= form_for @user do |f|
+  = f.label :username
+  = f.text_field :username
+
+  %h2 Current Addresses
+  - @user.addresses.each do |address|
+    .address-fields
+      = address.shipping_address_1
+      = address.shipping_address_2
+      = address.city
+      = address.state
+      = address.country
+      = address.postal_code
+      = link_to 'Edit', edit_address_path(address)
+
+  %h2 Add New Address
+  = f.fields_for :addresses, Address.new do |address_fields|
+    = address_fields.label :shipping_address_1
+    = address_fields.text_field :shipping_address_1
+    = address_fields.label :shipping_address_2
+    = address_fields.text_field :shipping_address_2
+    = address_fields.label :city
+    = address_fields.text_field :city
+    = address_fields.label :state
+    = address_fields.text_field :state
+    = address_fields.label :country
+    = address_fields.text_field :country
+    = address_fields.label :postal_code
+    = address_fields.text_field :postal_code
+
+  %h2 Current Payment Methods
+  - @user.payment_methods.each do |payment_method|
+    .payment-method-fields
+      = payment_method.encrypted_card_number
+      = payment_method.expiration_date
+      = link_to 'Edit', edit_payment_method_path(payment_method)
+
+  %h2 Add New Payment Method
+  = f.fields_for :payment_methods, PaymentMethod.new do |payment_fields|
+    = payment_fields.label :encrypted_card_number
+    = payment_fields.text_field :encrypted_card_number
+    = payment_fields.label :expiration_date
+    = payment_fields.text_field :expiration_date
+
+  = f.submit 'Update'
+
+= button_to 'Add a Payment Method', { controller: 'users', action: 'add_payment_method', id: current_user.id }, method: :post
