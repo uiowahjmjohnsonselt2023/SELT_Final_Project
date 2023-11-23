@@ -28,6 +28,9 @@ describe UsersController, type: :controller do
     ]
   }
 
+  let(:payment_method) { instance_double('PaymentMethod', :valid_payment_method_input? => true) }
+  let(:payment_methods_double) { double("PaymentMethods") }
+
   before(:each) do
     controller.extend(SessionsHelper)
     database_setup
@@ -136,16 +139,41 @@ describe UsersController, type: :controller do
       allow(controller).to receive(:current_user).and_return(current_user)
       allow(User).to receive(:find).and_return(current_user)
       session[:session_token] = current_user.session_token
+      allow(PaymentMethod).to receive(:new).and_return(payment_method)
+      allow(current_user).to receive(:payment_methods).and_return(payment_methods_double)
+    end
+
+    context "with invalid inputs" do
+      it "redirects to current user path" do
+        allow(payment_method).to receive(:valid_payment_method_input?).and_return(false)
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
+        expect(response).to redirect_to(user_path(current_user))
+      end
+
+      it "sets a flash message" do
+        allow(payment_method).to receive(:valid_payment_method_input?).and_return(false)
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
+        expect(flash[:error]).to match(/Invalid Payment Method Inputs/)
+      end
     end
 
     context "with valid inputs" do
-      it "adds a new payment method and redirects" do
-        #allow(current_user.payment_methods).to receive(:create!).with(hash_including(:encrypted_card_number, :encrypted_card_number_iv, :expiration_date))
-        post :add_payment_method, params: { :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024" }
+      it "redirects to current user path" do
+        allow(payment_method).to receive(:valid_payment_method_input?).and_return(true)
+        expect(payment_methods_double).to receive(:create!)
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
         expect(response).to redirect_to(user_path(current_user))
-        expect(flash[:alert]).to eq("Payment Method Added")
+      end
+
+      it "sets a flash message" do
+        allow(payment_method).to receive(:valid_payment_method_input?).and_return(true)
+        expect(payment_methods_double).to receive(:create!)
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
+        expect(flash[:alert]).to match(/Payment Method Added/)
       end
     end
+
+
   end
 
 end
