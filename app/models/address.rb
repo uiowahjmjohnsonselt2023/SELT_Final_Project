@@ -20,27 +20,27 @@ class Address < ApplicationRecord
 
   private
   def valid_shipping_address_1?(shipping_address_1)
-    shipping_address_1.is_a?(String)
+    shipping_address_1.is_a?(String) && !shipping_address_1.blank?
   end
 
   def valid_shipping_address_2?(shipping_address_2)
-    shipping_address_2.is_a?(String)
+    shipping_address_2.is_a?(String) && !shipping_address_2.blank?
   end
 
   def valid_city?(city)
-    city.is_a?(String) && city.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/)
+    city.is_a?(String) && city.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/) && !city.blank?
   end
 
   def valid_state?(state)
-    state.is_a?(String) && state.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/)
+    state.is_a?(String) && state.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/) && !state.blank?
   end
 
   def valid_country?(country)
-    country.is_a?(String) && country.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/)
+    country.is_a?(String) && country.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/) && !country.blank?
   end
 
   def valid_postal_code?(postal_code)
-    postal_code.is_a?(String) && postal_code.match?(/\A\d{5}\z/)
+    postal_code.is_a?(String) && postal_code.match?(/\A\d{5}\z/) && !postal_code.blank?
   end
 
 
