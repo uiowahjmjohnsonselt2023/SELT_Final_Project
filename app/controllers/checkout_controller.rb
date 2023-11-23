@@ -18,10 +18,8 @@ class CheckoutController < ApplicationController
     result = current_user.purchase_item(@item, selected_address_id, selected_payment_method_id)
 
     if result[:success]
-      puts "Success --------------------------------------------"
       redirect_to root_path, notice: result[:message]
     else
-      puts "Failure --------------------------------------------"
       redirect_to root_path, alert: result[:message]
     end
   end
