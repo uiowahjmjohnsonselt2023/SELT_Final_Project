@@ -1,86 +1,93 @@
-/* main.css */
-
-.profile-header {
+.user-profile-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.edit-profile-form {
-  text-align: center;
-}
-
-.logo {
+.user-logo {
   max-width: 100px;
 }
 
-.profile-section {
+.user-profile-section {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.profile-image img {
-  height: 50px;
-  width: 50px;
+.user-profile-image img {
+  height: 100px;
+  width: 100px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-.account-details {
+.user-account-details {
   background: #f0f0f0;
   padding: 10px;
   width: 100%;
 }
 
-.address {
+.user-address {
   margin-top: 5px;
 }
 
-.profile-image img {
-  height: 50px;
-  width: 50px;
-  object-fit: cover; /* This will ensure the image covers the area without stretching. */
-  border-radius: 50%; /* Optional: if you want a circular image */
-}
-
-.edit-profile-button {
+.user-edit-profile-button,
+.user-nav-button,
+.user-my-bookmarked-items-btn {
   padding: 10px 20px;
   background-color: #28a745;
   color: white;
   border: none;
   cursor: pointer;
   text-decoration: none;
+  display: inline-block;
+  margin: 5px;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 40px;
 }
 
-.edit-profile-form {
+.user-edit-profile-form {
   text-align: center;
 }
 
-.addresses-table {
+.user-addresses-table,
+.user-payment-methods-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-.addresses-table th,
-.addresses-table td {
+.user-addresses-table th,
+.user-addresses-table td,
+.user-payment-methods-table th,
+.user-payment-methods-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
-.addresses-table th {
+.user-addresses-table th,
+.user-payment-methods-table th {
   background-color: #f2f2f2;
   color: black;
 }
 
-.addresses-table tr:nth-child(even){background-color: #f9f9f9;}
+.user-addresses-table tr:nth-child(even),
+.user-payment-methods-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
 
-.addresses-table tr:hover {background-color: #ddd;}
+.user-addresses-table tr:hover,
+.user-payment-methods-table tr:hover {
+  background-color: #ddd;
+}
 
-.profile-container {
+.user-profile-container {
   display: flex;
   justify-content: space-between;
   max-width: 800px;
@@ -89,18 +96,20 @@
   font-family: Arial, sans-serif;
 }
 
-.navigation-and-tables {
+.user-navigation-and-tables {
   display: flex;
   flex-direction: column;
-  align-items: center; /* This will center the child elements horizontally */
+  align-items: center;
 }
 
-.navigation-section {
+.user-navigation-section {
   display: flex;
-  justify-content: center; /* Center the child elements horizontally */
-  margin-top: 10px; /* Add margin to separate from the above content */
+  justify-content: center;
+  margin-top: 10px;
 }
-.button {
+
+.user-button,
+.user-my-bookmarked-items-btn {
   display: inline-block;
   padding: 10px 20px;
   margin: 5px;
@@ -115,36 +124,22 @@
   border-radius: 5px;
 }
 
-.button:hover { background-color: #45a049 }
+.user-button:hover { background-color: #45a049 }
 
-.button:active {
+.user-button:active {
   background-color: #3e8e41;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
-.tables-section {
+
+.user-tables-section {
   clear: both;
 }
 
-.my-bookmarked-items-btn {
-  display: block; /* Or inline-block, depending on your layout */
-  width: auto; /* Or a specific width, if you prefer */
-  padding: 10px 20px;
-  /* Centers the button if display is block */
-  margin: 5px auto 20px;
-  background-color: #3498db; /* Choose a color that fits your design */
-  color: white;
-  text-align: center;
-  font-size: 16px; /* Adjust as necessary */
-  font-weight: bold;
-  text-decoration: none;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
+.user-my-bookmarked-items-btn {
+  background-color: #3498db;
   &:hover {
-    background-color: #2980b9; /* Darken button color on hover */
+    background-color: #2980b9;
   }
 }
 
