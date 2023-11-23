@@ -14,7 +14,10 @@
         %span Next &raquo;
 
   .item-action-buttons
-    = button_to "Buy Now", search_path(search: @user.username), method: :get, form: {class: 'search-form'}, class: 'buy-button'
+    - if current_user.nil?
+      = button_to "Sign in to buy", '/auth/google_oauth2', method: :post, class: 'buy-button'
+    - else
+      = button_to "Buy Now", checkout_path(id: @item.id), method: :get, class: 'buy-button'
     = link_to "View users other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
     %button#bookmark-button.bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }
       = @bookmarked ? 'Unbookmark' : 'Bookmark'
@@ -28,9 +31,6 @@
       %p
         %strong Listed by:
         %span= @user.username
-
-    = button_to "Buy Now", checkout_path(id: @item.id), method: :get, class: 'buy-button'
-    = button_to "View users other item's", search_path(search: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
 
   %section.related-items
   %h2 You might also like
