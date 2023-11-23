@@ -29,7 +29,6 @@
               %th State
               %th Country
               %th Postal Code
-              %th Edit
           %tbody
             - @user.addresses.each do |address|
               %tr
@@ -39,7 +38,6 @@
                 %td= address.state
                 %td= address.country
                 %td= address.postal_code
-                %td= check_box_tag "edit_address_#{address.id}"
 
         %h3.user-payment-methods-title Payment Methods
         %table.user-payment-methods-table
@@ -47,13 +45,11 @@
             %tr
               %th Card Number
               %th Expiration Date
-              %th Edit
           %tbody
             - @user.payment_methods.each do |payment_method|
               %tr
                 %td= payment_method.encrypted_card_number
                 %td= payment_method.expiration_date.strftime("%m/%Y")
-                %td= check_box_tag "edit_payment_method_#{payment_method.id}"
 
     - if !current_user.nil?
       - if current_user.id == @user.id
