@@ -1,54 +1,52 @@
-/* app/assets/stylesheets/navbar.css */
+/* app/assets/stylesheets/global-navbar.css */
 
-.navbar {
+.global-navbar {
   background-color: #333;
   overflow: hidden;
   font-family: 'Arial', sans-serif;
+  padding: 1vh 0;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 15px;
+.global-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
+  max-width: 100%;
+  padding: 0 1vw;
+  height: 12vh;
 }
 
-.navbar-brand,
-
-.nav-link {
-  color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 24pt;
-}
-
-.navbar-brand:hover,
-.nav-link:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.nav-link {
-  transition: background-color 0.3s ease;
-}
-
-.search-bar {
+.global-navbar-brand {
   display: flex;
   align-items: center;
+  padding-right: 2vw;
+  margin-left: 2vw;
 }
 
-.search-input {
-  padding: 10px;
-  margin-right: 5px;
+.global-navbar-logo {
+  height: 10vh;
+  width: auto;
+  margin-right: 1vw;
+}
+
+.global-search-bar {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2vw;
+}
+
+.global-search-input {
+  padding: 1vh;
+  margin-right: 1vw;
   border: 1px solid #ddd;
   border-radius: 5px;
+  width: 30vw;
 }
 
-.search-button {
-  padding: 10px 20px;
+.global-search-button {
+  padding: 1vh 2vw;
   background-color: #5cb85c;
   color: white;
   border: none;
@@ -56,28 +54,64 @@
   cursor: pointer;
 }
 
-.search-button:hover {
+.global-search-button:hover {
   background-color: #4cae4c;
 }
 
-.navbar-logo {
-  height: 60px; /* Or the height that suits your design */
-  width: auto; /* Maintain aspect ratio */
-  margin-right: 10px; /* Add some space between the logo and the Home link */
-}
-
-.logout-button {
-  padding: 10px 20px;
-  background-color: #d9534f; /* A red color for the logout button to indicate a destructive action */
+.global-nav-link,
+.global-logout-button {
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px; /* You can adjust the font size as needed */
-  margin-left: 10px; /* To add some space from the adjacent elements */
+  padding: 1vh 1vw;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
-.logout-button:hover {
-  background-color: #c9302c; /* A darker shade for the hover state */
+.global-nav-link:hover,
+.global-logout-button:hover {
+  background-color: #ddd;
+  color: black;
 }
+
+.global-logout-button {
+  background-color: #d9534f;
+  margin-left: 1vw;
+}
+
+.global-logout-button:hover {
+  background-color: #c9302c;
+}
+
+.global-category-bar {
+  background-color: #f8f9fa; /* Light background color */
+  border-top: 1px solid #eaeaea; /* Border at the top for separation */
+  border-bottom: 1px solid #eaeaea; /* Border at the bottom */
+}
+
+.global-category-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1vw;
+  justify-content: center;
+  padding: 1vh 0;
+  max-width: 100%;
+  margin: auto;
+}
+
+.global-category-button {
+  background-color: transparent; /* Transparent background for a more link-like appearance */
+  color: #007bff; /* Blue text color */
+  padding: 0.5vh 1vw;
+  border: none;
+  cursor: pointer;
+  text-decoration: none; /* No underline for a cleaner look */
+  font-size: 1rem;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #0056b3; /* Darker color on hover */
+    text-decoration: underline; /* Underline on hover for emphasis */
+  }
+}
+
