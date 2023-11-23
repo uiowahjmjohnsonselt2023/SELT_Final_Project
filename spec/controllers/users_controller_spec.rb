@@ -210,16 +210,13 @@ describe UsersController, type: :controller do
         expect(response).to redirect_to(user_path(current_user))
       end
 
-        it "sets a flash message" do
-          allow(address).to receive(:valid_address_input?).and_return(true)
-          expect(addresses_double).to receive(:create!)
-          post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "CA", :country => "USA", :postal_code => "94105"
-          expect(flash[:alert]).to match(/Address Added/)
-        end
+      it "sets a flash message" do
+        allow(address).to receive(:valid_address_input?).and_return(true)
+        expect(addresses_double).to receive(:create!)
+        post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "CA", :country => "USA", :postal_code => "94105"
+        expect(flash[:alert]).to match(/Address Added/)
+      end
     end
-
-
-
   end
 
 end
