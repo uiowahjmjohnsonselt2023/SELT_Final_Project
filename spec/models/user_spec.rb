@@ -118,4 +118,47 @@ describe User, type: :model do
       end
     end
   end
+
+
+  describe 'purchase_item' do
+    let(:user) { User.create!(username: 'testuser', email: 'user@gmail.com') }
+    let(:item) { Item.create!(title: 'testitem', description: 'testdescription', price: 10.00, user_id: user.id) }
+    let(:address) { Address.create!(shipping_address_1: 'teststreet', shipping_address_2: 'Apt 24', city: 'testcity', state: 'teststate', country: 'USA', postal_code: '12345', user_id: user.id) }
+    let(:payment_method) { PaymentMethod.create!(encrypted_card_number: '1234 2134', encrypted_card_number_iv: '123', expiration_date: Date.strptime('10/2024', '%m/%Y'), user_id: user.id) }
+
+    context 'when item is not found' do
+      it 'returns an error message' do
+        result = user.purchase_item(nil, address.id, payment_method.id)
+        expect(result).to eq({ success: false, message: 'Item not found.' })
+      end
+    end
+
+    context 'when item has already been purchased' do
+      before do
+        Purchase.create!(item: item, user_id: user.id, address_id: address.id, payment_method_id: payment_method.id)
+      end
+
+      it 'returns an error message' do
+        result = user.purchase_item(item, address.id, payment_method.id)
+        expect(result).to eq({ success: false, message: 'This item has already been purchased.' })
+      end
+    end
+
+    context 'when purchase is successful' do
+      it 'adds item to purchased_items' do
+        result = user.purchase_item(item, address.id, payment_method.id)
+        expect(result).to eq({ success: true, message: 'Purchase successful!' })
+        expect(user.purchases.find_by(item: item)).not_to be_nil
+      end
+    end
+
+    context 'when purchase is unsuccessful' do
+      it 'returns an error message' do
+        # Here, set up a scenario where purchase would fail. For example, an invalid address_id
+        result = user.purchase_item(item, nil, payment_method.id)
+        expect(result[:success]).to be false
+        expect(result[:message]).to include("Purchase Unsuccessful!")
+      end
+    end
+  end
 end
