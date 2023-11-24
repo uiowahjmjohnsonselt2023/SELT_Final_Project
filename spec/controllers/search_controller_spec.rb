@@ -46,7 +46,6 @@ describe SearchController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
-    database_setup
   end
 
   describe "Get #index" do
@@ -103,6 +102,18 @@ describe SearchController, type: :controller do
 
         it "assigns @results to all items" do
           get :index, :bookmarks => '1'
+          expect(assigns(:results)).to match_array(items)
+        end
+      end
+
+      context "when user searches for only purchased items" do
+        before do
+          allow(User).to receive(:find_by).with(id: "1").and_return(current_user)
+          allow(current_user).to receive(:purchased_items).and_return(items)
+        end
+
+        it "assigns @results to purchased items" do
+          get :index, :purchased => '1', :user_id => 1
           expect(assigns(:results)).to match_array(items)
         end
       end
