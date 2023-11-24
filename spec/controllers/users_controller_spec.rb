@@ -37,7 +37,6 @@ describe UsersController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
-    database_setup
   end
 
   describe ":set_current_user" do
