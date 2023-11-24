@@ -19,7 +19,7 @@ end
 Then(/^"(.*?)" has listed the following items$/) do |username, table|
   # make a new user
   auth = {
-    'provider' => 'google',
+    'provider' => 'google_oauth2',
     'uid' => '12345',
     'info' => { 'name' => username, 'email' => username + '@test.com' }
   }
