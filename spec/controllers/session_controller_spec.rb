@@ -21,7 +21,6 @@ describe SessionsController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
-    database_setup
     request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
   end
 
@@ -32,11 +31,11 @@ describe SessionsController, type: :controller do
     end
 
     it "redirects to the home page" do
-      post :create
+      get :create, provider: 'google_oauth2'
       expect(response).to redirect_to(root_path)
     end
     it "assigns the session token correctly" do
-      post :create
+      get :create, provider: 'google_oauth2'
       expect(session[:session_token]).to eq("1")
     end
   end

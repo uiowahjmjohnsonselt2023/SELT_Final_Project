@@ -21,7 +21,6 @@ describe BookmarksController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
-    database_setup
   end
 
   describe "POST #create" do
@@ -96,9 +95,9 @@ describe BookmarksController, type: :controller do
         session[:session_token] = nil
       end
 
-      it "redirects to the login page" do
+      it "redirects to the home page" do
         post :create
-        expect(response).to redirect_to(login_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it "sets a flash message" do
@@ -180,9 +179,9 @@ describe BookmarksController, type: :controller do
         session[:session_token] = nil
       end
 
-      it "redirects to the login page" do
+      it "redirects to the home page" do
         delete :destroy, { :id => item.id, :item_id => item.id }
-        expect(response).to redirect_to(login_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it "sets a flash message" do
