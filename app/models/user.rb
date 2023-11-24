@@ -1,13 +1,13 @@
 class User < ApplicationRecord
   before_save :create_session_token
   # Associations
-  has_many :items, dependent: :destroy
-  has_many :addresses, dependent: :destroy
-  has_many :payment_methods, dependent: :destroy
-  has_many :bookmarks, dependent: :destroy
-  has_many :bookmarked_items, through: :bookmarks, source: :item, dependent: :destroy
-  has_many :purchases
-  has_many :purchased_items, through: :purchases, source: :item
+  has_many :items, dependent: :delete_all
+  has_many :addresses, dependent: :delete_all
+  has_many :payment_methods, dependent: :delete_all
+  has_many :bookmarks, dependent: :delete_all
+  has_many :bookmarked_items, through: :bookmarks, source: :item, dependent: :delete_all
+  has_many :purchases, dependent: :delete_all
+  has_many :purchased_items, through: :purchases, source: :item, dependent: :delete_all
 
   before_save { self.username = username.downcase }
 
