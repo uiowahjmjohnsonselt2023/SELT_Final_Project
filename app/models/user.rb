@@ -44,4 +44,7 @@ class User < ApplicationRecord
     bookmarked_items.include?(item)
   end
 
+
+
+
 end
