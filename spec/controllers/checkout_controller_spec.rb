@@ -22,7 +22,6 @@ describe CheckoutController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
-    database_setup
   end
 
   describe "GET #show" do

@@ -2,7 +2,7 @@ class HomeController < ApplicationController
 
   def index
     # Fetch all the categories from the database
-    @categories = Category.all.limit(4)
+    @categories = Category.all
 
     # Fetch suggested items for sale, which might be a curated list based on some logic
     # Replace the 'suggested_items' method with the actual logic you want to use.

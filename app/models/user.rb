@@ -16,9 +16,6 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   def self.create_with_omniauth(auth)
-    puts ""
-    puts "HERE 2"
-    puts ""
     create!(
       provider: auth['provider'],
       uid: auth['uid'],
