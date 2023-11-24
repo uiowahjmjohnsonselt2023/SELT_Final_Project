@@ -5,7 +5,7 @@ end
 
 Then(/^I should see the profile page$/) do
   expect(page).to have_content('Profile')
-  expect(current_path).to eq(profile_path)
+  expect(current_path).to eq(user_path(@user.id))
 end
 
 Then(/^I should see the profile page with the user's information$/) do
