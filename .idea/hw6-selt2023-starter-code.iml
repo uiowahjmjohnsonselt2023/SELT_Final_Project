@@ -87,6 +87,10 @@
     <orderEntry type="library" scope="PROVIDED" name="web-console (v3.3.0, Remote: ruby-2.6.6-p146) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v3.2.0, Remote: ruby-2.6.6-p146) [gem]" level="application" />
   </component>
+  <component name="RModuleSettingsStorage">
+    <LOAD_PATH number="0" />
+    <I18N_FOLDERS number="1" string0="$MODULE_DIR$/config/locales" />
+  </component>
   <component name="RakeTasksCache">
     <option name="myRootTask">
       <RakeTaskImpl id="rake" />
