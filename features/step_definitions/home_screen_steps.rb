@@ -26,7 +26,7 @@ Then(/^"(.*?)" has listed the following items$/) do |username, table|
 
   user = User.create_with_omniauth(auth)
 
-  image_file_path = Rails.root.join('app', 'assets', 'images', 'Basketball.jpeg')
+  image_file_path = Rails.root.join('app', 'assets', 'images', 'blocks.jpg')
   image_type, image_data = Image.get_image_data(image_file_path)
 
   items = table.hashes # This will convert the table to an array of hashes
@@ -61,7 +61,7 @@ end
 Given('I have the following items for sale:') do |table|
   items = table.hashes # This will convert the table to an array of hashes
 
-  image_file_path = Rails.root.join('app', 'assets', 'images', 'Basketball.jpeg')
+  image_file_path = Rails.root.join('app', 'assets', 'images', 'blocks.jpg')
   image_type, image_data = Image.get_image_data(image_file_path)
 
   items.each do |item|
