@@ -46,7 +46,6 @@ describe HomeController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
-    database_setup
   end
 
   describe "GET #index" do
