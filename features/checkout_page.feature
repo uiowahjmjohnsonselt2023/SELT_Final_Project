@@ -1,7 +1,7 @@
 Feature: Checkout Screen Rendering
 
   Background:
-    Given I am logged in as "checkout_user"
+    Given I am logged in as "checkout-user"
     Given there are categories created
     Given "temp user" has listed the following items
       | title          | description  | categories  | price |
