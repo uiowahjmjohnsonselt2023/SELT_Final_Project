@@ -2,15 +2,13 @@
 Given(/^I am logged in as "(.*)"$/) do |username|
   @user = User.create!(
     username: username,
-    password: 'password',
-    password_confirmation: 'password',
     email: username+'@test.com',
     phone_number: '1234567890'
   )
-  visit login_path
-  fill_in 'session[username]', with: @user.username
-  fill_in 'session[password]', with: @user.password
-  click_button 'Login'
+  #visit login_path
+  #fill_in 'session[username]', with: @user.username
+  #fill_in 'session[password]', with: @user.password
+  #click_button 'Login'
 end
 
 Given(/^I am on the "(.*)" page$/) do |page_name|
