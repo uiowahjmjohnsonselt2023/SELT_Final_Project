@@ -1,3 +1,31 @@
 -# in app/views/users/edit.html.haml
+= form_tag add_payment_method_user_path(current_user), method: :post, class: 'user-form' do
+  .payment-fields
+    = label_tag 'Card Number'
+    = text_field_tag 'card_number'
+    = label_tag 'CVV'
+    = text_field_tag 'cvv'
+    = label_tag 'Expiration Date (MM/YYYY)'
+    = text_field_tag 'expiration_date'
+  = submit_tag 'Add Payment Method'
 
-%h1 Edit User Profile
+= form_tag add_address_user_path(current_user), method: :post, class: 'user-form' do
+  .address-fields
+    = label_tag 'Shipping Address 1'
+    = text_field_tag 'shipping_address_1'
+    = label_tag 'Shipping Address 2'
+    = text_field_tag 'shipping_address_2'
+    = label_tag 'City'
+    = text_field_tag 'city'
+    = label_tag 'State'
+    = text_field_tag 'state'
+    = label_tag 'Country'
+    = text_field_tag 'country'
+    = label_tag 'Postal Code'
+    = text_field_tag 'postal_code'
+  = submit_tag 'Add Address'
+
+
+
+
+
