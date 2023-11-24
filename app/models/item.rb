@@ -4,6 +4,7 @@ class Item < ApplicationRecord
   has_many :images, dependent: :destroy
   has_and_belongs_to_many :categories, join_table: :items_categories
   has_many :bookmarks, dependent: :destroy
+  has_one :purchase
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
@@ -64,5 +65,10 @@ class Item < ApplicationRecord
   def find_related_items
     # Fetch other items by the same user, excluding the current item
     Item.where(user_id: user_id).where.not(id: id).limit(4)
+  end
+
+  # Returns true if the item has been purchased
+  def purchased?
+    purchase.present?
   end
 end

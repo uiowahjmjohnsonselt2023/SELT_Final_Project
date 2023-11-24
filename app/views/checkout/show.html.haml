@@ -1,0 +1,35 @@
+= form_tag purchase_checkout_path(@item), method: :post do
+  .checkout-container
+    %h1 Review item and shipping
+
+    .checkout-item
+      .item-details
+        %h2= @item.title
+        %p.seller Buyer: #{@user.username}
+        %p.seller Seller: #{@seller.username}
+        - if @item.images.any?
+          = image_tag @item.images.first.data_uri, alt: @item.title, class: 'item-image'
+        %p= @item.description
+        %p.item-price
+          %span.current-price= "$#{'%.2f' % @item.price}"
+
+    .address-selection
+      %label{for: "address-select"} Select Shipping Address:
+      %select#address-select{name: "address_id"}
+        %option{value: nil} Choose an address
+        - @user.addresses.each do |address|
+          %option{value: address.id}= "#{address.shipping_address_1}, #{address.city}, #{address.state}"
+
+    .payment-selection
+      %label{for: "payment-method-select"} Select a Payment Method:
+      %select#payment-method-select{name: "payment_method_id"}
+        %option{value: nil} Choose a payment method
+        - @user.payment_methods.each do |payment_method|
+          %option{value: payment_method.id}= "Card ending in #{payment_method.encrypted_card_number[-4..-1]}"
+
+    - if @item.purchased?
+      %p This item has already been purchased.
+      = link_to 'Back', item_path(@item), class: "back-button"
+    - else
+      = submit_tag 'Confirm and pay', class: "confirm-button"
+      = link_to 'Back', item_path(@item), class: "back-button"

@@ -1,0 +1,100 @@
+.checkout-container {
+  font-family: Arial, sans-serif;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkout-item {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.item-details {
+  flex-grow: 1;
+  padding-right: 20px;
+}
+
+.item-image {
+  width: 150px; /* Adjust as needed */
+  height: auto;
+  margin-right: 20px;
+}
+
+.seller {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.item-price {
+  font-size: 1.4em;
+  color: #333;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.address-selection, .payment-selection {
+  margin: 20px 0;
+}
+
+#address-select, #payment-method-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.confirm-button {
+  background-color: #3665f3; /* eBay-like blue color */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block; /* Make the button block level */
+  width: 100%;
+  box-sizing: border-box; /* Make sure padding doesn't affect overall width */
+}
+
+.confirm-button:hover {
+  background-color: #2a52c4; /* Slightly darker blue on hover */
+}
+
+/* Additional styles for 'This item has already been purchased' message */
+.item-purchased-message {
+  color: #ff0000; /* Red color for the purchased message */
+  font-weight: bold;
+}
+
+/* Hide the select dropdowns and purchase button if the item is purchased */
+.purchased .address-selection,
+.purchased .payment-selection,
+.purchased .confirm-button {
+  display: none;
+}
+
+.back-button {
+  padding: 10px 20px;
+  background-color: #6c757d; /* A gray color for the back button, you can change it if you like */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: background-color 0.3s;
+  text-align: center;
+  text-decoration: none; /* Remove the underline from the link */
+  display: inline-block; /* Align properly with other inline elements */
+  margin-top: 10px; /* Provide some space from the 'Confirm and pay' button */
+}
+
+.back-button:hover {
+  background-color: #5a6268; /* Slightly darker on hover */
+}

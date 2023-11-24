@@ -88,5 +88,29 @@ body.home-body {
   max-height: 35vh;
 }
 
+.flash {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-align: center; /* Centers text horizontally */
+}
+
+.flash.notice {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+
+.flash.alert {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+
+
+
+
+
 
 

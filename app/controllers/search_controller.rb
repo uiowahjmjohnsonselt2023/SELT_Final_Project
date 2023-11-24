@@ -9,6 +9,9 @@ class SearchController < ApplicationController
                  Item.search(nil, params[:categories])
                elsif params[:search_term].present?
                  Item.search(params[:search_term], Category.all.map(&:name))
+               elsif params[:purchased].present? && params[:user_id].present?
+                 user = User.find_by(id: params[:user_id])
+                 @results = user.purchased_items if user
                else
                  Item.all
                end
