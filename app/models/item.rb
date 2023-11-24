@@ -1,10 +1,10 @@
 class Item < ApplicationRecord
   # Associations
   belongs_to :user
-  has_many :images, dependent: :destroy
+  has_many :images, dependent: :delete_all
   has_and_belongs_to_many :categories, join_table: :items_categories
-  has_many :bookmarks, dependent: :destroy
-  has_one :purchase
+  has_many :bookmarks, dependent: :delete_all
+  has_one :purchase, dependent: :delete
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
