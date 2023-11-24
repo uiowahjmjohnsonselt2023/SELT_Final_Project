@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :payment_methods, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarked_items, through: :bookmarks, source: :item, dependent: :destroy
+  has_many :purchases
+  has_many :purchased_items, through: :purchases, source: :item
 
   before_save { self.username = username.downcase }
 
@@ -47,4 +49,19 @@ class User < ApplicationRecord
     bookmarked_items.include?(item)
   end
 
+
+  def purchase_item(item, address_id, payment_method_id)
+    return { success: false, message: 'Item not found.' } unless item
+
+    if item.purchase.present?
+      { success: false, message: 'This item has already been purchased.' }
+    else
+      purchase = purchases.create(item: item, address_id: address_id, payment_method_id: payment_method_id)
+      if purchase.persisted?
+        { success: true, message: 'Purchase successful!' }
+      else
+        { success: false, message: "Purchase Unsuccessful!\n" + purchase.errors.full_messages.join("\n") }
+      end
+    end
+  end
 end

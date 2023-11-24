@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231116181342) do
+ActiveRecord::Schema.define(version: 20231120211552) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "shipping_address_1"
@@ -82,6 +82,19 @@ ActiveRecord::Schema.define(version: 20231116181342) do
   end
 
   add_index "payment_methods", ["user_id"], name: "index_payment_methods_on_user_id"
+
+  create_table "purchases", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "item_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "address_id"
+    t.integer  "payment_method_id"
+  end
+
+  add_index "purchases", ["address_id"], name: "index_purchases_on_address_id"
+  add_index "purchases", ["item_id"], name: "index_purchases_on_item_id", unique: true
+  add_index "purchases", ["payment_method_id"], name: "index_purchases_on_payment_method_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "username",      null: false

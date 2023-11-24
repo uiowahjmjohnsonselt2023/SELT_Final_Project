@@ -1,6 +1,7 @@
 # db/seeds.rb
 
 # Clear the database of existing data.
+Bookmark.delete_all
 Image.delete_all
 PaymentMethod.delete_all
 Address.delete_all
