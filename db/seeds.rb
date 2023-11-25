@@ -53,7 +53,7 @@ usernames.each_with_index do |name, i|
   user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.new(2025, 01, 01).to_s(:long))
 
   insert_item = items[i]
-  image_data = File.read(Rails.root.join("app/assets/images/#{insert_item[:image]}"))
+  image_data = File.read(Rails.root.join("app/assets/images/#{insert_item[:image]}"), mode: 'rb')
   image_type = insert_item[:image].split(".").last
 
   item = user.items.create!(title: insert_item[:title], description: insert_item[:description], price: insert_item[:price])

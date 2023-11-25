@@ -4,7 +4,7 @@ require 'rails_helper'
 describe Item, type: :model do
   describe 'associations' do
     it { should belong_to(:user) }
-    it { should have_many(:images).dependent(:destroy) }
+    it { should have_many(:images).dependent(:delete_all) }
     it { should have_and_belong_to_many(:categories).join_table('items_categories') }
   end
 

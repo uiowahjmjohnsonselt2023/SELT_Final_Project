@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2023-11-20T05:29:43-06:00">2023-11-20T05:29:43-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2023-11-20T08:03:58-06:00">2023-11-20T08:03:58-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -5763,7 +5763,7 @@
 
             
 
-            <code class="ruby">    image_data = File.open(image_file_path, &#39;rb&#39;) { |file| file.read }</code>
+            <code class="ruby">    image_data = File.open(image_file_path, mode: &#39;rb&#39;) { |file| file.read }</code>
           </li>
         </div>
       
@@ -6036,7 +6036,7 @@
 
             
 
-            <code class="ruby">  has_many :images, dependent: :destroy</code>
+            <code class="ruby">  has_many :images, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -6058,7 +6058,7 @@
 
             
 
-            <code class="ruby">  has_many :bookmarks, dependent: :destroy</code>
+            <code class="ruby">  has_many :bookmarks, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -6069,7 +6069,7 @@
 
             
 
-            <code class="ruby">  has_one :purchase</code>
+            <code class="ruby">  has_one :purchase, dependent: :delete</code>
           </li>
         </div>
       
@@ -7559,7 +7559,7 @@
 
             
 
-            <code class="ruby">  has_many :items, dependent: :destroy</code>
+            <code class="ruby">  has_many :items, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -7570,7 +7570,7 @@
 
             
 
-            <code class="ruby">  has_many :addresses, dependent: :destroy</code>
+            <code class="ruby">  has_many :addresses, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -7581,7 +7581,7 @@
 
             
 
-            <code class="ruby">  has_many :payment_methods, dependent: :destroy</code>
+            <code class="ruby">  has_many :payment_methods, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -7592,7 +7592,7 @@
 
             
 
-            <code class="ruby">  has_many :bookmarks, dependent: :destroy</code>
+            <code class="ruby">  has_many :bookmarks, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -7603,7 +7603,7 @@
 
             
 
-            <code class="ruby">  has_many :bookmarked_items, through: :bookmarks, source: :item, dependent: :destroy</code>
+            <code class="ruby">  has_many :bookmarked_items, through: :bookmarks, source: :item, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -7614,7 +7614,7 @@
 
             
 
-            <code class="ruby">  has_many :purchases</code>
+            <code class="ruby">  has_many :purchases, dependent: :delete_all</code>
           </li>
         </div>
       
@@ -7625,7 +7625,7 @@
 
             
 
-            <code class="ruby">  has_many :purchased_items, through: :purchases, source: :item</code>
+            <code class="ruby">  has_many :purchased_items, through: :purchases, source: :item, dependent: :delete_all</code>
           </li>
         </div>
       

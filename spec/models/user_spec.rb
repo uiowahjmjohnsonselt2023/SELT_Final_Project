@@ -3,11 +3,11 @@ require 'rails_helper'
 
 describe User, type: :model do
   describe 'associations' do
-    it { should have_many(:items).dependent(:destroy) }
-    it { should have_many(:addresses).dependent(:destroy) }
-    it { should have_many(:payment_methods).dependent(:destroy) }
-    it { should have_many(:bookmarks).dependent(:destroy) }
-    it { should have_many(:bookmarked_items).through(:bookmarks).source(:item).dependent(:destroy) }
+    it { should have_many(:items).dependent(:delete_all) }
+    it { should have_many(:addresses).dependent(:delete_all) }
+    it { should have_many(:payment_methods).dependent(:delete_all) }
+    it { should have_many(:bookmarks).dependent(:delete_all) }
+    it { should have_many(:bookmarked_items).through(:bookmarks).source(:item).dependent(:delete_all) }
   end
 
   describe 'validations' do
