@@ -9,7 +9,7 @@ Feature: Seeing the search results
       | Skis           | Skis         | Toys & Games  | 10.00    |
       | Snowboard      | Snowboard    | Books         | 100.00   |
       | Football       | Football     | Books         | 1000.00  |
-      | Baseball 2     | Baseball 2   | Clothing      | 10000.00 |
+      | Baseball2      | Baseball 2   | Clothing      | 10000.00 |
 
   Scenario: Seeing the search results
     When I search for "Baseball"
@@ -45,7 +45,7 @@ Feature: Seeing the search results
     Then I should see the following items
       | title          | category    | price    |
       | Baseball       | Electronics | $1.00    |
-      | Baseball 2     | Clothing    | $10,000.00 |
+      | Baseball2      | Clothing    | $10,000.00 |
 
   Scenario: Filtering options on the search page
     Given I search for "Baseball"
@@ -53,33 +53,33 @@ Feature: Seeing the search results
 
   Scenario: Filtering by category
     Given I search for "Baseball"
-    Then I should see the "Baseball 2" item
+    Then I should see the "Baseball2" item
     And I check the "Electronics" category filter
     And I click the "Filter" button
     Then I should see the "Baseball" item
-    And I should not see the "Baseball 2" item
+    And I should not see the "Baseball2" item
 
   Scenario: Filtering by category and my bookmarks
     Given I bookmark the "Baseball" item
-    Given I unbookmark the "Baseball 2" item
+    Given I unbookmark the "Baseball2" item
     Given I search for "Baseball"
     And I check the "Electronics" category filter
     And I check the "Clothing" category filter
     Then I should see the "Baseball" item
-    And I should see the "Baseball 2" item
+    And I should see the "Baseball2" item
     And I check the my bookmarks only filter
     And I click the "Filter" button
     Then I should see the "Baseball" item
-    And I should not see the "Baseball 2" item
+    And I should not see the "Baseball2" item
 
   Scenario: Filtering by price
     Given I search for "Baseball"
     Then I should see the "Baseball" item
-    Then I should see the "Baseball 2" item
-    And I fill in "min_price" with "100"
+    Then I should see the "Baseball2" item
+    And I fill in "min_price" with "1"
     And I fill in "max_price" with "1000"
     And I click the "Filter" button
-    Then I should not see the "Baseball 2" item
+    Then I should not see the "Baseball2" item
     And I should see the "Baseball" item
 
   Scenario: Filtering by seller
@@ -100,7 +100,7 @@ Feature: Seeing the search results
   Scenario: Filtering by price, categories, and my bookmarks
     Given I search for ""
     Then I should see the "Baseball" item
-    Then I should see the "Baseball 2" item
+    Then I should see the "Baseball2" item
     Then I should see the "Skis" item
     Then I should see the "Snowboard" item
     Then I should see the "Football" item

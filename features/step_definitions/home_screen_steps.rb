@@ -18,16 +18,16 @@ end
 
 Then(/^"(.*?)" has listed the following items$/) do |username, table|
   # make a new user
-  user = User.create!(
-    username: username,
-    password: 'password',
-    password_confirmation: 'password',
-    email: username + '@test.com',
-    phone_number: '1234567891'
-  )
+  auth = {
+    'provider' => 'google_oauth2',
+    'uid' => '12345',
+    'info' => { 'name' => username, 'email' => username + '@test.com' }
+  }
 
-  image_file_path = Rails.root.join('app', 'assets', 'images', 'Basketball.jpeg')
-  image_type, image_data = Image.new.get_image_data(image_file_path)
+  user = User.create_with_omniauth(auth)
+
+  image_file_path = Rails.root.join('app', 'assets', 'images', 'blocks.jpg')
+  image_type, image_data = Image.get_image_data(image_file_path)
 
   items = table.hashes # This will convert the table to an array of hashes
 
@@ -61,8 +61,8 @@ end
 Given('I have the following items for sale:') do |table|
   items = table.hashes # This will convert the table to an array of hashes
 
-  image_file_path = Rails.root.join('app', 'assets', 'images', 'Basketball.jpeg')
-  image_type, image_data = Image.new.get_image_data(image_file_path)
+  image_file_path = Rails.root.join('app', 'assets', 'images', 'blocks.jpg')
+  image_type, image_data = Image.get_image_data(image_file_path)
 
   items.each do |item|
     user_item = @user.items.create!(title: item["title"], description: item["description"], price: item["price"])

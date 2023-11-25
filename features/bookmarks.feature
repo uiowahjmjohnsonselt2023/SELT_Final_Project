@@ -16,12 +16,12 @@ Feature: Bookmarking functionality
   Scenario: Adding a bookmark
     Given I bookmark the "Baseball" item
     And I am on the "profile" page
-    And I click on the "My Bookmarked Items" link
+    And I click on the "Bookmarks" link
     Then I should see the "Baseball" item
 
   Scenario: Removing a bookmark
     Given I bookmark the "Baseball" item
     And I unbookmark the "Baseball" item
     And I am on the "profile" page
-    And I click on the "My Bookmarked Items" link
+    And I click on the "Bookmarks" link
     Then I should not see the "Baseball" item
