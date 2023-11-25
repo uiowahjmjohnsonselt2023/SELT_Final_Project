@@ -20,7 +20,7 @@ describe Image, type: :model do
 
     before do
       allow(File).to receive(:extname).with(image_file_path).and_return(extname_results)
-      allow(File).to receive(:open).with(image_file_path, 'rb').and_return(image_data)
+      allow(File).to receive(:open).with(image_file_path, mode: 'rb').and_return(image_data)
     end
 
     it 'should return image type and data' do
