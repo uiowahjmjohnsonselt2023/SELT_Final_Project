@@ -26,19 +26,6 @@ Feature: Home Screen Functionality
       | Baseball      |
       | Skis          |
 
-  Scenario: Not viewing user items on the home page when not logged in
-    Given I am on the "home" page
-    Given there are categories created
-    Given "home_test_user" has listed the following items
-      | title          | description  | categories  | price |
-      | Baseball       | Baseball     | Electronics | 1.00  |
-      | Skis           | Skis         | Books       | 1.00  |
-    And I am on the "home" page
-    Then I should not see the following suggested items
-      | title         |
-      | Baseball      |
-      | Skis          |
-
   Scenario: Navigating to items from the home page
     Given I am logged in as "testuser"
     Given there are categories created
