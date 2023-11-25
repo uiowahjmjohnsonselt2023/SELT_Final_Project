@@ -23,6 +23,7 @@ end
 
 And(/^I unbookmark the "([^"]*)" item$/) do |arg|
   # Find the item with the given title
+  # Expect the item page to not have
   item = Item.find_by(title: arg)
 
   # Unbookmark the item

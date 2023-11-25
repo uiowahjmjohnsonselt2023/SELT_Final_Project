@@ -14,13 +14,16 @@ Then(/^I should see the correct filters$/) do
 end
 
 When(/^I check the "(.*?)" category filter$/) do |category_name|
-  # Ensure all checkboxes are initially unchecked
-  all('.category_checkbox input[type=checkbox]').each do |checkbox|
-    checkbox.set(false)
+  # Find all category checkboxes
+  all('.search-category-checkbox input[type="checkbox"]').each do |checkbox|
+    if checkbox.value == category_name
+      # Check the checkbox with the matching category name
+      check(checkbox[:id])
+    else
+      # Uncheck all other checkboxes
+      uncheck(checkbox[:id])
+    end
   end
-
-  # Now check the specified category
-  check("categories_#{category_name.parameterize}")
 
 end
 
