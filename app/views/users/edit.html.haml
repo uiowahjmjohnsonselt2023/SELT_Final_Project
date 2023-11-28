@@ -45,26 +45,27 @@
 .edit-profile-container
   = form_tag add_payment_method_user_path(current_user), method: :post, class: 'user-form' do
     .payment-fields
-      = label_tag 'Card Number'
-      = text_field_tag 'card_number'
-      = label_tag 'Expiration Date (MM/YYYY)'
+      = label_tag :card_number, "Card number #{content_tag(:span, '*', class: 'required')}".html_safe
+      = text_field_tag :card_number, nil, maxlength: '19', placeholder: 'XXXX XXXX XXXX XXXX', class: 'card-number-input', autocomplete: 'cc-number', pattern: "\\d{4} \\d{4} \\d{4} \\d{4}"
+
+      = label_tag :expiration_date, "Expiration date #{content_tag(:span, '*', class: 'required')}".html_safe
       = month_field_tag 'expiration_date', nil, { class: 'expiration-date-input', autocomplete: 'cc-exp', min: Time.now.strftime("%Y-%m") }
     = submit_tag 'Add Payment Method'
 
   = form_tag add_address_user_path(current_user), method: :post, class: 'user-form' do
     .address-fields
-      = label_tag 'Shipping Address 1'
+      = label_tag :shipping_address_1, "Shipping Address 1 #{content_tag(:span, '*', class: 'required')}".html_safe
       = text_field_tag 'shipping_address_1'
       = label_tag 'Shipping Address 2'
       = text_field_tag 'shipping_address_2'
-      = label_tag 'City'
-      = text_field_tag 'city'
+      = label_tag :country, "Country #{content_tag(:span, '*', class: 'required')}".html_safe
+      = select_tag 'country', options_for_select(countries_list), id: 'country'
       #state-select
         = label_tag 'State'
         = select_tag 'state', options_for_select(states_list), id: 'state'
-      = label_tag 'Country'
-      = select_tag 'country', options_for_select(countries_list), id: 'country'
-      = label_tag 'Postal Code'
+      = label_tag :city, "City #{content_tag(:span, '*', class: 'required')}".html_safe
+      = text_field_tag 'city'
+      = label_tag :postal_code, "Postal Code #{content_tag(:span, '*', class: 'required')}".html_safe
       = text_field_tag 'postal_code'
     = submit_tag 'Add Address'
 

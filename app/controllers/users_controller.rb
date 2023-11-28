@@ -22,9 +22,9 @@ class UsersController < ApplicationController
 
     payment_method = PaymentMethod.new
 
-    if payment_method.valid_payment_method_input?(params[:card_number], params[:cvv], params[:expiration_date])
+    if payment_method.valid_payment_method_input?(params[:card_number], params[:expiration_date])
       expiration_date = Date.strptime(params[:expiration_date], "%m/%Y")
-      @user.payment_methods.create!(encrypted_card_number: params[:card_number],encrypted_card_number_iv: params[:cvv] ,expiration_date: expiration_date)
+      @user.payment_methods.create!(encrypted_card_number: params[:card_number], expiration_date: expiration_date)
       flash[:alert] = "Payment Method Added"
     else
       flash[:error] = "Invalid Payment Method Inputs: 15, 16, or 19 digit card number, 3 digit cvv, and (MM/YYYY) expiration date"

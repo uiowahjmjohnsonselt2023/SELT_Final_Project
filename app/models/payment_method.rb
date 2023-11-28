@@ -9,16 +9,17 @@ class PaymentMethod < ApplicationRecord
   validates :user_id, presence: true
 
   def valid_payment_method_input?(card_number, expiration_date)
+    puts ""
+    puts "card_number: #{card_number}"
+    puts "expiration_date: #{expiration_date}"
+    puts ""
     valid_card_number?(card_number) && valid_expiration_date?(expiration_date)
   end
 
   private
 
   def valid_card_number?(card_number)
-    # Add validation logic for the card number
-    # Check to make sure the card number is a string and only contains digits
     return false unless card_number.is_a?(String)
-
     card_number = card_number.gsub(/\s+/, "")
 
     # Check to make sure the card number is a valid length
