@@ -48,7 +48,7 @@
       = label_tag 'Card Number'
       = text_field_tag 'card_number'
       = label_tag 'Expiration Date (MM/YYYY)'
-      = text_field_tag 'expiration_date'
+      = month_field_tag 'expiration_date', nil, { class: 'expiration-date-input', autocomplete: 'cc-exp', min: Time.now.strftime("%Y-%m") }
     = submit_tag 'Add Payment Method'
 
   = form_tag add_address_user_path(current_user), method: :post, class: 'user-form' do
