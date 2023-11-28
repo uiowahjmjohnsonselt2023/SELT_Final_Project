@@ -50,7 +50,7 @@ usernames.each_with_index do |name, i|
   end
 
   user.addresses.create!(shipping_address_1: address, shipping_address_2: "Apt #{i + 1}", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
-  user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", encrypted_card_number_iv: "encrypted_card_number_iv", expiration_date: Date.new(2025, 01, 01).to_s(:long))
+  user.payment_methods.create!(encrypted_card_number: "encrypted_card_number", expiration_date: Date.new(2025, 01, 01).to_s(:long))
 
   insert_item = items[i]
   image_data = File.read(Rails.root.join("app/assets/images/#{insert_item[:image]}"), mode: "rb")

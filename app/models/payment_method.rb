@@ -5,12 +5,11 @@ class PaymentMethod < ApplicationRecord
 
   # Validations
   validates :encrypted_card_number, presence: true
-  validates :encrypted_card_number_iv, presence: true
   validates :expiration_date, presence: true
   validates :user_id, presence: true
 
-  def valid_payment_method_input?(card_number, card_iv, expiration_date)
-    valid_card_number?(card_number) && valid_card_iv?(card_iv) && valid_expiration_date?(expiration_date)
+  def valid_payment_method_input?(card_number, expiration_date)
+    valid_card_number?(card_number) && valid_expiration_date?(expiration_date)
   end
 
   private
@@ -27,11 +26,6 @@ class PaymentMethod < ApplicationRecord
     return false unless valid_lengths.include?(card_number.length) and card_number.match?(/\A\d+\z/)
 
     true
-  end
-
-  def valid_card_iv?(card_iv)
-    # Add validation logic for the card IV
-    card_iv.is_a?(String) && card_iv.match?(/\A\d{3}\z/)
   end
 
   def valid_expiration_date?(expiration_date)
