@@ -124,7 +124,7 @@ describe User, type: :model do
     let(:user) { User.create!(username: 'testuser', email: 'user@gmail.com') }
     let(:item) { Item.create!(title: 'testitem', description: 'testdescription', price: 10.00, user_id: user.id) }
     let(:address) { Address.create!(shipping_address_1: 'teststreet', shipping_address_2: 'Apt 24', city: 'testcity', state: 'teststate', country: 'USA', postal_code: '12345', user_id: user.id) }
-    let(:payment_method) { PaymentMethod.create!(encrypted_card_number: '1234 2134', encrypted_card_number_iv: '123', expiration_date: Date.strptime('10/2024', '%m/%Y'), user_id: user.id) }
+    let(:payment_method) { PaymentMethod.create!(encrypted_card_number: '1234 2134', expiration_date: Date.strptime('10/2024', '%m/%Y'), user_id: user.id) }
 
     context 'when item is not found' do
       it 'returns an error message' do
