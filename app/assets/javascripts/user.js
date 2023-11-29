@@ -9,18 +9,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  var expirationInput = document.querySelector('.expiration-date-input');
+  var monthSelect = document.querySelector('#expiration_month');
+  var yearSelect = document.querySelector('#expiration_year');
   var today = new Date();
-  var month = today.getMonth() + 1; // getMonth() is zero-indexed
-  var year = today.getFullYear();
+  var currentYear = today.getFullYear();
+  var currentMonth = today.getMonth() + 1;
 
-  // Pad the month with a leading zero if necessary
-  if (month < 10) {
-    month = '0' + month;
+  yearSelect.min = currentYear;
+
+  if (currentMonth === 12) {
+    yearSelect.value = currentYear + 1;
+    monthSelect.value = 1;
+  } else {
+    yearSelect.value = currentYear;
+    monthSelect.value = currentMonth;
   }
-
-  // Set the min attribute to the current month and year
-  expirationInput.min = month + '/' + year;
 });
 
 document.addEventListener('DOMContentLoaded', function() {

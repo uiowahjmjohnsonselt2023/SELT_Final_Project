@@ -46,10 +46,13 @@
   = form_tag add_payment_method_user_path(current_user), method: :post, class: 'user-form' do
     .payment-fields
       = label_tag :card_number, "Card number #{content_tag(:span, '*', class: 'required')}".html_safe
-      = text_field_tag :card_number, nil, maxlength: '19', placeholder: 'XXXX XXXX XXXX XXXX', class: 'card-number-input', autocomplete: 'cc-number', pattern: "\\d{4} \\d{4} \\d{4} \\d{4}"
+      = text_field_tag :card_number, nil, maxlength: '19', placeholder: 'XXXX XXXX XXXX XXXX', class: 'card-number-input', autocomplete: 'cc-number', required: true, pattern: "\\d{4} \\d{4} \\d{4} \\d{4}"
 
-      = label_tag :expiration_date, "Expiration date #{content_tag(:span, '*', class: 'required')}".html_safe
-      = month_field_tag 'expiration_date', nil, { class: 'expiration-date-input', autocomplete: 'cc-exp', min: Time.now.strftime("%Y-%m") }
+      = label_tag :expiration_date, "Expiration Date #{content_tag(:span, '*', class: 'required')}".html_safe
+      %div.expiration-date-container
+        = select_tag :expiration_month, options_for_select((1..12).map { |m| m < 10 ? "0#{m}" : m.to_s }, include_blank: true), required: true, class: 'expiration-date-part'
+        %span.slash /
+        = select_tag :expiration_year, options_for_select((Time.now.year..(Time.now.year+10)).to_a, include_blank: true), required: true, class: 'expiration-date-part'
     = submit_tag 'Add Payment Method'
 
   = form_tag add_address_user_path(current_user), method: :post, class: 'user-form' do
