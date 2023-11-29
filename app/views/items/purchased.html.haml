@@ -1,0 +1,46 @@
+%section.item-page
+  %h1= @item.title
+  %p.item-price= "Price: $#{'%.2f' % @item.price}"
+
+  - if @item.images.any?
+    .carousel-container
+      .carousel-slide
+        - @item.images.each_with_index do |image, index|
+          = image_tag image.data_uri, alt: "#{@item.title} image #{index}", class: 'item-carousel-image', style: "display: none;"
+
+      %a.carousel-control-prev{ href: "#", onclick: "moveSlide(-1); return false;" }
+        %span &laquo; Prev
+      %a.carousel-control-next{ href: "#", onclick: "moveSlide(1); return false;" }
+        %span Next &raquo;
+
+  .item-action-buttons
+    - if current_user.nil?
+      = button_to "Sign in to buy", '/auth/google_oauth2', method: :post, class: 'buy-button'
+    - else
+      - if @item.purchased?
+        %p.item-purchased This item has been purchased
+      - else
+        = button_to "Buy Now", checkout_path(id: @item.id), method: :get, class: 'buy-button'
+    = link_to "View users other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
+
+
+  .item-details
+    %p#item-description= @item.description
+    .item-attributes
+      %p
+        %strong Listed on:
+        %span= @item.created_at.strftime("%B %d, %Y")
+      %p
+        %strong Listed by:
+        %span= @user.username
+
+  %section.related-items
+  %h2 You might also like
+  - @related_items ||= []
+  - @related_items.first(3).each do |related_item|
+    = link_to item_path(related_item), class: 'related-item-link' do
+      .related-item
+        - if related_item.images.any?
+          = image_tag related_item.images.first.data_uri, alt: related_item.title, class: 'related-item-image'
+        %h3= related_item.title
+
