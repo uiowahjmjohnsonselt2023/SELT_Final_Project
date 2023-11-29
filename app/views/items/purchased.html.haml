@@ -2,15 +2,12 @@
   %h1= @item.title
   %p.item-price= "Price: $#{'%.2f' % @item.price}"
 
-  %p.categories
-  %span.label Categories:
-  - @item.categories.each do |category|
-    %span.category-name= category.name
-    - unless category == @item.categories.last
-      %span.separator ,
-
-
-
+  - if @item.categories.any?
+    %p.categories
+    %span.label Categories:
+    - @item.categories.each do |category|
+      = link_to search_path(categories: category[:name]), method: :get, class: 'local-category-button' do
+        = category[:name]
 
   - if @item.images.any?
     .carousel-container
