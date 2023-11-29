@@ -16,9 +16,9 @@
   .item-action-buttons
     = link_to "View seller's other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
     - if @item.purchase.user == current_user
-      %p.item-purchased Leave a review for this seller
+      = button_to "Leave a Seller Review", search_path(seller: @user.username), method: :get, class: 'buy-button'
     - else
-      %p.item-purchased View reviews for this seller
+      = button_to "View Seller Reviews", search_path(seller: @user.username), method: :get, class: 'buy-button'
 
 
   .item-details
