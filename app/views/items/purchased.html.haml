@@ -14,14 +14,11 @@
         %span Next &raquo;
 
   .item-action-buttons
-    - if current_user.nil?
-      = button_to "Sign in to buy", '/auth/google_oauth2', method: :post, class: 'buy-button'
+    = link_to "View seller's other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
+    - if @item.purchase.user == current_user
+      %p.item-purchased Leave a review for this seller
     - else
-      - if @item.purchased?
-        %p.item-purchased This item has been purchased
-      - else
-        = button_to "Buy Now", checkout_path(id: @item.id), method: :get, class: 'buy-button'
-    = link_to "View users other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
+      %p.item-purchased View reviews for this seller
 
 
   .item-details
@@ -33,14 +30,17 @@
       %p
         %strong Listed by:
         %span= @user.username
+      %p
+        %strong Purchased by:
+        %span= @item.purchase.user.username
+      %p
+        %strong Purchased on:
+        %span= @item.purchase.created_at.strftime("%B %d, %Y")
+      %p
+        %strong Delivery Status:
+        - if @item.purchase.created_at == @item.purchase.updated_at
+          %span Delivered
+        - else
+          %span Not Delivered
 
-  %section.related-items
-  %h2 You might also like
-  - @related_items ||= []
-  - @related_items.first(3).each do |related_item|
-    = link_to item_path(related_item), class: 'related-item-link' do
-      .related-item
-        - if related_item.images.any?
-          = image_tag related_item.images.first.data_uri, alt: related_item.title, class: 'related-item-image'
-        %h3= related_item.title
 
