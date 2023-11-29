@@ -2,6 +2,16 @@
   %h1= @item.title
   %p.item-price= "Price: $#{'%.2f' % @item.price}"
 
+  %p.categories
+  %span.label Categories:
+  - @item.categories.each do |category|
+    %span.category-name= category.name
+    - unless category == @item.categories.last
+      %span.separator ,
+
+
+
+
   - if @item.images.any?
     .carousel-container
       .carousel-slide
@@ -12,6 +22,8 @@
         %span &laquo; Prev
       %a.carousel-control-next{ href: "#", onclick: "moveSlide(1); return false;" }
         %span Next &raquo;
+
+
 
   .item-action-buttons
     = link_to "View seller's other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
