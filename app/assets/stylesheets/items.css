@@ -153,3 +153,26 @@
   margin-bottom: 15px;
 }
 
+.categories {
+  font-size: 16px; /* Adjust the font size as needed */
+  color: #333; /* Font color */
+}
+
+.categories .label {
+  font-weight: bold;
+  margin-right: 4px; /* Space between label and first category */
+}
+
+.category-name {
+  background-color: #f2f2f2; /* Light background for each category name */
+  padding: 1px 2px; /* Padding around category name */
+  border-radius: 5px; /* Rounded corners */
+  margin-right: 5px; /* Space between category names */
+  display: inline-block;
+}
+
+.separator {
+  margin-right: 5px; /* Space after the comma */
+}
+
+
