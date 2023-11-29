@@ -9,10 +9,6 @@ class PaymentMethod < ApplicationRecord
   validates :user_id, presence: true
 
   def valid_payment_method_input?(card_number, expiration_date)
-    puts ""
-    puts "card_number: #{card_number}"
-    puts "expiration_date: #{expiration_date}"
-    puts ""
     valid_card_number?(card_number) && valid_expiration_date?(expiration_date)
   end
 
