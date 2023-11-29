@@ -134,6 +134,7 @@ describe ItemsController, type: :controller do
       allow(search_item).to receive(:find_related_items).and_return(other_items)
       allow(User).to receive(:find).and_return(user)
       allow(bookmarked_items).to receive(:include?).and_return(true)
+      allow(search_item).to receive(:purchased?).and_return(false)
     end
     context "when user is logged in" do
       before do
@@ -141,6 +142,7 @@ describe ItemsController, type: :controller do
         allow(controller).to receive(:current_user).and_return(current_user)
         allow(current_user).to receive(:bookmarked_items).and_return(bookmarked_items)
       end
+
 
       it "renders the show template" do
         get :show, { :id => search_item.id }
@@ -166,7 +168,14 @@ describe ItemsController, type: :controller do
         get :show, { :id => search_item.id }
         expect(assigns(:bookmarked)).to eq(true)
       end
+
+      it 'renders purchased if item is purchased' do
+        allow(search_item).to receive(:purchased?).and_return(true)
+        get :show, { :id => search_item.id }
+        expect(response).to render_template(:purchased)
+      end
     end
+
 
     context "when user is logged out" do
       before do
