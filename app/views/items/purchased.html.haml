@@ -36,19 +36,20 @@
       %p
         %strong Purchased on:
         %span= @item.purchase.created_at.strftime("%B %d, %Y")
-      %p
-        %strong Delivery Status:
-        - if Time.current > @item.purchase.created_at + 1.minute
-          %span
-            Delivered to
-            = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
-            = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
-            = @item.purchase.address.country
-        -else
-          %span
-            En Route to
-            = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
-            = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
-            = @item.purchase.address.country
+      - if @item.purchase.user == current_user
+        %p
+          %strong Delivery Status:
+          - if Time.current > @item.purchase.created_at + 1.minute
+            %span
+              Delivered to
+              = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
+              = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
+              = @item.purchase.address.country
+          -else
+            %span
+              En Route to
+              = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
+              = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
+              = @item.purchase.address.country
 
 
