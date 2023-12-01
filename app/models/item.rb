@@ -65,42 +65,44 @@ class Item < ApplicationRecord
   def update_item(title, description, price, category_ids, images, remove_images)
 
     # Update item attributes
-    self.update!(
+    if self.update!(
       title: title,
       description: description,
       price: price
     )
 
-    # Update categories
-    self.categories = Category.where(id: category_ids.reject(&:blank?))
+      # Update categories
+      self.categories = Category.where(id: category_ids.reject(&:blank?))
 
-    # Adding new images if the user uploaded more
-    if images.present?
-      # Handle images
-      images.each do |uploaded_image|
-        next unless uploaded_image.respond_to?(:tempfile)
-        image_file_path = uploaded_image.tempfile.path
-        image = MiniMagick::Image.new(image_file_path)
-        image.resize('256x256')
-        image_type, image_data = Image.get_image_data(image_file_path)
-        self.images.create!(data: image_data, image_type: image_type)
-      end
-    end
-
-    # Removing images if the user selected to remove any
-    if remove_images.present?
-      # reverse the keys of the hash since we want to remove the images from last to first to be able to use the index
-      remove_images = remove_images.select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
-
-      # remove the images from the item
-      remove_images.each do |index|
-        if index >= 0 && index < self.images.length
-          self.images.destroy(self.images[index])
+      # Adding new images if the user uploaded more
+      if images.present?
+        # Handle images
+        images.each do |uploaded_image|
+          next unless uploaded_image.respond_to?(:tempfile)
+          image_file_path = uploaded_image.tempfile.path
+          image = MiniMagick::Image.new(image_file_path)
+          image.resize('256x256')
+          image_type, image_data = Image.get_image_data(image_file_path)
+          self.images.create!(data: image_data, image_type: image_type)
         end
       end
-    end
 
-    self
+      # Removing images if the user selected to remove any
+      if remove_images.present?
+        # reverse the keys of the hash since we want to remove the images from last to first to be able to use the index
+        remove_images = remove_images.select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
+
+        # remove the images from the item
+        remove_images.each do |index|
+          if index >= 0 && index < self.images.length
+            self.images.destroy(self.images[index])
+          end
+        end
+      end
+      true
+    else
+      false
+    end
   end
 
   def find_related_items
