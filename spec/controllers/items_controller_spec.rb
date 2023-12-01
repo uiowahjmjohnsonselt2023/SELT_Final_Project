@@ -402,6 +402,19 @@ describe ItemsController, type: :controller do
         expect(current_user_item).to receive(:destroy)
         delete :destroy, { :id => current_user_item.id }
       end
+
+      it "sets a success flash message" do
+        allow(Item).to receive(:find).and_return(current_user_item)
+        delete :destroy, { :id => current_user_item.id }
+        expect(flash[:success]).to match(/Item deleted successfully/)
+      end
+
+      it "sets an error flash message if the item could not be deleted" do
+        allow(Item).to receive(:find).and_return(current_user_item)
+        allow(current_user_item).to receive(:destroy).and_return(false)
+        delete :destroy, { :id => current_user_item.id }
+        expect(flash[:error]).to match(/Item could not be deleted/)
+      end
     end
 
     context "when user is logged out" do
