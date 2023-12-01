@@ -405,6 +405,7 @@ describe ItemsController, type: :controller do
 
       it "sets a success flash message" do
         allow(Item).to receive(:find).and_return(current_user_item)
+        allow(current_user_item).to receive(:destroy).and_return(true)
         delete :destroy, { :id => current_user_item.id }
         expect(flash[:success]).to match(/Item deleted successfully/)
       end
