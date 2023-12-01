@@ -33,10 +33,10 @@ class ItemsController < ApplicationController
     end
   end
 
-
-
   # Edit item form
   def edit
+    @item = Item.find(params[:id])
+    @categories = Category.all
   end
 
   # Update item listing
