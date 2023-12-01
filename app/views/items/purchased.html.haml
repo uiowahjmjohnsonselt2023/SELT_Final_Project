@@ -1,0 +1,64 @@
+%section.item-page
+  %h1= @item.title
+  %p.item-price= "Price: $#{'%.2f' % @item.price}"
+
+  - if @item.categories.any?
+    %p.categories
+    %span.label Categories:
+    - @item.categories.each do |category|
+      = link_to search_path(categories: category[:name]), method: :get, class: 'local-category-button' do
+        = category[:name]
+
+  - if @item.images.any?
+    .carousel-container
+      .carousel-slide
+        - @item.images.each_with_index do |image, index|
+          = image_tag image.data_uri, alt: "#{@item.title} image #{index}", class: 'item-carousel-image', style: "display: none;"
+
+      %a.carousel-control-prev{ href: "#", onclick: "moveSlide(-1); return false;" }
+        %span &laquo; Prev
+      %a.carousel-control-next{ href: "#", onclick: "moveSlide(1); return false;" }
+        %span Next &raquo;
+
+
+
+  .item-action-buttons
+    = link_to "View seller's other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
+    - if @item.purchase.user == current_user
+      = button_to "Leave a Seller Review", search_path(seller: @user.username), method: :get, class: 'buy-button'
+    - else
+      = button_to "View Seller Reviews", search_path(seller: @user.username), method: :get, class: 'buy-button'
+
+
+  .item-details
+    %p#item-description= @item.description
+    .item-attributes
+      %p
+        %strong Listed on:
+        %span= @item.created_at.strftime("%B %d, %Y")
+      %p
+        %strong Listed by:
+        %span= @user.username
+      %p
+        %strong Purchased by:
+        %span= @item.purchase.user.username
+      %p
+        %strong Purchased on:
+        %span= @item.purchase.created_at.strftime("%B %d, %Y")
+      - if @item.purchase.user == current_user
+        %p
+          %strong Delivery Status:
+          - if Time.current > @item.purchase.created_at + 1.minute
+            %span
+              Delivered to
+              = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
+              = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
+              = @item.purchase.address.country
+          -else
+            %span
+              En Route to
+              = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
+              = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
+              = @item.purchase.address.country
+
+
