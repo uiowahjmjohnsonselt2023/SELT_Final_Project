@@ -33,7 +33,6 @@
       = f.label :current_images
       - @item.images.each_with_index do |image, index|
         = image_tag image.data_uri, alt: "#{@item.title} image #{index}"
-        = f.label "Remove Image"
         %td= check_box_tag "remove_images[#{index}]", 1
 
     .form-field

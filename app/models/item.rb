@@ -87,9 +87,12 @@ class Item < ApplicationRecord
       end
     end
 
+    # Removing images if the user selected to remove any
     if remove_images.present?
+      # reverse the keys of the hash since we want to remove the images from last to first to be able to use the index
       remove_images = remove_images.select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
 
+      # remove the images from the item
       remove_images.each do |index|
         if index >= 0 && index < self.images.length
           self.images.destroy(self.images[index])
