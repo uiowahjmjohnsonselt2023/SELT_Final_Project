@@ -32,6 +32,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users do
+    member do
+      delete 'delete_address', to: 'users#delete_address'
+    end
+  end
+
 
   # Search route for searching items with optional category filtering
   get 'search', to: 'search#index'

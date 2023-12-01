@@ -71,4 +71,18 @@
       = label_tag :postal_code, "Postal Code #{content_tag(:span, '*', class: 'required')}".html_safe
       = text_field_tag 'postal_code'
     = submit_tag 'Add Address'
+  -# Form for deleting an address
+
+  = form_tag delete_address_user_path, method: :delete, class: 'user-form' do
+    .address-selection
+      %label{for: "address-select"} Select Shipping Address to Delete:
+      %select#address-select{name: "address_id"}
+        %option{value: ""} Choose an address
+        - @user.addresses.each do |address|
+          %option{value: address.id}= "#{address.shipping_address_1}, #{address.city}, #{address.state}"
+    = submit_tag 'Delete Address', data: { confirm: 'Are you sure you want to delete this address?' }
+
+
+
+
 

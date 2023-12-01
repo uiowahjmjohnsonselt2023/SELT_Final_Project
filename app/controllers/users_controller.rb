@@ -61,6 +61,15 @@ class UsersController < ApplicationController
     redirect_to user_path(@user)
   end
 
+  def delete_address
+    address = current_user.addresses.find(params[:address_id])
+    if address.destroy
+      redirect_to edit_user_path(current_user), notice: 'Address deleted successfully.'
+    else
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the address.'
+    end
+  end
+
   # Delete User Profile
   def destroy
 
