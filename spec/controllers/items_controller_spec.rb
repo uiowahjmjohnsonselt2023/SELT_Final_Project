@@ -362,7 +362,7 @@ describe ItemsController, type: :controller do
 
       it "deletes the item" do
         allow(Item).to receive(:find).and_return(current_user_item)
-        expect(other_user_item).to receive(:destroy)
+        expect(current_user_item).to receive(:destroy)
         delete :destroy, { :id => current_user_item.id }
       end
     end
