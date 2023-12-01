@@ -62,6 +62,30 @@ class Item < ApplicationRecord
     item
   end
 
+  def update_item(title, description, price, category_ids, images)
+
+    self.update!(
+      title: title,
+      description: description,
+      price: price
+    )
+
+    # Update categories
+    self.categories = Category.where(id: category_ids.reject(&:blank?))
+
+    # Handle images
+    images.each do |uploaded_image|
+      next unless uploaded_image.respond_to?(:tempfile)
+      image_file_path = uploaded_image.tempfile.path
+      image = MiniMagick::Image.new(image_file_path)
+      image.resize('256x256')
+      image_type, image_data = Image.get_image_data(image_file_path)
+      self.images.create!(data: image_data, image_type: image_type)
+    end
+
+    self
+  end
+
   def find_related_items
     # Fetch other items by the same user, excluding the current item
     Item.where(user_id: user_id).where.not(id: id).limit(4)
