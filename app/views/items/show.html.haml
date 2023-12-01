@@ -26,6 +26,7 @@
       = button_to "Sign in to buy", '/auth/google_oauth2', method: :post, class: 'buy-button'
     - elsif current_user.id == @item.user_id
       = button_to "Edit Item", edit_item_path(id: @item.id), method: :get, class: 'buy-button'
+      = button_to "Delete Item", item_path(id: @item.id), method: :delete, data: { confirm: "Are you sure you want to delete this listing?" }, class: 'buy-button'
     - else
       - if @item.purchased?
         %p.item-purchased This item has been purchased
