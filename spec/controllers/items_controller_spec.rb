@@ -318,6 +318,43 @@ describe ItemsController, type: :controller do
         end
 
       end
+
+      describe "it sets a flash message after calling the update method" do
+        let(:params) do
+          {
+            item: {
+              title: 'Test Item',
+              description: 'Test Description',
+              price: '9.99',
+              category_ids: ['1', '2'],
+              images: ['image1.png', 'image2.png']
+            }
+          }
+        end
+
+        before do
+          allow(Item).to receive(:find).and_return(current_user_item)
+          allow(current_user_item).to receive(:update_item).with(
+            params[:item][:title],
+            params[:item][:description],
+            params[:item][:price],
+            params[:item][:category_ids],
+            params[:item][:images],
+            params[:remove_images]
+          ).and_return(current_user_item)
+        end
+
+        it "sets a flash message if the item was updated successfully" do
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(flash[:success]).to match(/Item updated/)
+        end
+
+        it "sets a flash message if the item was not updated successfully" do
+          allow(current_user_item).to receive(:update_item).and_return(false)
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(flash[:error]).to match(/Item could not be updated/)
+        end
+      end
     end
 
     context "when user is logged out" do
