@@ -346,7 +346,7 @@ describe ItemsController, type: :controller do
 
         it "sets a flash message if the item was updated successfully" do
           get :update, { :id => current_user_item.id, :item => params[:item] }
-          expect(flash[:success]).to match(/Item updated/)
+          expect(flash[:success]).to match(/Item updated successfully/)
         end
 
         it "sets a flash message if the item was not updated successfully" do

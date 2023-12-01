@@ -1,4 +1,10 @@
 %section.item-page
+  - if flash[:success].present?
+    %p.success-flash= flash[:success]
+
+  - if flash[:error].present?
+    %p.error-flash= flash[:error]
+
   %h1= @item.title
   %p.item-price= "Price: $#{'%.2f' % @item.price}"
 
