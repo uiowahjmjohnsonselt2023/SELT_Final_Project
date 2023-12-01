@@ -15,3 +15,12 @@ Feature: Editing an existing listed item
       | Chevy Truck    | Small Truck  | Electronics   | 10.00    |
     Then I should see the item page for "Chevy Truck"
 
+Scenario: Deleting a Listing
+  Given I search for my items
+  Given I click on the item link
+  And I click the "Delete Item" button
+  Then I search for my items
+  Then I should not see the "Chevy Truck" item
+
+
+
