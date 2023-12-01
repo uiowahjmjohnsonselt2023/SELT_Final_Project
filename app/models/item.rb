@@ -64,6 +64,7 @@ class Item < ApplicationRecord
 
   def update_item(title, description, price, category_ids, images, remove_images)
 
+    # Update item attributes
     self.update!(
       title: title,
       description: description,
@@ -73,6 +74,7 @@ class Item < ApplicationRecord
     # Update categories
     self.categories = Category.where(id: category_ids.reject(&:blank?))
 
+    # Adding new images if the user uploaded more
     if images.present?
       # Handle images
       images.each do |uploaded_image|
@@ -86,10 +88,11 @@ class Item < ApplicationRecord
     end
 
     if remove_images.present?
-      # remove the images from the item
-      remove_images.keys.each do |image_id|
-        if image_id.present?
-          self.images.destroy(self.images[image_id.to_i])
+      remove_images = remove_images.select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
+
+      remove_images.each do |index|
+        if index >= 0 && index < self.images.length
+          self.images.destroy(self.images[index])
         end
       end
     end
