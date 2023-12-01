@@ -62,7 +62,7 @@ class Item < ApplicationRecord
     item
   end
 
-  def update_item(title, description, price, category_ids, images)
+  def update_item(title, description, price, category_ids, images, remove_images)
 
     self.update!(
       title: title,
@@ -84,6 +84,16 @@ class Item < ApplicationRecord
         self.images.create!(data: image_data, image_type: image_type)
       end
     end
+
+    if remove_images.present?
+      # remove the images from the item
+      remove_images.keys.each do |image_id|
+        if image_id.present?
+          self.images.destroy(self.images[image_id.to_i])
+        end
+      end
+    end
+
     self
   end
 
