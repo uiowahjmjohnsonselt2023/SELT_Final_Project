@@ -218,5 +218,31 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe "POST #delete_address" do
+    before do
+      allow(controller).to receive(:set_current_user).and_return(true)
+      allow(controller).to receive(:current_user).and_return(current_user)
+      allow(User).to receive(:find).and_return(current_user)
+      session[:session_token] = current_user.session_token
+      allow(current_user).to receive(:addresses).and_return(addresses_double)
+    end
+
+    context "with valid inputs" do
+      it "redirects to current user path" do
+        expect(addresses_double).to receive(:find).and_return(address)
+        expect(address).to receive(:destroy)
+        post :delete_address, :id => current_user.id, :address_id => address.id
+        expect(response).to redirect_to(user_path(current_user))
+      end
+
+      it "sets a flash message" do
+        expect(addresses_double).to receive(:find).and_return(address)
+        expect(address).to receive(:destroy)
+        post :delete_address, :id => current_user.id, :address_id => address.id
+        expect(flash[:alert]).to match(/Address Deleted/)
+      end
+    end
+  end
+
 end
 
