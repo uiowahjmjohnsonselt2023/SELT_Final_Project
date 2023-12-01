@@ -46,6 +46,22 @@ Feature: Profile Screen Functionality
     When I click the "Contact Company" button
     Then I should be redirected to the FAQ page
 
+  Scenario: Pressing My Items for sale button
+    Given I am logged in as "testuser5"
+    Given there are categories created
+    Given I have the following items for sale:
+      | title       | description  | categories  | price |
+      | item1       | Baseball     | Electronics | 1.00  |
+      | item2       | Skis         | Books       | 1.00  |
+    Given "user_546" has listed the following items
+      | title       | description  | categories  | price |
+      | item3       | Baseball     | Electronics | 1.00  |
+    And I am on the "profile" page
+    When I click the "My Items for Sale" button
+    Then I should see the item "item1"
+    And I should see the item "item2"
+    And I should not see the "item3" item
+
 
 
 
