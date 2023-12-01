@@ -44,14 +44,7 @@ class ItemsController < ApplicationController
   def update
     # update the item with the new attributes
     @item = Item.find(params[:id])
-
-    # @item.update_attributes(
-    #   title: params[:item][:title],
-    #   description: params[:item][:description],
-    #   price: params[:item][:price],
-    #   category_ids: params[:item][:category_ids],
-    #   images: params[:item][:images]
-    # )
+    @item.update_item(params[:item][:title], params[:item][:description], params[:item][:price], params[:item][:category_ids], params[:item][:images])
     redirect_to item_path(@item)
   end
 
