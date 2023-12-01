@@ -175,6 +175,7 @@
 .user-form .payment-fields,
 .user-form .address-fields {
   margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 .user-form label {
@@ -205,4 +206,45 @@
   background-color: #45a049;
 }
 
+.edit-profile-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.user-form {
+  width: 100%;
+}
+
+select {
+  background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 100% 50%;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
+  appearance: none;
+
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 50%;
+}
+
+.required {
+  color: red;
+}
+
+.expiration-date-container {
+  display: flex;
+  justify-content: start;
+}
+.expiration-date-part {
+  margin-right: 5px;
+  width: 20%;
+}
+.slash {
+  padding: 0 5px;
+  line-height: 2;
+}
 
