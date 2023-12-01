@@ -1,25 +1,25 @@
 {
   "RSpec": {
     "coverage": {
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/application_helper.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/helpers/application_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/bookmarks_helper.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/helpers/bookmarks_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/checkout_helper.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/helpers/checkout_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/sessions_helper.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/helpers/sessions_helper.rb": {
         "lines": [
           1,
           null,
@@ -42,7 +42,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/bookmarks_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/bookmarks_controller.rb": {
         "lines": [
           1,
           1,
@@ -75,7 +75,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/application_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/application_controller.rb": {
         "lines": [
           1,
           1,
@@ -83,8 +83,8 @@
           1,
           null,
           1,
-          33,
-          33,
+          36,
+          36,
           15,
           15,
           null,
@@ -92,7 +92,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/checkout_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/checkout_controller.rb": {
         "lines": [
           1,
           1,
@@ -138,7 +138,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/home_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/home_controller.rb": {
         "lines": [
           1,
           null,
@@ -166,7 +166,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/items_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/items_controller.rb": {
         "lines": [
           1,
           1,
@@ -204,8 +204,9 @@
           null,
           null,
           null,
-          null,
-          null,
+          1,
+          1,
+          1,
           1,
           null,
           null,
@@ -213,23 +214,28 @@
           1,
           null,
           null,
+          2,
+          2,
+          null,
+          null,
+          null,
+          1,
+          1,
+          1,
+          0,
+          null,
+          null,
+          1,
+          null,
+          1,
           null,
           null,
           1,
           null,
           null,
-          null,
           1,
-          null,
-          1,
-          null,
-          null,
-          1,
-          null,
-          null,
-          1,
-          7,
-          7,
+          12,
+          12,
           6,
           6,
           null,
@@ -238,7 +244,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/search_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/search_controller.rb": {
         "lines": [
           1,
           null,
@@ -275,7 +281,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/sessions_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/sessions_controller.rb": {
         "lines": [
           1,
           1,
@@ -298,7 +304,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/users_controller.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/controllers/users_controller.rb": {
         "lines": [
           1,
           1,
@@ -381,7 +387,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/address.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/address.rb": {
         "lines": [
           null,
           1,
@@ -432,14 +438,14 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/application_record.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/application_record.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/bookmark.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/bookmark.rb": {
         "lines": [
           1,
           1,
@@ -451,7 +457,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/category.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/category.rb": {
         "lines": [
           1,
           1,
@@ -460,7 +466,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/image.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/image.rb": {
         "lines": [
           null,
           1,
@@ -497,7 +503,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/item.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/item.rb": {
         "lines": [
           1,
           null,
@@ -565,6 +571,47 @@
           null,
           1,
           null,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          1,
+          null,
           1,
           null,
           null,
@@ -575,7 +622,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/payment_method.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/payment_method.rb": {
         "lines": [
           null,
           1,
@@ -613,7 +660,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/purchase.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/purchase.rb": {
         "lines": [
           1,
           1,
@@ -630,7 +677,7 @@
           null
         ]
       },
-      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/user.rb": {
+      "/home/sloecke/SELT/SELT_Final_Project/app/models/user.rb": {
         "lines": [
           1,
           1,
@@ -699,6 +746,6 @@
         ]
       }
     },
-    "timestamp": 1701449836
+    "timestamp": 1701467994
   }
 }

@@ -281,6 +281,43 @@ describe ItemsController, type: :controller do
           expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
         end
       end
+
+      describe "It calls the Item model method to update and item" do
+        let(:params) do
+          {
+            item: {
+              title: 'Test Item',
+              description: 'Test Description',
+              price: '9.99',
+              category_ids: ['1', '2'],
+              images: ['image1.png', 'image2.png']
+            }
+          }
+        end
+
+        before do
+          allow(Item).to receive(:find).and_return(current_user_item)
+          allow(current_user_item).to receive(:update_item).with(
+            params[:item][:title],
+            params[:item][:description],
+            params[:item][:price],
+            params[:item][:category_ids],
+            params[:item][:images],
+            params[:remove_images]
+          ).and_return(current_user_item)
+        end
+
+        it "assigns @current_user" do
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(assigns(:current_user)).to eq(current_user)
+        end
+
+        it "redirects to the item#show page" do
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(response).to redirect_to(item_path(current_user_item))
+        end
+
+      end
     end
 
     context "when user is logged out" do
@@ -307,19 +344,26 @@ describe ItemsController, type: :controller do
         allow(User).to receive(:find_by_session_token).and_return(current_user)
         allow(controller).to receive(:current_user).and_return(current_user)
         session[:session_token] = current_user.session_token
-        allow(Item).to receive(:find).and_return(other_user_item)
       end
 
       context "when the user does not own the item" do
         it "redirects to the home page" do
+          allow(Item).to receive(:find).and_return(other_user_item)
           delete :destroy, { :id => other_user_item.id }
           expect(response).to redirect_to(root_path)
         end
 
         it "sets a flash message" do
+          allow(Item).to receive(:find).and_return(other_user_item)
           delete :destroy, { :id => other_user_item.id }
           expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
         end
+      end
+
+      it "deletes the item" do
+        allow(Item).to receive(:find).and_return(current_user_item)
+        expect(other_user_item).to receive(:destroy)
+        delete :destroy, { :id => current_user_item.id }
       end
     end
 
