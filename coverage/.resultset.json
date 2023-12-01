@@ -1,25 +1,25 @@
 {
   "RSpec": {
     "coverage": {
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/helpers/application_helper.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/application_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/helpers/bookmarks_helper.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/bookmarks_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/helpers/checkout_helper.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/checkout_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/helpers/sessions_helper.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/helpers/sessions_helper.rb": {
         "lines": [
           1,
           null,
@@ -42,7 +42,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/bookmarks_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/bookmarks_controller.rb": {
         "lines": [
           1,
           1,
@@ -75,7 +75,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/application_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/application_controller.rb": {
         "lines": [
           1,
           1,
@@ -92,7 +92,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/checkout_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/checkout_controller.rb": {
         "lines": [
           1,
           1,
@@ -138,7 +138,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/home_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/home_controller.rb": {
         "lines": [
           1,
           null,
@@ -166,7 +166,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/items_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/items_controller.rb": {
         "lines": [
           1,
           1,
@@ -193,10 +193,16 @@
           null,
           null,
           1,
-          10,
-          10,
-          10,
-          10,
+          11,
+          11,
+          11,
+          11,
+          null,
+          11,
+          1,
+          null,
+          null,
+          null,
           null,
           null,
           null,
@@ -232,7 +238,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/search_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/search_controller.rb": {
         "lines": [
           1,
           null,
@@ -269,7 +275,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/sessions_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/sessions_controller.rb": {
         "lines": [
           1,
           1,
@@ -292,7 +298,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/controllers/users_controller.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/controllers/users_controller.rb": {
         "lines": [
           1,
           1,
@@ -375,7 +381,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/address.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/address.rb": {
         "lines": [
           null,
           1,
@@ -426,14 +432,14 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/application_record.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/application_record.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/bookmark.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/bookmark.rb": {
         "lines": [
           1,
           1,
@@ -445,7 +451,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/category.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/category.rb": {
         "lines": [
           1,
           1,
@@ -454,7 +460,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/image.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/image.rb": {
         "lines": [
           null,
           1,
@@ -491,7 +497,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/item.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/item.rb": {
         "lines": [
           1,
           null,
@@ -569,7 +575,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/payment_method.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/payment_method.rb": {
         "lines": [
           null,
           1,
@@ -607,7 +613,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/purchase.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/purchase.rb": {
         "lines": [
           1,
           1,
@@ -624,7 +630,7 @@
           null
         ]
       },
-      "/mnt/c/Users/ardus/repos/selt/SELT_Final_Project/app/models/user.rb": {
+      "/mnt/c/Users/lukef/SELT_REPOS/SELT_Final_Project/app/models/user.rb": {
         "lines": [
           1,
           1,
@@ -693,6 +699,6 @@
         ]
       }
     },
-    "timestamp": 1701293224
+    "timestamp": 1701449836
   }
 }
