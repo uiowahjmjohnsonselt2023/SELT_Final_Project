@@ -77,7 +77,7 @@ config/master.key
 # dotenv
 # Comment out this rule if environment variables can be committed
 .env
-#/coverage/
+/coverage/
 
 ## Environment normalization:
 /.bundle
