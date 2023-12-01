@@ -149,14 +149,14 @@ describe UsersController, type: :controller do
     context "with invalid inputs" do
       it "redirects to current user path" do
         allow(payment_method).to receive(:valid_payment_method_input?).and_return(false)
-        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_date => "10/2024"
         expect(response).to redirect_to(user_path(current_user))
       end
 
       it "sets a flash message" do
         allow(payment_method).to receive(:valid_payment_method_input?).and_return(false)
-        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
-        expect(flash[:error]).to match(/Invalid Payment Method Inputs/)
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_date => "10/2024"
+        expect(flash[:error]).to match(/Invalid Expiration Date/)
       end
     end
 
@@ -164,14 +164,14 @@ describe UsersController, type: :controller do
       it "redirects to current user path" do
         allow(payment_method).to receive(:valid_payment_method_input?).and_return(true)
         expect(payment_methods_double).to receive(:create!)
-        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "10", :expiration_year => "2025"
         expect(response).to redirect_to(user_path(current_user))
       end
 
       it "sets a flash message" do
         allow(payment_method).to receive(:valid_payment_method_input?).and_return(true)
         expect(payment_methods_double).to receive(:create!)
-        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :cvv => "123", :expiration_date => "10/2024"
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "10", :expiration_year => "2025"
         expect(flash[:alert]).to match(/Payment Method Added/)
       end
     end
