@@ -46,18 +46,23 @@ class ItemsController < ApplicationController
     #@item = Item.find(params[:id])
     if @item.update_item(params[:item][:title], params[:item][:description], params[:item][:price], params[:item][:category_ids], params[:item][:images], params[:remove_images])
       # set a flash message if the item was updated successfully
-      flash[:success] = "Item updated"
+      flash[:success] = "Item updated successfully"
     else
       # set a flash message if the item was not updated successfully
       flash[:error] = "Item could not be updated"
     end
+
     redirect_to item_path(Item.find(params[:id]))
   end
 
   # Delete item listing
   def destroy
     correct_user
-    @item.destroy
+    if @item.destroy
+      flash[:success] = "Item deleted successfully"
+    else
+      flash[:error] = "Item could not be deleted"
+    end
     redirect_to root_path
   end
 
