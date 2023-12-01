@@ -44,7 +44,13 @@ class ItemsController < ApplicationController
   def update
     # update the item with the new attributes
     #@item = Item.find(params[:id])
-    @item.update_item(params[:item][:title], params[:item][:description], params[:item][:price], params[:item][:category_ids], params[:item][:images], params[:remove_images])
+    if @item.update_item(params[:item][:title], params[:item][:description], params[:item][:price], params[:item][:category_ids], params[:item][:images], params[:remove_images])
+      # set a flash message if the item was updated successfully
+      flash[:success] = "Item updated"
+    else
+      # set a flash message if the item was not updated successfully
+      flash[:error] = "Item could not be updated"
+    end
     redirect_to item_path(Item.find(params[:id]))
   end
 
