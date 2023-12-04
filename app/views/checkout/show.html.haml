@@ -25,7 +25,7 @@
       %select#payment-method-select{name: "payment_method_id"}
         %option{value: nil} Choose a payment method
         - @user.payment_methods.each do |payment_method|
-          %option{value: payment_method.id}= "Card ending in #{payment_method.encrypted_card_number[-4..-1]}"
+          %option{value: payment_method.id}= "Card ending in #{payment_method.card_number[-4..-1]}"
 
     - if @item.purchased?
       %p This item has already been purchased.
