@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_filter :set_current_user, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :find_item, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
   # Form for new item
@@ -77,8 +78,15 @@ class ItemsController < ApplicationController
   def correct_user
     @item = Item.find(params[:id])
     if @item.user != current_user
-      flash[:error] = "You do not have permission to edit or delete this item"
-      redirect_to(root_path)
+      redirect_to root_path, alert: "You do not have permission to edit or delete this item."
+    end
+  end
+
+  def find_item
+    begin
+      @item = Item.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "Item not found."
     end
   end
 end
