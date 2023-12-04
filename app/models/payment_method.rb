@@ -3,13 +3,20 @@ class PaymentMethod < ApplicationRecord
   # Associations
   belongs_to :user
 
+  attr_encrypted :card_number, key: ENV['ENCRYPTION_KEY']
+
   # Validations
   validates :encrypted_card_number, presence: true
   validates :expiration_date, presence: true
   validates :user_id, presence: true
 
+
   def valid_payment_method_input?(card_number, expiration_date)
     valid_card_number?(card_number) && valid_expiration_date?(expiration_date)
+  end
+
+  def last_four_digits
+    self.card_number.to_s[-4..-1] # Extracts the last four digits
   end
 
   private
