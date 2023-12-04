@@ -231,14 +231,14 @@ describe UsersController, type: :controller do
       it "redirects to current user path" do
         expect(addresses_double).to receive(:find).and_return(address)
         expect(address).to receive(:destroy)
-        post :delete_address, :id => current_user.id, :address_id => address.id
+        delete :delete_address, :id => current_user.id, :address_id => address.id
         expect(response).to redirect_to(user_path(current_user))
       end
 
       it "sets a flash message" do
         expect(addresses_double).to receive(:find).and_return(address)
         expect(address).to receive(:destroy)
-        post :delete_address, :id => current_user.id, :address_id => address.id
+        delete :delete_address
         expect(flash[:alert]).to match(/Address Deleted/)
       end
     end
