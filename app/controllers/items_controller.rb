@@ -25,7 +25,6 @@ class ItemsController < ApplicationController
 
   # Show item details
   def show
-    @item = Item.find(params[:id])
     @related_items = @item.find_related_items
     @user = User.find(@item.user_id)
     @bookmarked = current_user.bookmarked_items.include?(@item) if current_user
@@ -38,14 +37,12 @@ class ItemsController < ApplicationController
   # Edit item form
   def edit
     correct_user
-    @item = Item.find(params[:id])
     @categories = Category.all
   end
 
   # Update item listing
   def update
     # update the item with the new attributes
-    #@item = Item.find(params[:id])
     if @item.update_item(params[:item][:title], params[:item][:description], params[:item][:price], params[:item][:category_ids], params[:item][:images], params[:remove_images])
       # set a flash message if the item was updated successfully
       flash[:success] = "Item updated successfully"
@@ -77,7 +74,6 @@ class ItemsController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
-    @item = Item.find(params[:id])
     if @item.user != current_user
       redirect_to root_path, alert: "You do not have permission to edit or delete this item."
     end
