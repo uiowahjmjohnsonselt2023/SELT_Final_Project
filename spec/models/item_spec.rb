@@ -125,6 +125,66 @@ describe Item, type: :model do
     end
   end
 
+  describe 'Item.update_item' do
+    let(:current_user) {
+      User.create!(
+        username: 'current_user',
+        email: 'current_user@gmail.com'
+      )
+    }
+    let(:title) { 'Sample Item' }
+    let(:description) { 'Sample Description' }
+    let(:price) { 100 }
+    let(:image) { MiniMagick::Image.open('spec/support/fixtures/test_image.png') }
+    let(:category) { Category.create!(name: 'Electronics') }
+    let(:category_ids) { [category.id] }
+
+    before do
+      allow(User).to receive(:find_by_session_token).and_return(current_user)
+    end
+
+    it 'updates the item attributes' do
+      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+
+      new_title = 'New Title'
+      new_description = 'New Description'
+      new_price = 200
+      new_category = Category.create!(name: 'Electronics 2')
+      new_category_ids = [new_category.id]
+
+
+      item.update_item(new_title, new_description, new_price, new_category_ids, [image], [])
+
+      expect(item.title).to eq(new_title)
+      expect(item.description).to eq(new_description)
+      expect(item.price).to eq(new_price)
+      expect(item.categories).to include(new_category)
+    end
+
+    it 'adds new images to the item' do
+      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+
+      new_image = MiniMagick::Image.open('spec/support/fixtures/test_image2.png')
+
+      item.update_item(title, description, price, category_ids, [new_image], [])
+
+      expect(item.images.length).to eq(2)
+    end
+
+    it 'removes images from the item' do
+      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+
+      new_image = MiniMagick::Image.open('spec/support/fixtures/test_image2.png')
+
+      item.update_item(title, description, price, category_ids, [new_image], [])
+
+      item.update_item(title, description, price, category_ids, [], { 0 => "1" })
+
+      expect(item.images.length).to eq(1)
+    end
+
+  end
+
   describe '#find_related_items' do
     let(:user) {
       User.create!(
