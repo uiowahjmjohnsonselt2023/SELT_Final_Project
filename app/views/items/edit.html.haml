@@ -1,3 +1,43 @@
 -# in app/views/items/edit.html.haml
 
 %h1 Edit Item Listing
+%div.form-container
+  %h1= action_name == 'new' ? 'List a new item' : 'Edit item'
+  = form_for @item, html: { multipart: true, class: 'item-form' } do |f|
+    - if @item.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@item.errors.count, "error")
+          prohibited this item from being saved:
+        %ul
+          - @item.errors.full_messages.each do |message|
+            %li= message
+
+    .form-field
+      = f.label :title
+      = f.text_field :title, required: true, maxlength: 255
+
+    .form-field
+      = f.label :description
+      = f.text_area :description, required: true, maxlength: 1000
+
+    .form-field
+      = f.label :price
+      = f.number_field :price, required: true, step: '0.01'
+
+    .form-field
+      = f.label :categories
+      = f.collection_select :category_ids, @categories, :id, :name, {include_blank: true}, { multiple: true, required: true, size: 6 }
+
+    .form-field
+      = f.label :current_images
+      - @item.images.each_with_index do |image, index|
+        = image_tag image.data_uri, alt: "#{@item.title} image #{index}"
+        %td= check_box_tag "remove_images[#{index}]", 1
+
+    .form-field
+      = f.label :upload_new_images
+      = f.file_field :images, multiple: true, accept: 'image/*', required: false
+
+    = f.submit action_name == 'new' ? 'List Item' : 'Update Item', class: 'form-submit-button'
+
