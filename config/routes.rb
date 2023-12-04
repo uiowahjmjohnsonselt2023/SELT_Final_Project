@@ -12,7 +12,11 @@ Rails.application.routes.draw do
   post 'users/:id/add_address', to: 'users#add_address', as: 'add_address_user'
 
   # User routes for new, create, show, edit, update
-  resources :users, only: [:new, :create, :show, :edit, :update]
+  resources :users, only: [:new, :create, :show, :edit, :update] do
+    member do
+      delete 'delete_address', to: 'users#delete_address'
+    end
+  end
   get '/profile/:id', to: 'users#show'
 
 
@@ -29,12 +33,6 @@ Rails.application.routes.draw do
   resources :checkout, only: [:show] do
     member do
       post 'purchase'
-    end
-  end
-
-  resources :users do
-    member do
-      delete 'delete_address', to: 'users#delete_address'
     end
   end
 
