@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_filter :set_current_user, :only => [:new, :create, :edit, :update, :destroy]
+  # Filter for finding the item and handling the case where it is not found
   before_filter :find_item, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
@@ -83,6 +84,7 @@ class ItemsController < ApplicationController
   end
 
   def find_item
+    # Find the item by id and handle the case where it is not found
     begin
       @item = Item.find params[:id]
     rescue ActiveRecord::RecordNotFound
