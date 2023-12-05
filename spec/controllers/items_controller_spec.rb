@@ -174,6 +174,13 @@ describe ItemsController, type: :controller do
         get :show, { :id => search_item.id }
         expect(response).to render_template(:purchased)
       end
+
+      it 'shows an alert if the item is not found' do
+        # make the find method throw a record not found exception
+        allow(Item).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        get :show, { :id => 0 }
+        expect(flash[:alert]).to match(/Item not found/)
+      end
     end
 
 
@@ -238,7 +245,7 @@ describe ItemsController, type: :controller do
 
         it "sets a flash message" do
           get :edit, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
       end
     end
@@ -278,7 +285,81 @@ describe ItemsController, type: :controller do
 
         it "sets a flash message" do
           get :update, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
+        end
+      end
+
+      describe "It calls the Item model method to update and item" do
+        let(:params) do
+          {
+            item: {
+              title: 'Test Item',
+              description: 'Test Description',
+              price: '9.99',
+              category_ids: ['1', '2'],
+              images: ['image1.png', 'image2.png']
+            }
+          }
+        end
+
+        before do
+          allow(Item).to receive(:find).and_return(current_user_item)
+          allow(current_user_item).to receive(:update_item).with(
+            params[:item][:title],
+            params[:item][:description],
+            params[:item][:price],
+            params[:item][:category_ids],
+            params[:item][:images],
+            params[:remove_images]
+          ).and_return(current_user_item)
+        end
+
+        it "assigns @current_user" do
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(assigns(:current_user)).to eq(current_user)
+        end
+
+        it "redirects to the item#show page" do
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(response).to redirect_to(item_path(current_user_item))
+        end
+
+      end
+
+      describe "it sets a flash message after calling the update method" do
+        let(:params) do
+          {
+            item: {
+              title: 'Test Item',
+              description: 'Test Description',
+              price: '9.99',
+              category_ids: ['1', '2'],
+              images: ['image1.png', 'image2.png']
+            }
+          }
+        end
+
+        before do
+          allow(Item).to receive(:find).and_return(current_user_item)
+          allow(current_user_item).to receive(:update_item).with(
+            params[:item][:title],
+            params[:item][:description],
+            params[:item][:price],
+            params[:item][:category_ids],
+            params[:item][:images],
+            params[:remove_images]
+          ).and_return(current_user_item)
+        end
+
+        it "sets a flash message if the item was updated successfully" do
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(flash[:success]).to match(/Item updated successfully/)
+        end
+
+        it "sets a flash message if the item was not updated successfully" do
+          allow(current_user_item).to receive(:update_item).and_return(false)
+          get :update, { :id => current_user_item.id, :item => params[:item] }
+          expect(flash[:error]).to match(/Item could not be updated/)
         end
       end
     end
@@ -307,19 +388,40 @@ describe ItemsController, type: :controller do
         allow(User).to receive(:find_by_session_token).and_return(current_user)
         allow(controller).to receive(:current_user).and_return(current_user)
         session[:session_token] = current_user.session_token
-        allow(Item).to receive(:find).and_return(other_user_item)
       end
 
       context "when the user does not own the item" do
         it "redirects to the home page" do
+          allow(Item).to receive(:find).and_return(other_user_item)
           delete :destroy, { :id => other_user_item.id }
           expect(response).to redirect_to(root_path)
         end
 
         it "sets a flash message" do
+          allow(Item).to receive(:find).and_return(other_user_item)
           delete :destroy, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
+      end
+
+      it "deletes the item" do
+        allow(Item).to receive(:find).and_return(current_user_item)
+        expect(current_user_item).to receive(:destroy)
+        delete :destroy, { :id => current_user_item.id }
+      end
+
+      it "sets a success flash message" do
+        allow(Item).to receive(:find).and_return(current_user_item)
+        allow(current_user_item).to receive(:destroy).and_return(true)
+        delete :destroy, { :id => current_user_item.id }
+        expect(flash[:success]).to match(/Item deleted successfully/)
+      end
+
+      it "sets an error flash message if the item could not be deleted" do
+        allow(Item).to receive(:find).and_return(current_user_item)
+        allow(current_user_item).to receive(:destroy).and_return(false)
+        delete :destroy, { :id => current_user_item.id }
+        expect(flash[:error]).to match(/Item could not be deleted/)
       end
     end
 
