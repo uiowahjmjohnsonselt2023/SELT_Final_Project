@@ -27,7 +27,7 @@ end
 
 Given(/^I have added a payment method to my profile$/) do
   @user.payment_methods.create!(
-    encrypted_card_number: "**** **** **** 1234",
+    card_number: "**** **** **** 1234",
     expiration_date: 3.years.from_now
   )
 end
@@ -42,7 +42,8 @@ end
 
 Then(/^I should see the added payment methods$/) do
   @user.payment_methods.each do |payment_method|
-    expect(page).to have_content(payment_method.encrypted_card_number)
+    hidden_card_number = "****-****-****-#{payment_method.last_four_digits}"
+    expect(page).to have_content(hidden_card_number)
     # Add checks for the rest of the payment method fields
   end
 end
