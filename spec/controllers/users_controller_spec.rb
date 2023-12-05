@@ -232,13 +232,21 @@ describe UsersController, type: :controller do
         expect(addresses_double).to receive(:find).and_return(address)
         expect(address).to receive(:destroy)
         delete :delete_address, :id => current_user.id, :address_id => 4
-        #expect(response).to redirect_to(user_path(current_user))
+        expect(response).to redirect_to(edit_user_path(current_user))
       end
 
-      it "sets a flash message" do
+
+      it "sets a flash message when successful" do
+        expect(addresses_double).to receive(:find).and_return(address)
+        allow(address).to receive(:destroy).and_return(true)
+        delete :delete_address, :id => current_user.id, :address_id => "1"
+        expect(flash[:notice]).to match('Address deleted successfully.')
+      end
+
+      it "sets a flash message when unsuccessful" do
         expect(addresses_double).to receive(:find).and_return(address)
         expect(address).to receive(:destroy)
-        delete :delete_address, :id => current_user.id, :address_id => 4
+        delete :delete_address, :id => current_user.id, :address_id => "1"
         expect(flash[:alert]).to match('Could not delete the address.')
       end
     end
