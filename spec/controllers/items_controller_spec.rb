@@ -174,6 +174,13 @@ describe ItemsController, type: :controller do
         get :show, { :id => search_item.id }
         expect(response).to render_template(:purchased)
       end
+
+      it 'shows an alert if the item is not found' do
+        # make the find method throw a record not found exception
+        allow(Item).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        get :show, { :id => 0 }
+        expect(flash[:alert]).to match(/Item not found/)
+      end
     end
 
 
@@ -238,7 +245,7 @@ describe ItemsController, type: :controller do
 
         it "sets a flash message" do
           get :edit, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
       end
     end
@@ -278,7 +285,7 @@ describe ItemsController, type: :controller do
 
         it "sets a flash message" do
           get :update, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
       end
 
@@ -393,7 +400,7 @@ describe ItemsController, type: :controller do
         it "sets a flash message" do
           allow(Item).to receive(:find).and_return(other_user_item)
           delete :destroy, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
       end
 
