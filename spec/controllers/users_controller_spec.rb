@@ -245,7 +245,7 @@ describe UsersController, type: :controller do
 
       it "sets a flash message when unsuccessful" do
         expect(addresses_double).to receive(:find).and_return(address)
-        expect(address).to receive(:destroy)
+        allow(address).to receive(:destroy).and_return(false)
         delete :delete_address, :id => current_user.id, :address_id => "1"
         expect(flash[:alert]).to match('Could not delete the address.')
       end
