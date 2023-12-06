@@ -275,14 +275,14 @@ describe UsersController, type: :controller do
         expect(addresses_double).to receive(:find).and_return(payment_method)
         allow(payment_method).to receive(:destroy).and_return(true)
         delete :delete_payment_method, :id => current_user.id, :payment_method_id => "1"
-        expect(flash[:notice]).to match('Address deleted successfully.')
+        expect(flash[:notice]).to match('Payment method deleted successfully.')
       end
 
       it "sets a flash message when unsuccessful" do
         expect(addresses_double).to receive(:find).and_return(payment_method)
-        allow(address).to receive(:destroy).and_return(false)
+        allow(payment_method).to receive(:destroy).and_return(false)
         delete :delete_payment_method, :id => current_user.id, :payment_method_id => "1"
-        expect(flash[:alert]).to match('Could not delete the address.')
+        expect(flash[:alert]).to match('Could not delete the payment method.')
       end
     end
   end
