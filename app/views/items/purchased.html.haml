@@ -21,10 +21,9 @@
         %span Next &raquo;
 
 
-
   .item-action-buttons
     = link_to "View seller's other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
-    - if @item.purchase.user == current_user and @item.purchase.reviewed?
+    - if @item.purchase.user == current_user and !@item.purchase.reviewed?
       = button_to "Leave a Seller Review", search_path(seller: @user.username), method: :get, class: 'buy-button'
     - else
       = button_to "View Seller Reviews", search_path(seller: @user.username), method: :get, class: 'buy-button'
@@ -62,3 +61,15 @@
               = @item.purchase.address.country
 
 
+- if @item.purchase.user == current_user and !@item.purchase.reviewed?
+  %h2 Leave a Review for the Seller
+  = form_for Review.new, url: reviews_path do |f|
+    = f.hidden_field :item_id, value: @item.id
+
+    = f.label :rating, 'Rating (1 to 5)'
+    = f.number_field :rating, in: 1..5
+
+    = f.label :content, 'Your Review'
+    = f.text_area :content
+
+    = f.submit 'Submit Review', class: 'submit-button'
