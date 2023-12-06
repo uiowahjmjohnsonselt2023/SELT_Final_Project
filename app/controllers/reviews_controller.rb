@@ -4,7 +4,6 @@ class ReviewsController < ApplicationController
   before_filter :find_review, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
-
   # validations
   # validates :rating, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
   # validates :content, presence: true, length: { maximum: 500 }
@@ -68,7 +67,8 @@ class ReviewsController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
-    if @item.user != current_user
+    @purchase = Purchase.find_by(item_id: params[:item_id], user: current_user)
+    if @purchase.user != current_user
       redirect_to root_path, alert: "You do not have permission to edit or delete this item."
     end
   end
