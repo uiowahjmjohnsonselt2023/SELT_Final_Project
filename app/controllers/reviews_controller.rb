@@ -22,6 +22,7 @@ class ReviewsController < ApplicationController
   def create
 
     @review = Review.new(
+      title: params[:review][:title],
       rating: params[:review][:rating],
       content: params[:review][:content],
       reviewer_id: params[:review][:reviewer_id],

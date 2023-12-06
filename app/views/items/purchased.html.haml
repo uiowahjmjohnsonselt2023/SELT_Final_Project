@@ -71,6 +71,9 @@
     = f.label :rating, 'Rating (1 to 5)'
     = f.number_field :rating, in: 1..5
 
+    = f.label :title, 'Review Title'
+    = f.text_field :title
+
     = f.label :content, 'Your Review'
     = f.text_area :content
 

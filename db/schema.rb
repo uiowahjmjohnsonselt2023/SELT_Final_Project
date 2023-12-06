@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231206030217) do
+ActiveRecord::Schema.define(version: 20231206201451) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "shipping_address_1"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20231206030217) do
     t.integer  "seller_id"
     t.integer  "purchase_id"
     t.integer  "item_id"
+    t.string   "title"
   end
 
   add_index "reviews", ["item_id"], name: "index_reviews_on_item_id"

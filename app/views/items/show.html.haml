@@ -76,6 +76,7 @@
   - if @reviews.present?
     - @reviews.each do |review|
       .review
+        %p= review.title
         %p= review.content
         %p Rating:
         - review.rating.times do
