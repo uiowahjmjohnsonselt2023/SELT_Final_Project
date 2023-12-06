@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # Show User Profile
   def show
     @user = User.find(params[:id])
+    @reviews = @user.received_reviews
   end
 
   # Edit User Profile
@@ -37,7 +38,6 @@ class UsersController < ApplicationController
     expiration_date = params[:expiration_month] + '/' + params[:expiration_year]
 
     if payment_method.valid_payment_method_input?(params[:card_number], expiration_date)
-      expiration_date = Date.strptime(expiration_date, "%m/%Y")
       @user.payment_methods.create!(card_number: params[:card_number], expiration_date: expiration_date)
       flash[:alert] = "Payment Method Added"
     else
