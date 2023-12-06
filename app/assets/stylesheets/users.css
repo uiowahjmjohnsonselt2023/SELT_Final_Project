@@ -248,3 +248,54 @@ select {
   line-height: 2;
 }
 
+.seller-reviews-container {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.reviews-list {
+  margin-top: 20px;
+}
+
+.review-card {
+  background: white;
+  border: 1px solid #eee;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.review-title {
+  color: #333;
+  margin: 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  font-size: 18px;
+}
+
+.review-rating {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.rating-stars {
+  display: inline-block;
+  color: #f1c40f;
+  font-size: 24px;
+}
+
+.review-content {
+  margin-top: 10px;
+  color: #555;
+}
+
+.review-date {
+  text-align: right;
+  color: #aaa;
+  font-size: 12px;
+  margin-top: 10px;
+}
