@@ -37,9 +37,12 @@ class UsersController < ApplicationController
     expiration_date = params[:expiration_month] + '/' + params[:expiration_year]
 
     if payment_method.valid_payment_method_input?(params[:card_number], expiration_date)
-      expiration_date = Date.strptime(expiration_date, "%m/%Y")
-      @user.payment_methods.create!(card_number: params[:card_number], expiration_date: expiration_date)
-      flash[:alert] = "Payment Method Added"
+      #expiration_date = Date.strptime(expiration_date, "%m/%Y")
+      if @user.payment_methods.create!(card_number: params[:card_number], expiration_date: expiration_date)
+        flash[:alert] = "Payment Method Added"
+      else
+        flash[:error] = "Error Adding Payment Method"
+      end
     else
       flash[:error] = "Invalid Payment Method Inputs: 15, 16, or 19 digit card number, 3 digit cvv, and (MM/YYYY) expiration date"
     end
@@ -53,8 +56,11 @@ class UsersController < ApplicationController
     input_check = Address.new
 
     if input_check.valid_address_input?(params[:shipping_address_1], params[:shipping_address_2], params[:city], params[:state], params[:country], params[:postal_code])
-      @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country:  params[:country], postal_code: params[:postal_code])
-      flash[:alert] = "Address Added"
+      if @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country:  params[:country], postal_code: params[:postal_code])
+        flash[:alert] = "Address Added"
+      else
+        flash[:error] = "Error Adding Address"
+      end
     else
       flash[:error] = "Invalid Address Inputs"
     end
@@ -67,6 +73,15 @@ class UsersController < ApplicationController
       redirect_to edit_user_path(current_user), notice: 'Address deleted successfully.'
     else
       redirect_to edit_user_path(current_user), alert: 'Could not delete the address.'
+    end
+  end
+
+  def delete_payment_method
+    payment_method = current_user.payment_methods.find(params[:payment_method_id])
+    if payment_method.destroy
+      redirect_to edit_user_path(current_user), notice: 'Payment method deleted successfully.'
+    else
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the payment method.'
     end
   end
 

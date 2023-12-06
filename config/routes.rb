@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create, :show, :edit, :update] do
     member do
       delete 'delete_address', to: 'users#delete_address'
+      delete 'delete_payment_method', to: 'users#delete_payment_method'
     end
   end
   get '/profile/:id', to: 'users#show'

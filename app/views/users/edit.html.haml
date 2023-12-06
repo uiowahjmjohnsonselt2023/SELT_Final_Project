@@ -72,7 +72,6 @@
       = text_field_tag 'postal_code'
     = submit_tag 'Add Address'
   -# Form for deleting an address
-
   = form_tag delete_address_user_path, method: :delete, class: 'user-form' do
     .address-selection
       %label{for: "address-select"} Select Shipping Address to Delete:
@@ -81,6 +80,16 @@
         - @user.addresses.each do |address|
           %option{value: address.id}= "#{address.shipping_address_1}, #{address.city}, #{address.state}"
     = submit_tag 'Delete Address', data: { confirm: 'Are you sure you want to delete this address?' }
+
+    -# Form for deleting a payment method
+  = form_tag delete_payment_method_user_path, method: :delete, class: 'user-form' do
+    .payment-method-selection
+      %label{for: "payment-method-select"} Select Payment Method to Delete:
+      %select#payment-method-select{name: "payment_method_id"}
+        %option{value: ""} Choose a payment method
+        - @user.payment_methods.each do |payment_method|
+          %option{value: payment_method.id}= "Card ending in #{payment_method.card_number.last(4)}"
+    = submit_tag 'Delete Payment Method', data: { confirm: 'Are you sure you want to delete this payment method?' }
 
 
 
