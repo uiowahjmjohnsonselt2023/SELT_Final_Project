@@ -71,3 +71,16 @@
           = image_tag related_item.images.first.data_uri, alt: related_item.title, class: 'related-item-image'
         %h3= related_item.title
 
+%section.item-reviews
+  %h2 Seller Reviews
+  - if @reviews.present?
+    - @reviews.each do |review|
+      .review
+        %p= review.content
+        %p Rating:
+        - review.rating.times do
+          %span ★
+        - (5 - review.rating).times do
+          %span ☆
+  - else
+    %p No reviews yet for this seller.
