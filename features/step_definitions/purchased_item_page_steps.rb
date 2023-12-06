@@ -10,7 +10,7 @@ end
 
 And(/^I have valid payment methods and addresses$/) do
   @user.addresses.create!(shipping_address_1: "19 E Burlington St", shipping_address_2: "Apt 4", city: "Anytown", state: "State", country: "Country", postal_code: "12345")
-  @user.payment_methods.create!(card_number: "card_number", expiration_date: Date.new(2025, 01, 01).to_s(:long))
+  @user.payment_methods.create!(card_number: "1234123412341234", expiration_date: "01/2025")
 end
 
 Then(/^I should see the purchased item page:$/) do |table|
