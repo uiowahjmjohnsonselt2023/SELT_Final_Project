@@ -4,9 +4,9 @@ Feature: Home Screen Functionality
     Given I am logged in as "testuser"
     Given there are categories created
     Given I have the following items for sale:
-      | title          | description  | categories  | price |
-      | Baseball       | Baseball     | Electronics | 1.00  |
-      | Skis           | Skis         | Books       | 1.00  |
+      | title    | description | categories  | price | width | length | height | dimension_units | weight | weight_units | condition |
+      | Baseball | Baseball    | Electronics | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
+      | Skis     | Skis        | Books       | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     Given I am on the "home" page
     Then I should see the following suggested items:
       | title         |
@@ -17,9 +17,9 @@ Feature: Home Screen Functionality
     Given I am logged in as "testuser"
     Given there are categories created
     Given "home_test_user" has listed the following items
-      | title          | description  | categories  | price |
-      | Baseball       | Baseball     | Electronics | 1.00  |
-      | Skis           | Skis         | Books       | 1.00  |
+      | title    | description | categories  | price | width | length | height | dimension_units | weight | weight_units | condition |
+      | Baseball | Baseball    | Electronics | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
+      | Skis     | Skis        | Books       | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     And I am on the "home" page
     Then I should see the following suggested items:
       | title         |
@@ -30,16 +30,16 @@ Feature: Home Screen Functionality
     Given I am logged in as "testuser"
     Given there are categories created
     Given "home_test_user" has listed the following items
-      | title          | description  | categories  | price |
-      | Baseball       | temp         | Electronics | 1.00  |
-      | Skis           | temp2        | Books       | 1.00  |
+      | title    | description | categories  | price | width | length | height | dimension_units | weight | weight_units | condition |
+      | Baseball | Baseball    | Electronics | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
+      | Skis     | Skis        | Books       | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     And I am on the "home" page
     When I click on the "Baseball" link
     Then I should see the item page:
-      | user           | title    | description  | price |
-      | home_test_user | Baseball | temp         | 1.00  |
+      | user           | title    | description  | price | width | length | height | dimension_units | weight | weight_units | condition |
+      | home_test_user | Baseball | Electronics         | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     Given I am on the "home" page
     When I click on the "Skis" link
     Then I should see the item page:
-      | user           | title    | description  | price |
-      | home_test_user | Skis     | temp2        | 1.00  |
+      | user           | title    | description  | price | width | length | height | dimension_units | weight | weight_units | condition |
+      | home_test_user | Skis     | Books        | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
