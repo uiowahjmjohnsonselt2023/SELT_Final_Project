@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # User routes for new, create, show, edit, update
   resources :users, only: [:new, :create, :show, :edit, :update]
-  get '/profile/:id', to: 'users#show'
+  get '/profile/:id', to: 'users#show', as: 'profile'
 
 
   # Item routes for creating, showing, editing, updating, and deleting item listings
