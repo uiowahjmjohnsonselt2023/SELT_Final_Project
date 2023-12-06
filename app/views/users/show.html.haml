@@ -87,22 +87,15 @@
             = hidden_field_tag @user.id, params[:user_id]
             = submit_tag "Contact Company", name: nil, class: 'user-button user-nav-button'
 
-  - if @reviews.any?
-    %div.user-reviews-container
-      %h3.user-reviews-title Reviews
-      %table.user-reviews-table
-        %thead
-          %tr
-            %th Reviewer
-            %th Rating
-            %th Review
-        %tbody
-          - @reviews.each do |review|
-            %tr
-              %td= review.user.username
-              %td= review.rating
-              %td= review.content
+  %h2 Seller Reviews
+  - if @reviews.present?
+    - @reviews.each do |review|
+      .review
+        %p= review.content
+        %p Rating:
+        - review.rating.times do
+          %span ★
+        - (5 - review.rating).times do
+          %span ☆
   - else
-    %div.user-reviews-container
-      %h3.user-reviews-title Reviews
-      %p.user-no-reviews No reviews yet.
+    %p No reviews yet for this seller.
