@@ -86,3 +86,23 @@
           = form_tag search_path, method: :get do
             = hidden_field_tag @user.id, params[:user_id]
             = submit_tag "Contact Company", name: nil, class: 'user-button user-nav-button'
+
+  - if @reviews.any?
+    %div.user-reviews-container
+      %h3.user-reviews-title Reviews
+      %table.user-reviews-table
+        %thead
+          %tr
+            %th Reviewer
+            %th Rating
+            %th Review
+        %tbody
+          - @reviews.each do |review|
+            %tr
+              %td= review.user.username
+              %td= review.rating
+              %td= review.content
+  - else
+    %div.user-reviews-container
+      %h3.user-reviews-title Reviews
+      %p.user-no-reviews No reviews yet.
