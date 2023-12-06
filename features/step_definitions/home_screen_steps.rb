@@ -32,7 +32,12 @@ Then(/^"(.*?)" has listed the following items$/) do |username, table|
   items = table.hashes # This will convert the table to an array of hashes
 
   items.each do |item|
-    user_item = user.items.create!(title: item["title"], description: item["description"], price: item["price"])
+    user_item = user.items.create!(
+      title: item["title"], description: item["description"], price: item["price"],
+      length: item["length"], width: item["width"], height: item["height"],
+      dimension_units: item["dimension_units"], weight: item["weight"],
+      weight_units: item["weight_units"], condition: item["condition"]
+    )
     category = Category.find_by(name: item["categories"])
     user_item.categories << category
     user_item.images.create!(data: image_data, image_type: image_type)
@@ -65,7 +70,12 @@ Given('I have the following items for sale:') do |table|
   image_type, image_data = Image.get_image_data(image_file_path)
 
   items.each do |item|
-    user_item = @user.items.create!(title: item["title"], description: item["description"], price: item["price"])
+    user_item = @user.items.create!(
+      title: item["title"], description: item["description"], price: item["price"],
+      length: item["length"], width: item["width"], height: item["height"],
+      dimension_units: item["dimension_units"], weight: item["weight"],
+      weight_units: item["weight_units"], condition: item["condition"]
+    )
     category = Category.find_by(name: item["categories"])
     user_item.categories << category
     user_item.images.create!(data: image_data, image_type: image_type)
