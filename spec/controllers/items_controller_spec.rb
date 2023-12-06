@@ -66,6 +66,11 @@ describe ItemsController, type: :controller do
           item: {
             title: 'Test Item',
             description: 'Test Description',
+            width: '1.1', length: '1.1', height: '1.1',
+            dimension_units: 'in',
+            weight: '1.1',
+            weight_units: 'lbs',
+            condition: '0',
             price: '9.99',
             category_ids: ['1', '2'],
             images: ['image1.png', 'image2.png']
@@ -83,7 +88,14 @@ describe ItemsController, type: :controller do
           params[:item][:description],
           params[:item][:price],
           params[:item][:category_ids],
-          params[:item][:images]
+          params[:item][:images],
+          params[:item][:width],
+          params[:item][:length],
+          params[:item][:height],
+          params[:item][:dimension_units],
+          params[:item][:weight],
+          params[:item][:weight_units],
+          params[:item][:condition]
         ).and_return(item)
       end
 
@@ -174,6 +186,13 @@ describe ItemsController, type: :controller do
         get :show, { :id => search_item.id }
         expect(response).to render_template(:purchased)
       end
+
+      it 'shows an alert if the item is not found' do
+        # make the find method throw a record not found exception
+        allow(Item).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        get :show, { :id => 0 }
+        expect(flash[:alert]).to match(/Item not found/)
+      end
     end
 
 
@@ -238,7 +257,7 @@ describe ItemsController, type: :controller do
 
         it "sets a flash message" do
           get :edit, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
       end
     end
@@ -278,7 +297,7 @@ describe ItemsController, type: :controller do
 
         it "sets a flash message" do
           get :update, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
       end
 
@@ -290,7 +309,12 @@ describe ItemsController, type: :controller do
               description: 'Test Description',
               price: '9.99',
               category_ids: ['1', '2'],
-              images: ['image1.png', 'image2.png']
+              images: ['image1.png', 'image2.png'],
+              width: '1.1', length: '1.1', height: '1.1',
+              dimension_units: 'in',
+              weight: '1.1',
+              weight_units: 'lbs',
+              condition: '0',
             }
           }
         end
@@ -303,7 +327,14 @@ describe ItemsController, type: :controller do
             params[:item][:price],
             params[:item][:category_ids],
             params[:item][:images],
-            params[:remove_images]
+            params[:remove_images],
+            params[:item][:width],
+            params[:item][:length],
+            params[:item][:height],
+            params[:item][:dimension_units],
+            params[:item][:weight],
+            params[:item][:weight_units],
+            params[:item][:condition]
           ).and_return(current_user_item)
         end
 
@@ -327,7 +358,12 @@ describe ItemsController, type: :controller do
               description: 'Test Description',
               price: '9.99',
               category_ids: ['1', '2'],
-              images: ['image1.png', 'image2.png']
+              images: ['image1.png', 'image2.png'],
+              width: '1.1', length: '1.1', height: '1.1',
+              dimension_units: 'in',
+              weight: '1.1',
+              weight_units: 'lbs',
+              condition: '0',
             }
           }
         end
@@ -340,7 +376,14 @@ describe ItemsController, type: :controller do
             params[:item][:price],
             params[:item][:category_ids],
             params[:item][:images],
-            params[:remove_images]
+            params[:remove_images],
+            params[:item][:width],
+            params[:item][:length],
+            params[:item][:height],
+            params[:item][:dimension_units],
+            params[:item][:weight],
+            params[:item][:weight_units],
+            params[:item][:condition]
           ).and_return(current_user_item)
         end
 
@@ -393,7 +436,7 @@ describe ItemsController, type: :controller do
         it "sets a flash message" do
           allow(Item).to receive(:find).and_return(other_user_item)
           delete :destroy, { :id => other_user_item.id }
-          expect(flash[:error]).to match(/You do not have permission to edit or delete this item/)
+          expect(flash[:alert]).to match(/You do not have permission to edit or delete this item/)
         end
       end
 

@@ -46,6 +46,15 @@
     %p#item-description= @item.description
     .item-attributes
       %p
+        %strong Size (LxWxH):
+        %span= @item.dimensions
+      %p
+        %strong Weight:
+        %span= "#{@item.weight} #{ @item.weight_units }"
+      %p
+        %strong Condition:
+        %span= @item.condition_text
+      %p
         %strong Listed on:
         %span= @item.created_at.strftime("%B %d, %Y")
       %p

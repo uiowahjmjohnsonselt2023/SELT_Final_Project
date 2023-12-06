@@ -49,7 +49,7 @@
             - @user.payment_methods.each do |payment_method|
               %tr
                 %td= "****-****-****-#{payment_method.last_four_digits}"
-                %td= payment_method.expiration_date.strftime("%m/%Y")
+                %td= payment_method.expiration_date
 
     - if !current_user.nil?
       - if current_user.id == @user.id

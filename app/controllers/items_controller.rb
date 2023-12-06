@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
   before_filter :set_current_user, :only => [:new, :create, :edit, :update, :destroy]
+  # Filter for finding the item and handling the case where it is not found
+  before_filter :find_item, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
   # Form for new item
@@ -16,14 +18,20 @@ class ItemsController < ApplicationController
       params[:item][:description],
       params[:item][:price],
       params[:item][:category_ids],
-      params[:item][:images]
+      params[:item][:images],
+      params[:item][:width],
+      params[:item][:length],
+      params[:item][:height],
+      params[:item][:dimension_units],
+      params[:item][:weight],
+      params[:item][:weight_units],
+      params[:item][:condition]
     )
     redirect_to item_path(item)
   end
 
   # Show item details
   def show
-    @item = Item.find(params[:id])
     @related_items = @item.find_related_items
     @user = User.find(@item.user_id)
     @bookmarked = current_user.bookmarked_items.include?(@item) if current_user
@@ -36,15 +44,27 @@ class ItemsController < ApplicationController
   # Edit item form
   def edit
     correct_user
-    @item = Item.find(params[:id])
     @categories = Category.all
   end
 
   # Update item listing
   def update
     # update the item with the new attributes
-    #@item = Item.find(params[:id])
-    if @item.update_item(params[:item][:title], params[:item][:description], params[:item][:price], params[:item][:category_ids], params[:item][:images], params[:remove_images])
+    if @item.update_item(
+      params[:item][:title],
+      params[:item][:description],
+      params[:item][:price],
+      params[:item][:category_ids],
+      params[:item][:images],
+      params[:remove_images],
+      params[:item][:width],
+      params[:item][:length],
+      params[:item][:height],
+      params[:item][:dimension_units],
+      params[:item][:weight],
+      params[:item][:weight_units],
+      params[:item][:condition]
+    )
       # set a flash message if the item was updated successfully
       flash[:success] = "Item updated successfully"
     else
@@ -75,10 +95,17 @@ class ItemsController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
-    @item = Item.find(params[:id])
     if @item.user != current_user
-      flash[:error] = "You do not have permission to edit or delete this item"
-      redirect_to(root_path)
+      redirect_to root_path, alert: "You do not have permission to edit or delete this item."
+    end
+  end
+
+  def find_item
+    # Find the item by id and handle the case where it is not found
+    begin
+      @item = Item.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "Item not found."
     end
   end
 end

@@ -13,10 +13,27 @@ describe Item, type: :model do
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:price) }
     it { should validate_presence_of(:user_id) }
+    it { should validate_presence_of(:length) }
+    it { should validate_presence_of(:width) }
+    it { should validate_presence_of(:height) }
+    it { should validate_presence_of(:dimension_units) }
+    it { should validate_presence_of(:weight) }
+    it { should validate_presence_of(:weight_units) }
+    it { should validate_presence_of(:condition) }
 
     it { should validate_length_of(:title).is_at_most(255) }
     it { should validate_length_of(:description).is_at_most(1000) }
+
     it { should validate_numericality_of(:price).is_greater_than(0).is_less_than(1000000) }
+    it { should validate_numericality_of(:length).is_greater_than(0).is_less_than(1000000) }
+    it { should validate_numericality_of(:width).is_greater_than(0).is_less_than(1000000) }
+    it { should validate_numericality_of(:height).is_greater_than(0).is_less_than(1000000) }
+    it { should validate_numericality_of(:weight).is_greater_than(0).is_less_than(1000000) }
+
+    it { should validate_inclusion_of(:dimension_units).in_array(%w[in ft cm m]) }
+    it { should validate_inclusion_of(:weight_units).in_array(%w[oz lbs g kg]) }
+    it { should validate_inclusion_of(:condition).in_range(0..4) }
+
   end
 
   describe 'Item.search' do
@@ -32,10 +49,38 @@ describe Item, type: :model do
       @category5 = Category.create!(name: 'Random')
 
       # Create items
-      @item1 = user.items.create!(title: 'Laptop', description: 'A high-performance laptop that you can play games on.', price: 1000)
-      @item2 = user.items.create!(title: 'Book', description: 'A book on Ruby programming.', price: 20)
-      @item3 = user.items.create!(title: 'Games', description: 'A fun game.', price: 50)
-      @item4 = user.items.create!(title: 'Shirt', description: 'A nice shirt.', price: 30)
+      @item1 = user.items.create!(
+        title: 'Laptop',
+        description: 'A high-performance laptop that you can play games on.',
+        price: 1000,
+        width: 10, length: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0
+      )
+      @item2 = user.items.create!(
+        title: 'Book',
+        description: 'A book on Ruby programming.',
+        price: 20,
+        width: 10, length: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0
+      )
+      @item3 = user.items.create!(
+        title: 'Games',
+        description: 'A fun game.',
+        price: 50,
+        width: 10, length: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0
+      )
+      @item4 = user.items.create!(
+        title: 'Shirt',
+        description: 'A nice shirt.',
+        price: 30,
+        width: 10, length: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0
+      )
 
       # Associate items with categories
       @item1.categories << @category1
@@ -107,7 +152,10 @@ describe Item, type: :model do
     end
 
     it 'creates an item with correct attributes' do
-      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      item = Item.insert_item(
+        current_user, title, description, price, category_ids, [image],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
       expect(item).to be_persisted
       expect(item.title).to eq(title)
       expect(item.description).to eq(description)
@@ -115,12 +163,17 @@ describe Item, type: :model do
     end
 
     it 'attaches images to the item' do
-      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      item = Item.insert_item(
+        current_user, title, description, price, category_ids, [image],
+        10, 10, 10, 'in', 10, 'oz', 0)
       expect(item.images).not_to be_empty
     end
 
     it 'assigns categories to the item' do
-      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      item = Item.insert_item(
+        current_user, title, description, price, category_ids, [image],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
       expect(item.categories).to include(category)
     end
   end
@@ -144,16 +197,28 @@ describe Item, type: :model do
     end
 
     it 'updates the item attributes' do
-      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      item = Item.insert_item(
+        current_user, title, description, price, category_ids, [image],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
 
       new_title = 'New Title'
       new_description = 'New Description'
       new_price = 200
       new_category = Category.create!(name: 'Electronics 2')
       new_category_ids = [new_category.id]
+      new_length = 20
+      new_width = 20
+      new_height = 20
+      new_dimension_units = 'cm'
+      new_weight = 20
+      new_weight_units = 'g'
+      new_condition = 1
 
-
-      item.update_item(new_title, new_description, new_price, new_category_ids, [image], [])
+      item.update_item(
+        new_title, new_description, new_price, new_category_ids, [image], [],
+        new_length, new_width, new_height, new_dimension_units, new_weight, new_weight_units, new_condition
+      )
 
       expect(item.title).to eq(new_title)
       expect(item.description).to eq(new_description)
@@ -162,25 +227,62 @@ describe Item, type: :model do
     end
 
     it 'adds new images to the item' do
-      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      item = Item.insert_item(
+        current_user, title, description, price, category_ids, [image],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
 
       new_image = MiniMagick::Image.open('spec/support/fixtures/test_image2.png')
 
-      item.update_item(title, description, price, category_ids, [new_image], [])
+      item.update_item(
+        title, description, price, category_ids, [new_image], [],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
 
       expect(item.images.length).to eq(2)
     end
 
     it 'removes images from the item' do
-      item = Item.insert_item(current_user, title, description, price, category_ids, [image])
+      item = Item.insert_item(
+        current_user, title, description, price, category_ids, [image],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
 
       new_image = MiniMagick::Image.open('spec/support/fixtures/test_image2.png')
 
-      item.update_item(title, description, price, category_ids, [new_image], [])
+      item.update_item(
+        title, description, price, category_ids, [new_image], [],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
 
-      item.update_item(title, description, price, category_ids, [], { 0 => "1" })
+      item.update_item(
+        title, description, price, category_ids, [], { 0 => "1" },
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
 
       expect(item.images.length).to eq(1)
+    end
+
+    it 'handles an update attributes error' do
+      item = Item.insert_item(
+        current_user, title, description, price, category_ids, [image],
+        10, 10, 10, 'in', 10, 'oz', 0
+      )
+
+      new_title = 'TEst'
+      new_description = 'New Description'
+      new_price = 200
+      new_category = Category.create!(name: 'Electronics 2')
+      new_category_ids = [new_category.id]
+
+      allow(item).to receive(:update!).and_return(false)
+
+      expect(
+        item.update_item(
+          new_title, new_description, new_price, new_category_ids, [image], [],
+          10, 10, 10, 'in', 10, 'oz', 0
+        )
+      ).to eq(false)
     end
 
   end
@@ -193,20 +295,67 @@ describe Item, type: :model do
       )
     }
     let(:search_item) {
-      user.items.create!(title: "Item 1", description: "Description for item 1", price: 1.00)
+      user.items.create!(title: "Item 1", description: "Description for item 1", price: 1.00,
+                         width: 10, length: 10, height: 10, dimension_units: 'in',
+                         weight: 10, weight_units: 'oz',
+                         condition: 0
+      )
     }
 
     let(:other_items) {
       [
-        user.items.create!(title: "Item 2", description: "Description for item 2", price: 2.00),
-        user.items.create!(title: "Item 3", description: "Description for item 3", price: 3.00),
-        user.items.create!(title: "Item 4", description: "Description for item 4", price: 4.00),
-        user.items.create!(title: "Item 5", description: "Description for item 5", price: 5.00),
-        user.items.create!(title: "Item 6", description: "Description for item 6", price: 6.00),
+        user.items.create!(title: "Item 2", description: "Description for item 2", price: 2.00,
+                           width: 10, length: 10, height: 10, dimension_units: 'in',
+                           weight: 10, weight_units: 'oz',
+                           condition: 0
+        ),
+        user.items.create!(title: "Item 3", description: "Description for item 3", price: 3.00,
+                           width: 10, length: 10, height: 10, dimension_units: 'in',
+                           weight: 10, weight_units: 'oz',
+                           condition: 0
+        ),
+        user.items.create!(title: "Item 4", description: "Description for item 4", price: 4.00,
+                           width: 10, length: 10, height: 10, dimension_units: 'in',
+                           weight: 10, weight_units: 'oz',
+                           condition: 0
+        ),
+        user.items.create!(title: "Item 5", description: "Description for item 5", price: 5.00,
+                           width: 10, length: 10, height: 10, dimension_units: 'in',
+                           weight: 10, weight_units: 'oz',
+                           condition: 0
+        ),
+        user.items.create!(title: "Item 6", description: "Description for item 6", price: 6.00,
+                           width: 10, length: 10, height: 10, dimension_units: 'in',
+                           weight: 10, weight_units: 'oz',
+                           condition: 0
+        ),
       ]
     }
     it 'should return other items by the same user' do
       expect(search_item.find_related_items).to match_array(other_items[0..3])
+    end
+  end
+  describe '#purchased?' do
+    let(:user) {
+      User.create!(
+        username: 'current_user',
+        email: 'current_user_email@test.com',
+      )
+    }
+    let(:item) {
+      user.items.create!(title: "Item 1", description: "Description for item 1", price: 1.00,
+                         width: 10, length: 10, height: 10, dimension_units: 'in',
+                         weight: 10, weight_units: 'oz',
+                         condition: 0
+      )
+    }
+    let(:purchase) {
+      user.purchase_item(item, 1, 1)
+    }
+
+    it 'should return true if the item has been purchased' do
+      allow(purchase).to receive(:present?).and_return(true)
+      expect(item.purchased?).to eq(true)
     end
   end
 end

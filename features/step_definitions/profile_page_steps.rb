@@ -27,8 +27,8 @@ end
 
 Given(/^I have added a payment method to my profile$/) do
   @user.payment_methods.create!(
-    card_number: "**** **** **** 1234",
-    expiration_date: 3.years.from_now
+    card_number: "1234123412341234",
+    expiration_date: "05/2025"
   )
 end
 
