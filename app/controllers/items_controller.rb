@@ -18,7 +18,14 @@ class ItemsController < ApplicationController
       params[:item][:description],
       params[:item][:price],
       params[:item][:category_ids],
-      params[:item][:images]
+      params[:item][:images],
+      params[:item][:width],
+      params[:item][:length],
+      params[:item][:height],
+      params[:item][:dimension_units],
+      params[:item][:weight],
+      params[:item][:weight_units],
+      params[:item][:condition]
     )
     redirect_to item_path(item)
   end
@@ -43,7 +50,21 @@ class ItemsController < ApplicationController
   # Update item listing
   def update
     # update the item with the new attributes
-    if @item.update_item(params[:item][:title], params[:item][:description], params[:item][:price], params[:item][:category_ids], params[:item][:images], params[:remove_images])
+    if @item.update_item(
+      params[:item][:title],
+      params[:item][:description],
+      params[:item][:price],
+      params[:item][:category_ids],
+      params[:item][:images],
+      params[:remove_images],
+      params[:item][:width],
+      params[:item][:length],
+      params[:item][:height],
+      params[:item][:dimension_units],
+      params[:item][:weight],
+      params[:item][:weight_units],
+      params[:item][:condition]
+    )
       # set a flash message if the item was updated successfully
       flash[:success] = "Item updated successfully"
     else
