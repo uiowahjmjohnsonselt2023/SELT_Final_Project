@@ -50,12 +50,12 @@ Feature: Profile Screen Functionality
     Given I am logged in as "testuser5"
     Given there are categories created
     Given I have the following items for sale:
-      | title       | description  | categories  | price |
-      | item1       | Baseball     | Electronics | 1.00  |
-      | item2       | Skis         | Books       | 1.00  |
+      | title    | description | categories  | price | width | length | height | dimension_units | weight | weight_units | condition |
+      | item1    | Baseball    | Electronics | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
+      | item2    | Skis        | Books       | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     Given "user_546" has listed the following items
-      | title       | description  | categories  | price |
-      | item3       | Baseball     | Electronics | 1.00  |
+      | title    | description | categories  | price | width | length | height | dimension_units | weight | weight_units | condition |
+      | item3    | Baseball    | Electronics | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     And I am on the "profile" page
     When I click the "My Items for Sale" button
     Then I should see the item "item1"
