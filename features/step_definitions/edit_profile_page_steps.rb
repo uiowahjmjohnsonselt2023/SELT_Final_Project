@@ -14,6 +14,11 @@ Then(/^I should see delete shipping address$/) do
   expect(page).to have_button("Delete Address")
 end
 
+Then(/^I should see edit payment method$/) do
+  expect(page).to have_content("Select Payment Method to Delete:")
+  expect(page).to have_button("Delete Payment Method")
+end
+
 
 
 

@@ -13,6 +13,9 @@ Feature: Edit Profile Screen Functionality
   Scenario:
     Then I should see delete shipping address
 
+  Scenario:
+    Then I should see edit payment method
+
 
 
 
