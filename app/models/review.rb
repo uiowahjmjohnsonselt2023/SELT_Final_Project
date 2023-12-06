@@ -1,0 +1,6 @@
+
+class Review< ApplicationRecord
+
+
+
+end
