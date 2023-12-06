@@ -7,10 +7,11 @@ Feature: Edit Profile Screen Functionality
   Scenario: Viewing the Edit Profile Screen
     Then I should see edit card
 
-
-
   Scenario:
     Then I should see edit shipping info
+
+  Scenario:
+    Then I should see delete shipping address
 
 
 

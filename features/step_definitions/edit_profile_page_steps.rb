@@ -9,6 +9,11 @@ Then(/^I should see edit shipping info$/) do
   expect(page).to have_button("Add Address")
 end
 
+Then(/^I should see delete shipping address$/) do
+  expect(page).to have_content("Select Shipping Address to Delete:")
+  expect(page).to have_button("Delete Address")
+end
+
 
 
 
