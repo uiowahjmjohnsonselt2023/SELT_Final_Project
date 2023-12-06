@@ -1,7 +1,8 @@
 class ReviewsController < ApplicationController
 
   before_filter :set_current_user, :only => [:create, :edit, :update, :destroy]
-  before_filter :correct_purchase, only: [:create]
+  before_filter :correct_purchase_create, only: [:create]
+  before_filter :correct_purchase_destroy, only: [:destroy]
   before_filter :correct_user, only: [:create, :edit, :update, :destroy]
   before_filter :find_review, only: [:edit, :update, :destroy]
 
@@ -35,7 +36,13 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-
+    if @review.destroy
+      flash[:notice] = "Review deleted successfully"
+      @review.purchase.update(review: nil)
+    else
+      flash[:error] = "Review could not be deleted"
+    end
+    redirect_to user_path(current_user)
   end
 
   def edit
@@ -48,18 +55,33 @@ class ReviewsController < ApplicationController
 
   private
 
-  def correct_purchase
+  def correct_purchase_create
     # Make sure the purchase can be found and the user is correct
     begin
-      @purchase = Purchase.find_by(item_id: params[:item_id], user: current_user)
+      @purchase = Purchase.find_by(item_id: params[:review][:item_id], user: current_user)
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "You do not have permission to review this item 1."
+    end
+
+    if @purchase.nil?
+      redirect_to root_path, alert: "You do not have permission to review this item 2."
+    elsif @purchase.reviewed?
+        redirect_to root_path, alert: "You have already reviewed this item."
+    end
+  end
+
+  def correct_purchase_destroy
+    # Make sure the purchase can be found and the user is correct
+    begin
+      @purchase = Purchase.find_by(item_id: params[:review][:item_id], user: current_user)
     rescue ActiveRecord::RecordNotFound
       redirect_to root_path, alert: "You do not have permission to review this item."
     end
 
     if @purchase.nil?
       redirect_to root_path, alert: "You do not have permission to review this item."
-    elsif @purchase.reviewed?
-        redirect_to root_path, alert: "You have already reviewed this item."
+    elsif @purchase.reviewed? == false
+      redirect_to root_path, alert: "You have not yet reviewed this item."
     end
   end
 

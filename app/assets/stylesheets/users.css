@@ -260,15 +260,6 @@ select {
   margin-top: 20px;
 }
 
-.review-card {
-  background: white;
-  border: 1px solid #eee;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
 .review-title {
   color: #333;
   margin: 0;
@@ -298,4 +289,38 @@ select {
   color: #aaa;
   font-size: 12px;
   margin-top: 10px;
+}
+
+.review-card {
+  background: white;
+  border: 1px solid #eee;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.review-item strong {
+  font-weight: bold;
+}
+
+.review-item {
+  margin-top: 10px;
+}
+
+.delete-review-button {
+  padding: 5px 10px;
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.delete-review-button:hover {
+  background-color: #e74c3c;
 }

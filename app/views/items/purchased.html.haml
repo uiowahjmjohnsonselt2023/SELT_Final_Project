@@ -78,3 +78,24 @@
     = f.text_area :content
 
     = f.submit 'Submit Review', class: 'submit-button'
+- elsif @item.purchase.user == current_user
+%section.seller-reviews-container
+  %h2 Seller Reviews
+  - if @reviews.present?
+    .reviews-list
+      - @reviews.each do |review|
+        .review-card
+          %h3.review-title= review.title
+          %p.review-item
+            %strong Item:
+            = link_to review.purchase.item.title, item_path(review.purchase.item)
+            %p.review-rating Rating:
+            .rating-stars
+              - review.rating.times do
+                %span ★
+              - (5 - review.rating).times do
+                %span ☆
+            %p.review-content= review.content
+            %p.review-date= review.created_at.strftime("%B %d, %Y")
+  - else
+    %p No reviews yet for this seller.
