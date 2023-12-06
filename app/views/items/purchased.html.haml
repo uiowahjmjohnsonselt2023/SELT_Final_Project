@@ -65,6 +65,8 @@
   %h2 Leave a Review for the Seller
   = form_for Review.new, url: reviews_path do |f|
     = f.hidden_field :item_id, value: @item.id
+    = f.hidden_field :reviewer_id, value: @user.id
+    = f.hidden_field :seller_id, value: @item.user.id
 
     = f.label :rating, 'Rating (1 to 5)'
     = f.number_field :rating, in: 1..5
