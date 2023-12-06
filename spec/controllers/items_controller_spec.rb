@@ -147,12 +147,14 @@ describe ItemsController, type: :controller do
       allow(User).to receive(:find).and_return(user)
       allow(bookmarked_items).to receive(:include?).and_return(true)
       allow(search_item).to receive(:purchased?).and_return(false)
+      allow(user).to receive(:received_reviews).and_return([])
     end
     context "when user is logged in" do
       before do
         session[:session_token] = current_user.session_token
         allow(controller).to receive(:current_user).and_return(current_user)
         allow(current_user).to receive(:bookmarked_items).and_return(bookmarked_items)
+        allow(user).to receive(:received_reviews).and_return([])
       end
 
 

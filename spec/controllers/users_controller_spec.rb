@@ -105,6 +105,7 @@ describe UsersController, type: :controller do
     before do
       allow(User).to receive(:find).and_return(current_user)
       session[:session_token] = current_user.session_token
+      allow(current_user).to receive(:received_reviews).and_return([])
     end
     it "renders the show template" do
       get :show, { :id => current_user.id }
