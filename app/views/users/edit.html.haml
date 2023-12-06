@@ -1,4 +1,6 @@
 -# in app/views/users/edit.html.haml
+- flash.each do |type, message|
+  %div{ class: "flash #{type}" }= message
 
 - countries_list = [ "Select a Country", "United States of America", "Afghanistan",
   "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
