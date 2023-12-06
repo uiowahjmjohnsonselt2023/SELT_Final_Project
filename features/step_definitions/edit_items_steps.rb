@@ -17,6 +17,13 @@ And(/^I edit the item as the following:$/) do |table|
     fill_in 'Title', with: item[:title]
     fill_in 'Description', with: item[:description]
     fill_in 'Price', with: item[:price]
+    fill_in 'Length', with: item[:length]
+    fill_in 'Width', with: item[:width]
+    fill_in 'Height', with: item[:height]
+    select item[:dimension_units], from: 'Dimension units'
+    fill_in 'Weight', with: item[:weight]
+    select item[:weight_units], from: 'Weight units'
+    select item.condition_text, from: 'Condition'
     click_button 'Update Item'
   end
 end
