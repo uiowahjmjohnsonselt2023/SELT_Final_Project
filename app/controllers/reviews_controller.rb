@@ -1,23 +1,9 @@
 class ReviewsController < ApplicationController
 
-  before_filter :set_current_user, :only => [:new, :create, :edit, :update, :destroy]
-  before_filter :find_review, only: [:show, :edit, :update, :destroy]
-  before_filter :correct_user, only: [:edit, :update, :destroy]
-
-  # validations
-  # validates :rating, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
-  # validates :content, presence: true, length: { maximum: 500 }
-  # validates :reviewer_id, presence: true
-  # validates :seller_id, presence: true
-  # validates :item_id, presence: true
-
-  def index
-
-  end
-
-  def new
-    @review = Review.new
-  end
+  before_filter :set_current_user, :only => [:create, :edit, :update, :destroy]
+  before_filter :correct_purchase, only: [:create]
+  before_filter :correct_user, only: [:create, :edit, :update, :destroy]
+  before_filter :find_review, only: [:edit, :update, :destroy]
 
   def create
 
@@ -48,7 +34,7 @@ class ReviewsController < ApplicationController
     end
   end
 
-  def show
+  def destroy
 
   end
 
@@ -60,15 +46,25 @@ class ReviewsController < ApplicationController
 
   end
 
-  def destroy
-
-  end
-
   private
+
+  def correct_purchase
+    # Make sure the purchase can be found and the user is correct
+    begin
+      @purchase = Purchase.find_by(item_id: params[:item_id], user: current_user)
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "You do not have permission to review this item."
+    end
+
+    if @purchase.nil?
+      redirect_to root_path, alert: "You do not have permission to review this item."
+    elsif @purchase.reviewed?
+        redirect_to root_path, alert: "You have already reviewed this item."
+    end
+  end
 
   # Confirms the correct user.
   def correct_user
-    @purchase = Purchase.find_by(item_id: params[:item_id], user: current_user)
     if @purchase.user != current_user
       redirect_to root_path, alert: "You do not have permission to edit or delete this item."
     end
@@ -76,7 +72,17 @@ class ReviewsController < ApplicationController
 
   def find_review
     # Find the item by id and handle the case where it is not found
-    @review = Review.find params[:id]
+    begin
+      @review = Review.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "Review not found."
+    end
+
+    if @review.nil?
+      redirect_to root_path, alert: "Review not found."
+    elsif @review.purchase.user != current_user
+      redirect_to root_path, alert: "You do not have permission to edit or delete this item."
+    end
   end
 
 end
