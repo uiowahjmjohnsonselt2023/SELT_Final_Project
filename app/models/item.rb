@@ -1,4 +1,6 @@
 class Item < ApplicationRecord
+  before_save :round_dimensions
+
   # Associations
   belongs_to :user
   has_many :images, dependent: :delete_all
@@ -11,6 +13,32 @@ class Item < ApplicationRecord
   validates :description, presence: true, length: { maximum: 1000 }
   validates :price, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
   validates :user_id, presence: true
+  validates :length, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
+  validates :width, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
+  validates :height, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
+  validates :weight, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
+  validates :dimension_units, presence: true, inclusion: { in: %w(in ft cm m) }
+  validates :weight_units, presence: true, inclusion: { in: %w(oz lbs g kg) }
+  validates :condition, presence: true, inclusion: { in: 0..4 }
+
+
+  def self.dimension_units
+    %w(in ft cm m)
+  end
+
+  def self.weight_units
+    %w(oz lbs g kg)
+  end
+
+  def self.conditions
+    [
+      'New',
+      'Like New',
+      'Used',
+      'Well Used',
+      'Poor'
+    ]
+  end
 
   def self.search(search_term, category_names)
     items = all
@@ -44,8 +72,20 @@ class Item < ApplicationRecord
     items
   end
 
-  def self.insert_item(user, title, description, price, category_ids, images)
-    item = user.items.create!(title: title, description: description, price: price)
+  def self.insert_item(user, title, description, price, category_ids, images,
+                       length, width, height, dimension_units, weight, weight_units, condition)
+    item = user.items.create!(
+      title: title,
+      description: description,
+      price: price,
+      length: length,
+      width: width,
+      height: height,
+      dimension_units: dimension_units,
+      weight: weight,
+      weight_units: weight_units,
+      condition: condition
+    )
     images.each do |uploaded_image|
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
@@ -62,13 +102,21 @@ class Item < ApplicationRecord
     item
   end
 
-  def update_item(title, description, price, category_ids, images, remove_images)
+  def update_item(title, description, price, category_ids, images, remove_images,
+                  length, width, height, dimension_units, weight, weight_units, condition)
 
     # Update item attributes
     if self.update!(
       title: title,
       description: description,
-      price: price
+      price: price,
+      length: length,
+      width: width,
+      height: height,
+      dimension_units: dimension_units,
+      weight: weight,
+      weight_units: weight_units,
+      condition: condition
     )
 
       # Update categories
@@ -113,5 +161,21 @@ class Item < ApplicationRecord
   # Returns true if the item has been purchased
   def purchased?
     purchase.present?
+  end
+
+  def dimensions
+    "#{length} x #{width} x #{height} #{dimension_units}"
+  end
+
+  def condition_text
+    Item.conditions[condition]
+  end
+
+  private
+
+  def round_dimensions
+    self.length = length.round(1)
+    self.width = width.round(1)
+    self.height = height.round(1)
   end
 end

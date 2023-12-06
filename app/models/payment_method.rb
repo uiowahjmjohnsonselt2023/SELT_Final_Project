@@ -1,5 +1,7 @@
 # app/models/payment_method.rb
 class PaymentMethod < ApplicationRecord
+  before_save :validate_payment_method
+
   # Associations
   belongs_to :user
 
@@ -36,6 +38,11 @@ class PaymentMethod < ApplicationRecord
     # Regular expression to match the date format MM/YYYY
     regex = /^(0[1-9]|1[0-2])\/\d{4}$/
     regex.match?(expiration_date)
+  end
+
+  def validate_payment_method
+    return false unless valid_payment_method_input?(self.card_number, self.expiration_date)
+    true
   end
 
 end

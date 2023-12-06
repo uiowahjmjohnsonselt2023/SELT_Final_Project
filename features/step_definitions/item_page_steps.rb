@@ -25,5 +25,12 @@ Then(/^I should see the item page:$/) do |table|
     expect(page).to have_content(item['title'])
     expect(page).to have_content(item['description'])
     expect(page).to have_content(item['price'])
+    expect(page).to have_content(item['length'])
+    expect(page).to have_content(item['width'])
+    expect(page).to have_content(item['height'])
+    expect(page).to have_content(item['dimension_units'])
+    expect(page).to have_content(item['weight'])
+    expect(page).to have_content(item['weight_units'])
+    expect(page).to have_content(item['condition'])
   end
 end

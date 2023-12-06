@@ -22,6 +22,34 @@
       = f.text_area :description, required: true, maxlength: 1000
 
     .form-field
+      = f.label :width
+      = f.number_field :width, required: true, step: '0.01'
+
+    .form-field
+      = f.label :length
+      = f.number_field :length, required: true, step: '0.01'
+
+    .form-field
+      = f.label :height
+      = f.number_field :height, required: true, step: '0.01'
+
+    .form-field
+      = f.label :dimension_units
+      = f.select :dimension_units, Item.dimension_units, {include_blank: true}, required: true
+
+    .form-field
+      = f.label :weight
+      = f.number_field :weight, required: true, step: '0.01'
+
+    .form-field
+      = f.label :weight_units
+      = f.select :weight_units, Item.weight_units, {include_blank: true}, required: true
+
+    .form-field
+      = f.label :condition
+      = f.select :condition, Item.conditions, {include_blank: true}, required: true
+
+    .form-field
       = f.label :price
       = f.number_field :price, required: true, step: '0.01'
 

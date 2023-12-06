@@ -66,6 +66,11 @@ describe ItemsController, type: :controller do
           item: {
             title: 'Test Item',
             description: 'Test Description',
+            width: '1.1', length: '1.1', height: '1.1',
+            dimension_units: 'in',
+            weight: '1.1',
+            weight_units: 'lbs',
+            condition: '0',
             price: '9.99',
             category_ids: ['1', '2'],
             images: ['image1.png', 'image2.png']
@@ -83,7 +88,14 @@ describe ItemsController, type: :controller do
           params[:item][:description],
           params[:item][:price],
           params[:item][:category_ids],
-          params[:item][:images]
+          params[:item][:images],
+          params[:item][:width],
+          params[:item][:length],
+          params[:item][:height],
+          params[:item][:dimension_units],
+          params[:item][:weight],
+          params[:item][:weight_units],
+          params[:item][:condition]
         ).and_return(item)
       end
 
@@ -297,7 +309,12 @@ describe ItemsController, type: :controller do
               description: 'Test Description',
               price: '9.99',
               category_ids: ['1', '2'],
-              images: ['image1.png', 'image2.png']
+              images: ['image1.png', 'image2.png'],
+              width: '1.1', length: '1.1', height: '1.1',
+              dimension_units: 'in',
+              weight: '1.1',
+              weight_units: 'lbs',
+              condition: '0',
             }
           }
         end
@@ -310,7 +327,14 @@ describe ItemsController, type: :controller do
             params[:item][:price],
             params[:item][:category_ids],
             params[:item][:images],
-            params[:remove_images]
+            params[:remove_images],
+            params[:item][:width],
+            params[:item][:length],
+            params[:item][:height],
+            params[:item][:dimension_units],
+            params[:item][:weight],
+            params[:item][:weight_units],
+            params[:item][:condition]
           ).and_return(current_user_item)
         end
 
@@ -334,7 +358,12 @@ describe ItemsController, type: :controller do
               description: 'Test Description',
               price: '9.99',
               category_ids: ['1', '2'],
-              images: ['image1.png', 'image2.png']
+              images: ['image1.png', 'image2.png'],
+              width: '1.1', length: '1.1', height: '1.1',
+              dimension_units: 'in',
+              weight: '1.1',
+              weight_units: 'lbs',
+              condition: '0',
             }
           }
         end
@@ -347,7 +376,14 @@ describe ItemsController, type: :controller do
             params[:item][:price],
             params[:item][:category_ids],
             params[:item][:images],
-            params[:remove_images]
+            params[:remove_images],
+            params[:item][:width],
+            params[:item][:length],
+            params[:item][:height],
+            params[:item][:dimension_units],
+            params[:item][:weight],
+            params[:item][:weight_units],
+            params[:item][:condition]
           ).and_return(current_user_item)
         end
 
