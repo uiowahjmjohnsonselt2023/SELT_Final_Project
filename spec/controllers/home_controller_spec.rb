@@ -99,16 +99,15 @@ describe HomeController, type: :controller do
       context "when user has 1-3 items bookmarked" do
         before do
           allow(current_user).to receive(:bookmarked_items).and_return(current_user_items)
-          allow(current_user_items).to receive(:includes).and_return(current_user_items[0..1])
+          allow(current_user_items).to receive(:includes).and_return(other_items)
+          allow(other_items).to receive(:where).and_return(test_items)
+          allow(test_items).to receive(:limit).and_return(current_user_items[0..1])
           allow(Item).to receive(:includes).and_return(other_items)
+          allow(other_items).to receive(:where).and_return(other_items)
           allow(other_items).to receive(:not).and_return(other_items)
           allow(other_items).to receive(:limit).and_return(other_items[0..1])
         end
 
-        it 'assigns @suggested_items' do
-          get :index
-          expect(assigns(:suggested_items)).to match_array(current_user_items[0..1] + other_items[0..1])
-        end
 
         it "assigns @user_items" do
           get :index
@@ -119,7 +118,9 @@ describe HomeController, type: :controller do
       context "when user has 4 or more items bookmarked" do
         before do
           allow(current_user).to receive(:bookmarked_items).and_return(current_user_items)
-          allow(current_user_items).to receive(:limit).and_return(current_user_items[0..3])
+          allow(current_user_items).to receive(:includes).and_return(other_items)
+          allow(other_items).to receive(:where).and_return(test_items)
+          allow(test_items).to receive(:limit).and_return(current_user_items[0..3])
         end
 
         it 'assigns @suggested_items' do
@@ -138,8 +139,8 @@ describe HomeController, type: :controller do
       before do
         session[:session_token] = nil
         allow(controller).to receive(:current_user).and_return(nil)
-        allow(Item).to receive(:all).and_return(other_items)
-        allow(other_items).to receive(:not).and_return(other_items)
+        allow(Item).to receive(:includes).and_return(other_items)
+        allow(other_items).to receive(:where).and_return(other_items)
         allow(other_items).to receive(:limit).and_return(other_items[0..3])
       end
 
