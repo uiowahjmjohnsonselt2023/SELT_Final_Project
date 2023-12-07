@@ -73,6 +73,8 @@ describe HomeController, type: :controller do
           allow(Item).to receive(:where).and_return(other_items)
           allow(other_items).to receive(:not).and_return(other_items)
           allow(other_items).to receive(:limit).and_return(other_items[0..3])
+          allow(:current_user).to receive(:includes).and_return(current_user_items)
+          allow(Item).to receive(:includes).and_return(other_items)
         end
 
         it 'assigns @suggested_items' do
@@ -93,6 +95,9 @@ describe HomeController, type: :controller do
           allow(Item).to receive(:where).and_return(other_items)
           allow(other_items).to receive(:not).and_return(other_items)
           allow(other_items).to receive(:limit).and_return(other_items[0..1])
+          allow(:bookmarked_items).to receive(:includes).and_return(current_user_items)
+          allow(:current_user).receive(:includes).and_return(current_user_items)
+          allow(Item).to receive(:includes).and_return(other_items)
         end
 
         it 'assigns @suggested_items' do

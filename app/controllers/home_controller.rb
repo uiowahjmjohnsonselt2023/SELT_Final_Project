@@ -10,15 +10,23 @@ class HomeController < ApplicationController
     # Fetch your bookmarked items if you are logged in
     num_items = 0
 
+    @suggested_items = []
+
+    # Fetch your bookmarked items if you are logged in
     if current_user
-      @suggested_items = current_user.bookmarked_items.limit(4)
+      # Select bookmarked items that have not been purchased
+      @suggested_items = current_user.bookmarked_items.includes(:purchase).where(purchases: { item_id: nil }).limit(4)
       num_items = @suggested_items.length
       @user_items = current_user.items
+
+      # If there are less than 4 bookmarked items, fill the rest with other items that have not been purchased
       if num_items < 4
-        @suggested_items = @suggested_items + Item.where.not(user: current_user).limit(4-num_items)
+        additional_items = Item.includes(:purchase).where.not(user: current_user).where(purchases: { item_id: nil }).limit(4 - num_items)
+        @suggested_items += additional_items
       end
     else
-      @suggested_items = Item.all.limit(4)
+      # Fetch 4 items that have not been purchased for non-logged-in users
+      @suggested_items = Item.includes(:purchase).where(purchases: { item_id: nil }).limit(4)
     end
   end
 end
