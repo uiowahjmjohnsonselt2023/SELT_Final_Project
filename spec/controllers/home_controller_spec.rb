@@ -36,6 +36,11 @@ describe HomeController, type: :controller do
       instance_double('Item', :user_id => 2)
     ]
   }
+  let(:test_items){
+    [
+      instance_double('Item', :user_id => 1)
+    ]
+  }
   let(:categories) {
     [
       instance_double('Category'),
@@ -69,12 +74,15 @@ describe HomeController, type: :controller do
       context "when user has 0 items bookmarked" do
         before do
           allow(current_user).to receive(:bookmarked_items).and_return(current_user_items)
-          allow(current_user_items).to receive(:limit).and_return([])
-          allow(Item).to receive(:where).and_return(other_items)
+          allow(current_user_items).to receive(:includes).and_return(other_items)
+          allow(other_items).to receive(:where).and_return(test_items)
+          allow(test_items).to receive(:limit).and_return([])
+          allow(Item).to receive(:includes).and_return(other_items)
+          allow(other_items).to receive(:where).and_return(other_items)
           allow(other_items).to receive(:not).and_return(other_items)
           allow(other_items).to receive(:limit).and_return(other_items[0..3])
-          allow(:current_user).to receive(:includes).and_return(current_user_items)
           allow(Item).to receive(:includes).and_return(other_items)
+          #allow(:bookmarked_items).to receive(:includes).and_return(current_user_items)
         end
 
         it 'assigns @suggested_items' do
@@ -91,13 +99,10 @@ describe HomeController, type: :controller do
       context "when user has 1-3 items bookmarked" do
         before do
           allow(current_user).to receive(:bookmarked_items).and_return(current_user_items)
-          allow(current_user_items).to receive(:limit).and_return(current_user_items[0..1])
-          allow(Item).to receive(:where).and_return(other_items)
+          allow(current_user_items).to receive(:includes).and_return(current_user_items[0..1])
+          allow(Item).to receive(:includes).and_return(other_items)
           allow(other_items).to receive(:not).and_return(other_items)
           allow(other_items).to receive(:limit).and_return(other_items[0..1])
-          allow(:bookmarked_items).to receive(:includes).and_return(current_user_items)
-          allow(:current_user).receive(:includes).and_return(current_user_items)
-          allow(Item).to receive(:includes).and_return(other_items)
         end
 
         it 'assigns @suggested_items' do
