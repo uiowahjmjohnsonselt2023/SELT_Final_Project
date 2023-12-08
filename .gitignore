@@ -115,6 +115,7 @@ node_modules/
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/SELT_Final_Project.iml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -169,3 +170,5 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+

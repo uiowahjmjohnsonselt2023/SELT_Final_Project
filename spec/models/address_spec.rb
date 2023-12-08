@@ -36,16 +36,16 @@ describe Address, type: :model do
         expect(validator.valid_address_input?(nil, 'Apt 4', 'Cityville', 'Stateville', 'Countryland', '12345')).to be false
       end
 
-      it 'returns false' do
-        expect(validator.valid_address_input?('123 Main St', nil, 'Cityville', 'Stateville', 'Countryland', '12345')).to be false
+      it 'returns true' do
+        expect(validator.valid_address_input?('123 Main St', nil, 'Cityville', 'Stateville', 'Countryland', '12345')).to be true
       end
 
       it 'returns false' do
         expect(validator.valid_address_input?('123 Main St', 'Apt 4', nil, 'Stateville', 'Countryland', '12345')).to be false
       end
 
-      it 'returns false' do
-        expect(validator.valid_address_input?('123 Main St', 'Apt 4', 'Cityville', nil, 'Countryland', '12345')).to be false
+      it 'returns true' do
+        expect(validator.valid_address_input?('123 Main St', 'Apt 4', 'Cityville', nil, 'Countryland', '12345')).to be true
       end
 
       it 'returns false' do

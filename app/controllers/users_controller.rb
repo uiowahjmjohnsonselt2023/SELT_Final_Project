@@ -52,13 +52,43 @@ class UsersController < ApplicationController
 
     input_check = Address.new
 
+    if params[:country] == "Select Country"
+      flash[:error] = "Invalid Address Inputs"
+      redirect_to user_path(@user)
+    elsif params[:country] == "United States" && params[:state] == "Select State"
+      flash[:error] = "Invalid Address Inputs"
+      redirect_to user_path(@user)
+    end
+
+    if params[:state] == "Select State"
+      params[:state] = ""
+    end
+
     if input_check.valid_address_input?(params[:shipping_address_1], params[:shipping_address_2], params[:city], params[:state], params[:country], params[:postal_code])
-      @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country:  params[:country], postal_code: params[:postal_code])
+      @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country: params[:country], postal_code: params[:postal_code])
       flash[:alert] = "Address Added"
     else
       flash[:error] = "Invalid Address Inputs"
     end
     redirect_to user_path(@user)
+  end
+
+  def delete_address
+    address = current_user.addresses.find(params[:address_id])
+    if address.destroy
+      redirect_to edit_user_path(current_user), notice: 'Address deleted successfully.'
+    else
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the address.'
+    end
+  end
+
+  def delete_payment_method
+    payment_method = current_user.payment_methods.find(params[:payment_method_id])
+    if payment_method.destroy
+      redirect_to edit_user_path(current_user), notice: 'Payment method deleted successfully.'
+    else
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the payment method.'
+    end
   end
 
   # Delete User Profile

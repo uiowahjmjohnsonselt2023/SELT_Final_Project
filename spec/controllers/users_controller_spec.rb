@@ -32,7 +32,7 @@ describe UsersController, type: :controller do
   let(:payment_methods_double) { double("PaymentMethods") }
 
   let(:address) { instance_double('Address', :valid_address_input? => true) }
-  let(:addresses_double) { double("Addresses") }
+  let(:addresses_double) { double("Addresses", :address_id => "1") }
 
 
   before(:each) do
@@ -215,6 +215,75 @@ describe UsersController, type: :controller do
         expect(addresses_double).to receive(:create!)
         post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "CA", :country => "USA", :postal_code => "94105"
         expect(flash[:alert]).to match(/Address Added/)
+      end
+    end
+  end
+
+  describe "POST #delete_address" do
+    before do
+      allow(controller).to receive(:set_current_user).and_return(true)
+      allow(controller).to receive(:current_user).and_return(current_user)
+      allow(User).to receive(:find).and_return(current_user)
+      session[:session_token] = current_user.session_token
+      allow(current_user).to receive(:addresses).and_return(addresses_double)
+    end
+
+    context "with valid inputs" do
+      it "redirects to current user path" do
+        expect(addresses_double).to receive(:find).and_return(address)
+        expect(address).to receive(:destroy)
+        delete :delete_address, :id => current_user.id, :address_id => 4
+        expect(response).to redirect_to(edit_user_path(current_user))
+      end
+
+
+      it "sets a flash message when successful" do
+        expect(addresses_double).to receive(:find).and_return(address)
+        allow(address).to receive(:destroy).and_return(true)
+        delete :delete_address, :id => current_user.id, :address_id => "1"
+        expect(flash[:notice]).to match('Address deleted successfully.')
+      end
+
+      it "sets a flash message when unsuccessful" do
+        expect(addresses_double).to receive(:find).and_return(address)
+        allow(address).to receive(:destroy).and_return(false)
+        delete :delete_address, :id => current_user.id, :address_id => "1"
+        expect(flash[:alert]).to match('Could not delete the address.')
+      end
+    end
+  end
+
+
+  describe "DELETE #delete_payment_methods" do
+    before do
+      allow(controller).to receive(:set_current_user).and_return(true)
+      allow(controller).to receive(:current_user).and_return(current_user)
+      allow(User).to receive(:find).and_return(current_user)
+      session[:session_token] = current_user.session_token
+      allow(current_user).to receive(:payment_methods).and_return(addresses_double)
+    end
+
+    context "with valid inputs" do
+      it "redirects to current user path" do
+        expect(addresses_double).to receive(:find).and_return(payment_method)
+        expect(payment_method).to receive(:destroy)
+        delete :delete_payment_method, :id => current_user.id, :payment_method_id => 4
+        expect(response).to redirect_to(edit_user_path(current_user))
+      end
+
+
+      it "sets a flash message when successful" do
+        expect(addresses_double).to receive(:find).and_return(payment_method)
+        allow(payment_method).to receive(:destroy).and_return(true)
+        delete :delete_payment_method, :id => current_user.id, :payment_method_id => "1"
+        expect(flash[:notice]).to match('Payment method deleted successfully.')
+      end
+
+      it "sets a flash message when unsuccessful" do
+        expect(addresses_double).to receive(:find).and_return(payment_method)
+        allow(payment_method).to receive(:destroy).and_return(false)
+        delete :delete_payment_method, :id => current_user.id, :payment_method_id => "1"
+        expect(flash[:alert]).to match('Could not delete the payment method.')
       end
     end
   end

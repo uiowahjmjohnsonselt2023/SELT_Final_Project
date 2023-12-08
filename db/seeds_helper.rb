@@ -10,7 +10,6 @@ SEEDS_USERS = [
   { name: "Jody Hahn" },
   { name: "Kim Jarvis" }
 ].map.with_index do |user, i|
-  phone_number = Array.new(10) { rand(0..9) }.join
   address = "#{rand(100..999)} #{['Main St', 'Oak St', 'Pine St', 'Elm St', 'Maple St'].sample}"
 
   country = if i == 6
@@ -35,7 +34,6 @@ SEEDS_USERS = [
   user.merge(
     username: user[:name].downcase.gsub(" ", ""),
     email: user[:name].downcase.gsub(" ", "") + "@gmail.com",
-    phone_number: phone_number,
     shipping_address_1: address,
     shipping_address_2: rand < 0.5 ? "Apt #{rand(1..10)}" : nil,
     city: city,

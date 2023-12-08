@@ -31,6 +31,7 @@ Given(/^I am on the "(.*)" page$/) do |page_name|
          when 'profile' then user_path(@user.id) # Assign the profile path to the variable
          when 'sell item' then sell_path
          when 'search' then search_path
+         when 'edit profile' then edit_user_path(@user.id)
          # Add more pages here as needed
          else
            raise "No path defined for #{page_name}"
