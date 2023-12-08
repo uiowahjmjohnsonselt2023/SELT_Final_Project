@@ -37,7 +37,6 @@ class UsersController < ApplicationController
     expiration_date = params[:expiration_month] + '/' + params[:expiration_year]
 
     if payment_method.valid_payment_method_input?(params[:card_number], expiration_date)
-      expiration_date = Date.strptime(expiration_date, "%m/%Y")
       @user.payment_methods.create!(card_number: params[:card_number], expiration_date: expiration_date)
       flash[:alert] = "Payment Method Added"
     else
@@ -71,6 +70,24 @@ class UsersController < ApplicationController
       flash[:error] = "Invalid Address Inputs"
     end
     redirect_to user_path(@user)
+  end
+
+  def delete_address
+    address = current_user.addresses.find(params[:address_id])
+    if address.destroy
+      redirect_to edit_user_path(current_user), notice: 'Address deleted successfully.'
+    else
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the address.'
+    end
+  end
+
+  def delete_payment_method
+    payment_method = current_user.payment_methods.find(params[:payment_method_id])
+    if payment_method.destroy
+      redirect_to edit_user_path(current_user), notice: 'Payment method deleted successfully.'
+    else
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the payment method.'
+    end
   end
 
   # Delete User Profile

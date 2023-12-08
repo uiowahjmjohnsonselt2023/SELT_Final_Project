@@ -12,7 +12,12 @@ Rails.application.routes.draw do
   post 'users/:id/add_address', to: 'users#add_address', as: 'add_address_user'
 
   # User routes for new, create, show, edit, update
-  resources :users, only: [:new, :create, :show, :edit, :update]
+  resources :users, only: [:new, :create, :show, :edit, :update] do
+    member do
+      delete 'delete_address', to: 'users#delete_address'
+      delete 'delete_payment_method', to: 'users#delete_payment_method'
+    end
+  end
   get '/profile/:id', to: 'users#show'
 
 
