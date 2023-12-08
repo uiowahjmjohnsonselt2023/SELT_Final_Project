@@ -86,6 +86,7 @@ body.home-body {
 .home-item-image {
   width: auto;
   max-height: 35vh;
+  border-radius: 50%;
 }
 
 .flash {

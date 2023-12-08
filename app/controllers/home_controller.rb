@@ -11,6 +11,7 @@ class HomeController < ApplicationController
 
     @suggested_items = []
     @category_items = []
+    @category_order = []
 
 
 
@@ -34,6 +35,7 @@ class HomeController < ApplicationController
       item = Item.search(nil, category.name).first
       if item
         @category_items << item
+        @category_order << category.name
       end
       end
   end
