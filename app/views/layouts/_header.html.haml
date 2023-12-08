@@ -4,6 +4,8 @@
   .global-container
     = link_to root_path, class: 'global-navbar-brand' do
       = image_tag('logo.png', alt: 'Logo', class: 'global-navbar-logo')
+    .text-logo
+      %span Deal Docks
     .global-search-bar
       = form_tag search_path, method: :get do
         = text_field_tag :search_term, params[:search_term], placeholder: "Search items...", class: 'global-search-input'

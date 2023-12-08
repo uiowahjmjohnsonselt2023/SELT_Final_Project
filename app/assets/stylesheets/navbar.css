@@ -24,9 +24,9 @@
 }
 
 .global-navbar-logo {
-  height: 10vh;
+  height: 15vh;
   width: auto;
-  margin-right: 1vw;
+  margin-right: 0.25vw;
 }
 
 .global-search-bar {
@@ -115,3 +115,8 @@
   }
 }
 
+.text-logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
