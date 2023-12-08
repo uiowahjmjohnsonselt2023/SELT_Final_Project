@@ -73,6 +73,7 @@ Feature: Reviewing an item
       Then I should not see "Great Experience"
       Then I should not see "I had a great experience with this seller"
       Then I should not see "★ ★ ★ ★ ★"
+
     Scenario: Not being able to add a review twice for one item
       Given I am logged in as "review_test_user"
       And I search for "Baseball"
