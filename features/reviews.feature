@@ -46,5 +46,32 @@ Feature: Reviewing an item
     Then I should see "Great Experience"
     Then I should see "I had a great experience with this seller"
     Then I should see "★ ★ ★ ★ ★"
+    And I visit the profile page for "review_test_user"
+    Then I should not see "Great Experience"
+    Then I should not see "I had a great experience with this seller"
+    Then I should not see "★ ★ ★ ★ ★"
+
+  Scenario: Deleting a Review
+     Given I am logged in as "review_test_user"
+      And I search for "Baseball"
+      And I click on the "Baseball" link
+      Then I should see the review form
+      And I fill in "Rating (1 to 5)" with "5"
+      And I fill in "Review Title" with "Great Experience"
+      And I fill in "Your Review" with "I had a great experience with this seller"
+      And I click the "Submit Review" button
+      Then I search for "Baseball"
+      Then I click on the "Baseball" link
+      Then I should see "Great Experience"
+      Then I should see "I had a great experience with this seller"
+      Then I should see "★ ★ ★ ★ ★"
+      And I click the "Delete" button
+      Then I should not see "Great Experience"
+      Then I should not see "I had a great experience with this seller"
+      Then I should not see "★ ★ ★ ★ ★"
+      And I visit the profile page for "mainuser"
+      Then I should not see "Great Experience"
+      Then I should not see "I had a great experience with this seller"
+      Then I should not see "★ ★ ★ ★ ★"
 
 

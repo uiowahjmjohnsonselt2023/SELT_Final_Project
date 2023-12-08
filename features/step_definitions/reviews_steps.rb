@@ -20,3 +20,7 @@ And(/^I visit the profile page for "([^"]*)"$/) do |arg|
   user = User.find_by(username: arg)
   visit user_path(user)
 end
+
+Then(/^I should not see "([^"]*)"$/) do |arg|
+  expect(page).to_not have_content(arg)
+end
