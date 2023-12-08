@@ -45,14 +45,6 @@ class ReviewsController < ApplicationController
     redirect_to user_path(current_user)
   end
 
-  def edit
-
-  end
-
-  def update
-
-  end
-
   private
 
   def correct_purchase_create
