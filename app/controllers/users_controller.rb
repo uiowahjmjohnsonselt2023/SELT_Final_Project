@@ -52,8 +52,20 @@ class UsersController < ApplicationController
 
     input_check = Address.new
 
+    if params[:country] == "Select Country"
+      flash[:error] = "Invalid Address Inputs"
+      redirect_to user_path(@user)
+    elsif params[:country] == "United States" && params[:state] == "Select State"
+      flash[:error] = "Invalid Address Inputs"
+      redirect_to user_path(@user)
+    end
+
+    if params[:state] == "Select State"
+      params[:state] = ""
+    end
+
     if input_check.valid_address_input?(params[:shipping_address_1], params[:shipping_address_2], params[:city], params[:state], params[:country], params[:postal_code])
-      @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country:  params[:country], postal_code: params[:postal_code])
+      @user.addresses.create!(shipping_address_1: params[:shipping_address_1], shipping_address_2: params[:shipping_address_2], city: params[:city], state: params[:state], country: params[:country], postal_code: params[:postal_code])
       flash[:alert] = "Address Added"
     else
       flash[:error] = "Invalid Address Inputs"

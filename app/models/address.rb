@@ -22,7 +22,7 @@ class Address < ApplicationRecord
   end
 
   def valid_shipping_address_2?(shipping_address_2)
-    shipping_address_2.is_a?(String) && !shipping_address_2.blank?
+    shipping_address_2.is_a?(String) || shipping_address_2.blank?
   end
 
   def valid_city?(city)
@@ -30,7 +30,7 @@ class Address < ApplicationRecord
   end
 
   def valid_state?(state)
-    state.is_a?(String) && state.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/) && !state.blank?
+    state.is_a?(String) && state.gsub(/\s+/, "").match?(/\A[a-zA-Z]+\z/) || state.blank?
   end
 
   def valid_country?(country)
