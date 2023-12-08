@@ -3,7 +3,6 @@ class HomeController < ApplicationController
   def index
     # Fetch all the categories from the database
     @categories = Category.all
-
     # Fetch suggested items for sale, which might be a curated list based on some logic
     # Replace the 'suggested_items' method with the actual logic you want to use.
     # Suggest bookmark items first then random others for four total items
@@ -32,8 +31,10 @@ class HomeController < ApplicationController
       @suggested_items = Item.includes(:purchase).where(purchases: { item_id: nil }).limit(4)
     end
     @categories.each do |category|
-      item = category.items.includes(:purchase).where(purchases: { item_id: nil }).first
-      @category_items << item if item.present?
+      item = Item.search(nil, category.name).first
+      if item
+        @category_items << item
+      end
       end
   end
 end
