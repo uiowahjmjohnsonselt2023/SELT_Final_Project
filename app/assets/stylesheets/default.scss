@@ -1,11 +1,15 @@
 /* Base Styles */
+@font-face {
+  font-family: 'OpenSans';
+  src: asset-url('OpenSans.ttf') format('truetype');
+}
 
 html, body {
   margin: 0;
   padding: 0;
   background: White;
   color: DarkSlateGrey;
-  font-family: Tahoma, Verdana, sans-serif;
+  font-family: 'OpenSans', sans-serif;
   font-size: 1em;
 }
 

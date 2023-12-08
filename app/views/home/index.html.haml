@@ -11,9 +11,15 @@
           %span= @category_order[index]
           - if item.images.any?
             = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
-
-
-
+.home-container
+  .home-subheader Categories
+  .home-items-container
+    - @category_items.each_with_index do |item, index|
+      = link_to search_path(categories: @category_order[index]), method: :get, class: 'global-category-button' do
+        .home-item
+          %span= @category_order[index]
+          - if item.images.any?
+            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 .home-container
   .home-subheader Your Items for Sale
   .home-items-container
