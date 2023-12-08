@@ -1,13 +1,12 @@
 -# app/views/home/index.html.haml
 - flash.each do |type, message|
   %div{ class: "flash #{type}" }= message
-
 .home-container
   .home-subheader Categories
-  .home-items-container
+  .home-categories-container
     - @category_items.each_with_index do |item, index|
       = link_to search_path(categories: @category_order[index]), method: :get, class: 'global-category-button' do
-        .home-item
+        .category-item
           %span= @category_order[index]
           - if item.images.any?
             = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'

@@ -52,6 +52,32 @@ body.home-body {
   justify-content: flex-start;
 }
 
+.home-categories-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+  margin: 20px auto;
+  width: calc(100% - 40px) !important;
+  justify-content: flex-start;
+}
+
+.category-item{
+  border-radius: 4px;
+  padding: 20px;
+  margin: 0 10px;
+  text-align: center;
+  font-size: 1.5em;
+  color: black;
+  flex: 0 0 300px;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+.category-item:hover {
+  filter: brightness(85%);
+}
+.category-item img{
+  object-fit: contain;
+}
 /* Individual Items */
 .home-item {
   border: 1px solid #ddd;
