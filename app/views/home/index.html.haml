@@ -1,16 +1,12 @@
+-# app/views/home/index.html.haml
 - flash.each do |type, message|
   %div{ class: "flash #{type}" }= message
--# app/views/home/index.html.haml
-
-.container.home-container
-  .home-header Welcome to Deal Docks
 
 .home-container
   .home-subheader Items for Sale
   .home-items-container
     - if @suggested_items.empty?
       .home-subheader There are no items for sale.
-    -else
       - @suggested_items.each do |item|
         - unless item.purchased?
           .home-item

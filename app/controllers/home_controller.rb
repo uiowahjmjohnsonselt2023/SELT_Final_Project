@@ -11,6 +11,9 @@ class HomeController < ApplicationController
     num_items = 0
 
     @suggested_items = []
+    @category_items = []
+
+
 
     # Fetch your bookmarked items if you are logged in
     if current_user
@@ -28,5 +31,9 @@ class HomeController < ApplicationController
       # Fetch 4 items that have not been purchased for non-logged-in users
       @suggested_items = Item.includes(:purchase).where(purchases: { item_id: nil }).limit(4)
     end
+    @categories.each do |category|
+      item = category.items.includes(:purchase).where(purchases: { item_id: nil }).first
+      @category_items << item if item.present?
+      end
   end
 end
