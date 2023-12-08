@@ -1,7 +1,7 @@
 /* app/assets/stylesheets/global-navbar.css */
 
 .global-navbar {
-  background-color: #333;
+  background-color: dodgerblue;
   overflow: hidden;
   font-family: 'Arial', sans-serif;
   padding: 1vh 0;
@@ -100,11 +100,11 @@
 }
 
 .global-category-button {
-  background-color: transparent; /* Transparent background for a more link-like appearance */
+  background-color: transparent;
   padding: 0.5vh 1vw;
   border: none;
   cursor: pointer;
-  text-decoration: none; !important; /* No underline for a cleaner look */
+  text-decoration: none; !important;
   font-size: 1rem;
   transition: color 0.3s ease;
 
