@@ -12,14 +12,19 @@
           - if item.images.any?
             = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 .home-container
-  .home-subheader Categories
+  .home-subheader Items for Sale
   .home-items-container
-    - @category_items.each_with_index do |item, index|
-      = link_to search_path(categories: @category_order[index]), method: :get, class: 'global-category-button' do
-        .home-item
-          %span= @category_order[index]
-          - if item.images.any?
-            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
+    - if @suggested_items.empty?
+      .home-subheader There are no items for sale.
+    -else
+      - @suggested_items.each do |item|
+        - unless item.purchased?
+          .home-item
+            = link_to item.title, item_path(item), class: 'item-title-link'
+
+            %h3= "$#{'%.2f' % item.price}"
+            - if item.images.any?
+              = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 .home-container
   .home-subheader Your Items for Sale
   .home-items-container

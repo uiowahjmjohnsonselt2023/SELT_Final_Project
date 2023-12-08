@@ -14,9 +14,3 @@
       = link_to 'Logout', logout_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'global-logout-button'
     - else
       = link_to 'Login', '/auth/google_oauth2', method: :post, class: 'global-nav-link'
-- if controller_name == 'home' || current_page?(root_path)
-  %div.global-category-bar
-    .global-category-container
-      - @categories.each do |category|
-        = link_to search_path(categories: category[:name]), method: :get, class: 'global-category-button' do
-          = category[:name]
