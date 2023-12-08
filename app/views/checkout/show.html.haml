@@ -27,6 +27,9 @@
         - @user.payment_methods.each do |payment_method|
           %option{value: payment_method.id}= "Card ending in #{payment_method.card_number[-4..-1]}"
 
+
+    = link_to "Edit Profile", edit_user_path(@user), class: 'checkout-edit-profile-button'
+
     - if @item.purchased?
       %p This item has already been purchased.
       = link_to 'Back', item_path(@item), class: "back-button"

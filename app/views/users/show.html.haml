@@ -13,9 +13,6 @@
     %p.user-email
       %strong Email:
       = @user.email
-    %p.user-phone-number
-      %strong Phone Number:
-      = @user.phone_number
 
     - if logged_in?
       - if current_user.id == @user.id

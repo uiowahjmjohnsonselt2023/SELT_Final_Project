@@ -1,6 +1,22 @@
 
-Then(/^I should see welcome$/) do
-  expect(page).to have_content("Welcome to Deal Docks")
+Then(/^I should see edit card$/) do
+  expect(page).to have_content("Card number")
+  expect(page).to have_button("Add Payment Method")
+end
+
+Then(/^I should see edit shipping info$/) do
+  expect(page).to have_content("Shipping Address 1")
+  expect(page).to have_button("Add Address")
+end
+
+Then(/^I should see delete shipping address$/) do
+  expect(page).to have_content("Select Shipping Address to Delete:")
+  expect(page).to have_button("Delete Address")
+end
+
+Then(/^I should see edit payment method$/) do
+  expect(page).to have_content("Select Payment Method to Delete:")
+  expect(page).to have_button("Delete Payment Method")
 end
 
 
