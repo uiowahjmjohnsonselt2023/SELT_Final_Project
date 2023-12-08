@@ -1,8 +1,5 @@
 /* app/assets/stylesheets/home.css */
 
-/* Global Styles */
-
-
 /* Header Styles */
 .home-header {
   background-color: white;
@@ -48,30 +45,28 @@
 .home-categories-container {
   display: flex;
   overflow-x: auto;
-  padding: 10px 0;
-  margin: 20px auto;
-  width: calc(100% - 40px) !important;
+  width: 95vw;
   justify-content: flex-start;
 }
 
 .category-item{
   border-radius: 4px;
-  padding: 20px;
-  margin: 0 10px;
+  padding: 10px;
+  margin: 0 5px;
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1em;
   color: black;
-  flex: 0 0 300px;
-  max-width: 300px;
+  flex: 0 0 10vw;
   box-sizing: border-box;
   text-decoration: none;
 }
 .category-item:hover {
-  filter: brightness(85%);
+  filter: brightness(65%);
   text-decoration: none;
 }
 .category-item img{
   object-fit: contain;
+  width: 100px;
 }
 /* Individual Items */
 .home-item {

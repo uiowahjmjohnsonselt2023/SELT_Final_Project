@@ -101,18 +101,13 @@
 
 .global-category-button {
   background-color: transparent; /* Transparent background for a more link-like appearance */
-  color: #007bff; /* Blue text color */
   padding: 0.5vh 1vw;
   border: none;
   cursor: pointer;
-  text-decoration: none; /* No underline for a cleaner look */
+  text-decoration: none; !important; /* No underline for a cleaner look */
   font-size: 1rem;
   transition: color 0.3s ease;
 
-  &:hover {
-    color: #0056b3; /* Darker color on hover */
-    text-decoration: underline; /* Underline on hover for emphasis */
-  }
 }
 
 .text-logo {
