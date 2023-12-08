@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # Show User Profile
   def show
     @user = User.find(params[:id])
+    @reviews = @user.received_reviews
   end
 
   # Edit User Profile

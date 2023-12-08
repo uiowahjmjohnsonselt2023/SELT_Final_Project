@@ -8,6 +8,10 @@ class User < ApplicationRecord
   has_many :bookmarked_items, through: :bookmarks, source: :item, dependent: :delete_all
   has_many :purchases, dependent: :delete_all
   has_many :purchased_items, through: :purchases, source: :item, dependent: :delete_all
+  has_many :reviews, dependent: :delete_all
+
+  has_many :written_reviews, class_name: 'Review', foreign_key: 'reviewer_id', dependent: :destroy
+  has_many :received_reviews, class_name: 'Review', foreign_key: 'seller_id', dependent: :destroy
 
   before_save { self.username = username.downcase }
 

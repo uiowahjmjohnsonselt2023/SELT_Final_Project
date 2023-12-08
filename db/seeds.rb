@@ -57,3 +57,34 @@ SEEDS_USERS.each_with_index do |user_info, i|
   item.images.create!(data: image_data, image_type: image_type)
   item.categories << Category.find_by(name: insert_item[:category])
 end
+
+# Create more than one item per user to test stuff
+
+user = User.create!(
+  username: 'mainuser',
+  email: 'mainuser@gmail.com',
+  phone_number: '1234567890'
+)
+
+(0..4).each { |i|
+  # create 5 items with main user
+
+  insert_item = SEEDS_ITEMS[i]
+  image_data = File.read(Rails.root.join("app/assets/images/#{insert_item[:image]}"), mode: "rb")
+  image_type = insert_item[:image].split(".").last
+
+  item = user.items.create!(
+    title: "Movie Memorabilia #{i}",
+    description: "Collectible memorabilia from a popular movie, including a replica prop.",
+    price: 60.00,
+    length: 20.0, width: 14.0, height: 3.0,
+    dimension_units: "in",
+    weight: 3.0,
+    weight_units: "lbs",
+    condition: 0
+  )
+
+  item.categories << Category.find_by(name: 'Movies, Music & Games')
+  item.images.create!(data: image_data, image_type: image_type)
+  item.categories << Category.find_by(name: insert_item[:category])
+}

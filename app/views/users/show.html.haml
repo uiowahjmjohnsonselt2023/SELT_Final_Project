@@ -83,3 +83,33 @@
           = form_tag search_path, method: :get do
             = hidden_field_tag @user.id, params[:user_id]
             = submit_tag "Contact Company", name: nil, class: 'user-button user-nav-button'
+
+    %section.seller-reviews-container
+    %h2 Seller Reviews
+    - if @reviews.present?
+      .reviews-list
+        - @reviews.each do |review|
+          .review-card
+            %h3.review-title= review.title
+            %p.review-user
+              %strong Review by:
+              = link_to review.purchase.user.username, profile_path(id: review.purchase.user.id)
+            %p.review-item
+              %strong Item:
+              = link_to review.purchase.item.title, item_path(review.purchase.item)
+            %p.review-rating Rating:
+            .rating-stars
+              - review.rating.times do
+                %span ★
+              - (5 - review.rating).times do
+                %span ☆
+            %p.review-content= review.content
+            %p.review-date= review.created_at.strftime("%B %d, %Y")
+
+            - if review.purchase.user == current_user
+              = button_to review_path(review), method: :delete, data: { confirm: 'Are you sure you want to delete this review?' }, class: 'delete-review-button' do
+                = hidden_field_tag :item_id, review.purchase.item.id
+                = 'Delete'
+
+    - else
+      %p No reviews yet for this seller.

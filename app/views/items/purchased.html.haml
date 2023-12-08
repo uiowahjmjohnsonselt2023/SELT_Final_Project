@@ -1,4 +1,8 @@
+- flash.each do |type, message|
+  %div{ class: "flash #{type}" }= message
+
 %section.item-page
+
   %h1= @item.title
   %p.item-price= "Price: $#{'%.2f' % @item.price}"
 
@@ -21,13 +25,8 @@
         %span Next &raquo;
 
 
-
   .item-action-buttons
     = link_to "View seller's other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
-    - if @item.purchase.user == current_user
-      = button_to "Leave a Seller Review", search_path(seller: @user.username), method: :get, class: 'buy-button'
-    - else
-      = button_to "View Seller Reviews", search_path(seller: @user.username), method: :get, class: 'buy-button'
 
 
   .item-details
@@ -38,7 +37,7 @@
         %span= @item.created_at.strftime("%B %d, %Y")
       %p
         %strong Listed by:
-        %span= @user.username
+        = link_to @user.username, profile_path(id: @user.id)
       %p
         %strong Purchased by:
         %span= @item.purchase.user.username
@@ -62,3 +61,53 @@
               = @item.purchase.address.country
 
 
+- if @item.purchase.user == current_user and !@item.purchase.reviewed?
+  %section.review-form-container
+    %h2 Leave a Review for the Seller
+    = form_for Review.new, url: reviews_path, html: { class: 'review-form' } do |f|
+      = f.hidden_field :item_id, value: @item.id
+      = f.hidden_field :reviewer_id, value: @user.id
+      = f.hidden_field :seller_id, value: @item.user.id
+
+      .form-group
+        = f.label :rating, 'Rating (1 to 5)'
+        = f.number_field :rating, in: 1..5, class: 'form-control'
+
+      .form-group
+        = f.label :title, 'Review Title'
+        = f.text_field :title, class: 'form-control'
+
+      .form-group
+        = f.label :content, 'Your Review'
+        = f.text_area :content, class: 'form-control'
+
+      = f.submit 'Submit Review', class: 'submit-review-button'
+- elsif @item.purchase.user == current_user
+%section.seller-reviews-container
+  %h2 Seller Reviews
+  - if @reviews.present?
+    .reviews-list
+      - @reviews.each do |review|
+        .review-card
+          %h3.review-title= review.title
+          %p.review-user
+            %strong Review by:
+            = link_to review.purchase.user.username, profile_path(id: review.purchase.user.id)
+          %p.review-item
+            %strong Item:
+            = link_to review.purchase.item.title, item_path(review.purchase.item)
+            %p.review-rating Rating:
+            .rating-stars
+              - review.rating.times do
+                %span ★
+              - (5 - review.rating).times do
+                %span ☆
+            %p.review-content= review.content
+            %p.review-date= review.created_at.strftime("%B %d, %Y")
+
+            - if review.purchase.user == current_user
+              = button_to review_path(review), method: :delete, data: { confirm: 'Are you sure you want to delete this review?' }, class: 'delete-review-button' do
+                = hidden_field_tag :item_id, review.purchase.item.id
+                = 'Delete'
+  - else
+    %p No reviews yet for this seller.

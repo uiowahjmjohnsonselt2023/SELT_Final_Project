@@ -102,6 +102,23 @@ ActiveRecord::Schema.define(version: 20231208185137) do
   add_index "purchases", ["item_id"], name: "index_purchases_on_item_id", unique: true
   add_index "purchases", ["payment_method_id"], name: "index_purchases_on_payment_method_id"
 
+  create_table "reviews", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "reviewer_id"
+    t.integer  "seller_id"
+    t.integer  "purchase_id"
+    t.integer  "item_id"
+    t.string   "title"
+  end
+
+  add_index "reviews", ["item_id"], name: "index_reviews_on_item_id"
+  add_index "reviews", ["purchase_id"], name: "index_reviews_on_purchase_id"
+  add_index "reviews", ["reviewer_id"], name: "index_reviews_on_reviewer_id"
+  add_index "reviews", ["seller_id"], name: "index_reviews_on_seller_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "username",      null: false
     t.string   "email",         null: false

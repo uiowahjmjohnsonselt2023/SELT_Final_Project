@@ -35,7 +35,7 @@ class ItemsController < ApplicationController
     @related_items = @item.find_related_items
     @user = User.find(@item.user_id)
     @bookmarked = current_user.bookmarked_items.include?(@item) if current_user
-
+    @reviews = @user.received_reviews
     if @item.purchased?
       render :purchased
     end
