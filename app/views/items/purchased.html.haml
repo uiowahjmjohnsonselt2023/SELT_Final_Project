@@ -90,6 +90,9 @@
       - @reviews.each do |review|
         .review-card
           %h3.review-title= review.title
+          %p.review-user
+            %strong Review by:
+            = link_to review.purchase.user.username, profile_path(id: review.purchase.user.id)
           %p.review-item
             %strong Item:
             = link_to review.purchase.item.title, item_path(review.purchase.item)
