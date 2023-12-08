@@ -22,7 +22,6 @@ SEEDS_USERS.each_with_index do |user_info, i|
   user = User.create!(
     username: user_info[:username],
     email: user_info[:email],
-    phone_number: user_info[:phone_number]
   )
 
   user.addresses.create!(

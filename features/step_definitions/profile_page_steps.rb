@@ -11,7 +11,6 @@ end
 Then(/^I should see the profile page with the user's information$/) do
   expect(page).to have_content(@user.username)
   expect(page).to have_content(@user.email)
-  expect(page).to have_content(@user.phone_number)
 end
 
 Given(/^I have added an address to my profile$/) do
