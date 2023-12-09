@@ -32,13 +32,15 @@ class User < ApplicationRecord
     self.session_token = SecureRandom.urlsafe_base64
   end
 
-  def add_bookmark(item)
+  def add_bookmark(item_id)
+    item = Item.find_by(id: item_id)
     unless bookmarked_items.include?(item)
       bookmarked_items << item
     end
   end
 
-  def remove_bookmark(item)
+  def remove_bookmark(item_id)
+    item = Item.find_by(id: item_id)
     if bookmarked_items.include?(item)
       bookmarked_items.delete(item)
     else
