@@ -7,7 +7,7 @@ class ReviewsController < ApplicationController
   before_filter :find_review, only: [:edit, :update, :destroy]
 
   def create
-    @review = new_review(params[:review])
+    @review = Review.new_review(params[:review])
 
     # Assuming current_user is the one who made the purchase
     purchase = Purchase.find_by(item_id: params[:review][:item_id], user: current_user)
