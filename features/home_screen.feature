@@ -34,12 +34,12 @@ Feature: Home Screen Functionality
       | Baseball | Baseball    | Electronics | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
       | Skis     | Skis        | Books       | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     And I am on the "home" page
-    When I click on the "Baseball" link
+    When I click on any of the "Baseball" links
     Then I should see the item page:
       | user           | title    | description  | price | width | length | height | dimension_units | weight | weight_units | condition |
       | home_test_user | Baseball | Electronics         | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
     Given I am on the "home" page
-    When I click on the "Skis" link
+    When I click on any of the "Skis" links
     Then I should see the item page:
       | user           | title    | description  | price | width | length | height | dimension_units | weight | weight_units | condition |
       | home_test_user | Skis     | Books        | 1.00  | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |

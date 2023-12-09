@@ -1,9 +1,12 @@
 Given(/^I search for my items/) do
   # Ensure that the bookmark button is on the page
   # visit the search page and search by seller
-  visit search_path
-  fill_in 'Seller', with: @user.username
-  click_button 'Filter'
+  # visit search_path
+  # fill_in 'Seller', with: @user.username
+  # click_button 'Filter'
+
+  # visiting the url to get around javascript buttons
+  visit "/search?seller=#{CGI.escape(@user.username)}"
 end
 
 And(/^I edit the item as the following:$/) do |table|

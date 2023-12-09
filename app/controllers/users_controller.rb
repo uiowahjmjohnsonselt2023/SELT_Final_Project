@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :set_current_user, :only => [:edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
+  before_filter :find_user, :only => [:show, :edit]
 
   # Show User Profile
   def show

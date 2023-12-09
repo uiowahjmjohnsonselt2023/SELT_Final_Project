@@ -19,8 +19,25 @@ Then(/^I should see edit payment method$/) do
   expect(page).to have_button("Delete Payment Method")
 end
 
+Then(/^I should not see any payment method$/) do
+  expect(page).to_not have_content("****-****-****")
+end
+
+When("I fill in expiration date") do
+  select '12', from: 'expiration_month'
+  select (Time.now.year+1).to_s, from: 'expiration_year' # Select next year as an example
+end
 
 
 
+Then(/^I should have the address "([^"]*)"$/) do |arg|
+  expect(page).to have_content(arg)
+end
 
+Then(/^I should not have the address "([^"]*)"$/) do |arg|
+  expect(page).to_not have_content(arg)
+end
 
+When(/^I select "([^"]*)" from "([^"]*)"$/) do |arg1, arg2|
+  select arg1, from: arg2
+end
