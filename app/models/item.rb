@@ -21,7 +21,6 @@ class Item < ApplicationRecord
   validates :weight_units, presence: true, inclusion: { in: %w(oz lbs g kg) }
   validates :condition, presence: true, inclusion: { in: 0..4 }
 
-
   def self.dimension_units
     %w(in ft cm m)
   end
@@ -72,21 +71,68 @@ class Item < ApplicationRecord
     items
   end
 
-  def self.insert_item(user, title, description, price, category_ids, images,
-                       length, width, height, dimension_units, weight, weight_units, condition)
+  def self.get_users_search_items(current_user, params)
+    results = if params[:bookmarks].present? && params[:bookmarks] == '1' && current_user
+                current_user.bookmarked_items
+              elsif params[:purchased].present? && params[:user_id].present? && (user = User.find_by(id: params[:user_id]))
+                user.purchased_items
+              elsif params[:categories].present? && params[:search_term].present?
+                Item.search(params[:search_term], params[:categories])
+              elsif params[:categories].present?
+                Item.search(nil, params[:categories])
+              elsif params[:search_term].present?
+                Item.search(params[:search_term], Category.all.map(&:name))
+              else
+                Item.all
+              end
+
+    if params[:seller]
+      seller = User.find_by(username: params[:seller])
+      results = seller ? results.where("items.user_id = ?", seller.id) : []
+    end
+    results = results.where("price >= ?", params[:min_price]) if params[:min_price]
+    results = results.where("price <= ?", params[:max_price]) if params[:max_price]
+
+    results
+  end
+
+  def self.get_search_items(params)
+    results = if params[:purchased].present? && params[:user_id].present? && (user = User.find_by(id: params[:user_id]))
+                user.purchased_items
+              elsif params[:categories].present? && params[:search_term].present?
+                Item.search(params[:search_term], params[:categories])
+              elsif params[:categories].present?
+                Item.search(nil, params[:categories])
+              elsif params[:search_term].present?
+                Item.search(params[:search_term], Category.all.map(&:name))
+              else
+                Item.all
+              end
+
+    if params[:seller]
+      seller = User.find_by(username: params[:seller])
+      results = seller ? results.where("items.user_id = ?", seller.id) : []
+    end
+    results = results.where("price >= ?", params[:min_price]) if params[:min_price]
+    results = results.where("price <= ?", params[:max_price]) if params[:max_price]
+
+    results
+  end
+
+  def insert_item(user, item_to_insert)
     item = user.items.create!(
-      title: title,
-      description: description,
-      price: price,
-      length: length,
-      width: width,
-      height: height,
-      dimension_units: dimension_units,
-      weight: weight,
-      weight_units: weight_units,
-      condition: condition
+      title: item_to_insert[:title],
+      description: item_to_insert[:description],
+      price: item_to_insert[:price],
+      length: item_to_insert[:length],
+      width: item_to_insert[:width],
+      height: item_to_insert[:height],
+      dimension_units: item_to_insert[:dimension_units],
+      weight: item_to_insert[:weight],
+      weight_units: item_to_insert[:weight_units],
+      condition: item_to_insert[:condition]
     )
-    images.each do |uploaded_image|
+    item_to_insert[:images].each do |uploaded_image|
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
       image = MiniMagick::Image.new(image_file_path)
@@ -94,7 +140,7 @@ class Item < ApplicationRecord
       image_type, image_data = Image.get_image_data(image_file_path)
       item.images.create!(data: image_data, image_type: image_type)
     end
-    category_ids.each do |category_id|
+    item_to_insert[:category_ids].each do |category_id|
       unless category_id.blank?
         item.categories << Category.find(category_id)
       end
@@ -102,30 +148,28 @@ class Item < ApplicationRecord
     item
   end
 
-  def update_item(title, description, price, category_ids, images, remove_images,
-                  length, width, height, dimension_units, weight, weight_units, condition)
-
+  def update_item(item_to_update)
     # Update item attributes
     if self.update!(
-      title: title,
-      description: description,
-      price: price,
-      length: length,
-      width: width,
-      height: height,
-      dimension_units: dimension_units,
-      weight: weight,
-      weight_units: weight_units,
-      condition: condition
+      title: item_to_update[:title],
+      description: item_to_update[:description],
+      price: item_to_update[:price],
+      length: item_to_update[:length],
+      width: item_to_update[:width],
+      height: item_to_update[:height],
+      dimension_units: item_to_update[:dimension_units],
+      weight: item_to_update[:weight],
+      weight_units: item_to_update[:weight_units],
+      condition: item_to_update[:condition]
     )
 
       # Update categories
-      self.categories = Category.where(id: category_ids.reject(&:blank?))
+      self.categories = Category.where(id: item_to_update[:category_ids].reject(&:blank?))
 
       # Adding new images if the user uploaded more
-      if images.present?
+      if item_to_update[:images].present?
         # Handle images
-        images.each do |uploaded_image|
+        item_to_update[:images].each do |uploaded_image|
           next unless uploaded_image.respond_to?(:tempfile)
           image_file_path = uploaded_image.tempfile.path
           image = MiniMagick::Image.new(image_file_path)
@@ -136,12 +180,12 @@ class Item < ApplicationRecord
       end
 
       # Removing images if the user selected to remove any
-      if remove_images.present?
+      if item_to_update[:remove_images].present?
         # reverse the keys of the hash since we want to remove the images from last to first to be able to use the index
-        remove_images = remove_images.select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
+        item_to_update[:remove_images] = item_to_update[:remove_images].select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
 
         # remove the images from the item
-        remove_images.each do |index|
+        item_to_update[:remove_images].each do |index|
           if index >= 0 && index < self.images.length
             self.images.destroy(self.images[index])
           end

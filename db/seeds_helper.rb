@@ -252,3 +252,24 @@ SEEDS_ITEMS = [
   }
 ].freeze
 
+def insert_item(user, i)
+  item_to_insert = SEEDS_ITEMS[i]
+  image_data = File.read(Rails.root.join("app/assets/images/#{item_to_insert[:image]}"), mode: "rb")
+  image_type = item_to_insert[:image].split(".").last
+
+  item = user.items.create!(
+    title: item_to_insert[:title],
+    description: item_to_insert[:description],
+    price: item_to_insert[:price],
+    length: item_to_insert[:length],
+    width: item_to_insert[:width],
+    height: item_to_insert[:height],
+    dimension_units: item_to_insert[:dimension_units],
+    weight: item_to_insert[:weight],
+    weight_units: item_to_insert[:weight_units],
+    condition: item_to_insert[:condition]
+  )
+  item.images.create!(data: image_data, image_type: image_type)
+  item.categories << Category.find_by(name: item_to_insert[:category])
+end
+

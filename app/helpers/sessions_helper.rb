@@ -16,4 +16,11 @@ module SessionsHelper
     session.delete(:session_token)
     @current_user = nil
   end
+
+  def require_login
+    unless current_user
+      flash[:error] = "You must be logged in to access this section"
+      redirect_to root_path # Ensure this path is correct
+    end
+  end
 end
