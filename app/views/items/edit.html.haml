@@ -51,7 +51,19 @@
     .form-field
       = f.label :price
       = f.number_field :price, required: true, step: '0.01'
-
+      #price-breakdown
+        %h2#fee-amount Fee (5%): $0.00
+        %h2#total-price You Receive: $0.00
+      :javascript
+        document.addEventListener('DOMContentLoaded', function() {
+          document.getElementById('item_price').addEventListener('input', function() {
+            var price = parseFloat(this.value) || 0;
+            var fee = price * 0.05;
+            var total = price - fee;
+            document.getElementById('fee-amount').textContent = 'Fee (5%): $' + fee.toFixed(2);
+            document.getElementById('total-price').textContent = 'You Receive: $' + total.toFixed(2);
+          });
+        });
     .form-field
       = f.label :categories
       = f.collection_select :category_ids, @categories, :id, :name, {include_blank: false}, { multiple: true, required: true, size: 3 }
@@ -69,7 +81,7 @@
 
 
     .drop-zone
-      %p Drag and drop files here or
+      %p Drag and drop images here or
       %button#upload-btn Upload New Files (Max: 5 images)
       = f.file_field :images, multiple: true, accept: 'image/*', required: true, style: 'display: none;', id: 'file-input'
 

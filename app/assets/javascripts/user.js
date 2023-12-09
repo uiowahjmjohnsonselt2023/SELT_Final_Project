@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
   var countrySelect = document.getElementById('country');
   var stateSelect = document.getElementById('state-select');
