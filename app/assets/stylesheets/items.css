@@ -12,8 +12,9 @@ body {
   background-color: #f8d7da;
 }
 
+/* Item Page Layout */
 .item-page {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 20px auto;
   padding: 15px;
   background: #f9f9f9;
@@ -21,15 +22,21 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.item-page h1 {
-  font-size: 1.75em;
-  color: #333;
-  margin-bottom: 10px;
+.item-and-reviews {
+  display: flex;
+  justify-content: center; /* Centering content */
+  align-items: flex-start;
 }
 
-.item-price {
-  font-size: 1.25em;
-  margin-bottom: 20px;
+.item-details-container {
+  flex-basis: 70%; /* Increased to 70% */
+  max-width: 70%;
+}
+
+.seller-reviews-container {
+  flex-basis: 25%; /* Decreased to 25%, making it smaller */
+  max-width: 25%;
+  margin-left: 20px;
 }
 
 /* Carousel Styles */
@@ -45,6 +52,7 @@ body {
   cursor: pointer;
   text-decoration: none;
   color: #007bff;
+  margin-right: 11vw;
 }
 
 /* Action Buttons */
@@ -93,10 +101,6 @@ body {
 }
 
 /* Seller Reviews Container */
-.seller-reviews-container {
-  margin-top: 20px;
-}
-
 .review-card {
   border: 1px solid #ddd;
   padding: 15px;
@@ -144,4 +148,18 @@ body {
 
 .local-category-button:hover {
   background-color: #d0d0d0;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .item-and-reviews {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .item-details-container, .seller-reviews-container {
+    flex-basis: 100%;
+    max-width: 100%;
+    margin-left: 0;
+  }
 }

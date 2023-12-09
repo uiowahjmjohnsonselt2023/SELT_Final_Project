@@ -53,7 +53,7 @@
       = f.number_field :price, required: true, step: '0.01'
       #price-breakdown
         %h2#fee-amount Fee (5%): $0.00
-        %h2#total-price Total: $0.00
+        %h2#total-price You Receive: $0.00
       :javascript
         document.addEventListener('DOMContentLoaded', function() {
           document.getElementById('item_price').addEventListener('input', function() {
@@ -61,7 +61,7 @@
             var fee = price * 0.05;
             var total = price - fee;
             document.getElementById('fee-amount').textContent = 'Fee (5%): $' + fee.toFixed(2);
-            document.getElementById('total-price').textContent = 'You Recieve: $' + total.toFixed(2);
+            document.getElementById('total-price').textContent = 'You Receive: $' + total.toFixed(2);
           });
         });
     .form-field

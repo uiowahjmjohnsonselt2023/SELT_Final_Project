@@ -2,98 +2,80 @@
   %div{ class: "flash #{type}" }= message
 
 %section.item-page
-  %h1= @item.title
-  %p.item-price= "Price: $#{'%.2f' % @item.price}"
+  .item-and-reviews
+    .item-details-container
+      %h1= @item.title
+      %p.item-price= "Price: $#{'%.2f' % @item.price}"
 
-  - if @item.categories.any?
-    %p.categories
-    %span.label Categories:
-    - @item.categories.each do |category|
-      = link_to search_path(categories: category[:name]), method: :get, class: 'local-category-button' do
-        = category[:name]
+      - if @item.categories.any?
+        %p.categories
+          %span.label Categories:
+          - @item.categories.each do |category|
+            = link_to search_path(categories: category[:name]), method: :get, class: 'local-category-button' do
+              = category[:name]
 
+      - if @item.images.any?
+        .carousel-container
+          .carousel-slide
+            - @item.images.each_with_index do |image, index|
+              = image_tag image.data_uri, alt: "#{@item.title} image #{index}", class: 'item-carousel-image', style: "display: none;"
 
-  - if @item.images.any?
-    .carousel-container
-      .carousel-slide
-        - @item.images.each_with_index do |image, index|
-          = image_tag image.data_uri, alt: "#{@item.title} image #{index}", class: 'item-carousel-image', style: "display: none;"
+          %a.carousel-control-prev{ href: "#", onclick: "moveSlide(-1); return false;" }
+            %span &laquo; Prev
+          %a.carousel-control-next{ href: "#", onclick: "moveSlide(1); return false;" }
+            %span Next &raquo;
 
-      %a.carousel-control-prev{ href: "#", onclick: "moveSlide(-1); return false;" }
-        %span &laquo; Prev
-      %a.carousel-control-next{ href: "#", onclick: "moveSlide(1); return false;" }
-        %span Next &raquo;
+      .item-action-buttons
+        - if current_user.nil?
+          = button_to "Sign in to buy", '/auth/google_oauth2', method: :post, class: 'buy-button'
+        - elsif current_user.id == @item.user_id
+          = button_to "Edit Item", edit_item_path(id: @item.id), method: :get, class: 'buy-button'
+          = button_to "Delete Item", item_path(id: @item.id), method: :delete, data: { confirm: "Are you sure you want to delete this listing?" }, class: 'buy-button'
+        - else
+          - if @item.purchased?
+            %p.item-purchased This item has been purchased
+          - else
+            = button_to "Buy Now", checkout_path(id: @item.id), method: :get, class: 'buy-button'
+        = link_to "View users other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
+        - if logged_in?
+          %button#bookmark-button.bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }
+            = @bookmarked ? 'Unbookmark' : 'Bookmark'
 
-  .item-action-buttons
-    - if current_user.nil?
-      = button_to "Sign in to buy", '/auth/google_oauth2', method: :post, class: 'buy-button'
-    - elsif current_user.id == @item.user_id
-      = button_to "Edit Item", edit_item_path(id: @item.id), method: :get, class: 'buy-button'
-      = button_to "Delete Item", item_path(id: @item.id), method: :delete, data: { confirm: "Are you sure you want to delete this listing?" }, class: 'buy-button'
-    - else
-      - if @item.purchased?
-        %p.item-purchased This item has been purchased
+    %section.seller-reviews-container
+      %h2 Seller Reviews
+      - if @reviews.present?
+        .reviews-list
+          - @reviews.each do |review|
+            .review-card
+              %h3.review-title= review.title
+              %p.review-user
+                %strong Review by:
+                = link_to review.purchase.user.username, profile_path(id: review.purchase.user.id)
+              %p.review-item
+                %strong Item:
+                = link_to review.purchase.item.title, item_path(review.purchase.item)
+                %p.review-rating Rating:
+                .rating-stars
+                  - review.rating.times do
+                    %span ★
+                  - (5 - review.rating).times do
+                    %span ☆
+              %p.review-content= review.content
+              %p.review-date= review.created_at.strftime("%B %d, %Y")
+
+              - if review.purchase.user == current_user
+                = button_to review_path(review), method: :delete, data: { confirm: 'Are you sure you want to delete this review?' }, class: 'delete-review-button' do
+                  = hidden_field_tag :item_id, review.purchase.item.id
+                  = 'Delete'
       - else
-        = button_to "Buy Now", checkout_path(id: @item.id), method: :get, class: 'buy-button'
-    = link_to "View users other item's", search_path(seller: @user.username), method: :get, form: {class: 'search-form'}, class: 'search-button'
-    - if logged_in?
-      %button#bookmark-button.bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }
-        = @bookmarked ? 'Unbookmark' : 'Bookmark'
-
-  .item-details
-    %p#item-description= @item.description
-    .item-attributes
-      %p
-        %strong Size (LxWxH):
-        %span= @item.dimensions
-      %p
-        %strong Weight:
-        %span= "#{@item.weight} #{ @item.weight_units }"
-      %p
-        %strong Condition:
-        %span= @item.condition_text
-      %p
-        %strong Listed on:
-        %span= @item.created_at.strftime("%B %d, %Y")
-      %p
-        %strong Listed by:
-        = link_to @user.username, profile_path(id: @user.id)
+        %p No reviews yet for this seller.
 
   %section.related-items
-  %h2 You might also like
-  - @related_items ||= []
-  - @related_items.first(3).each do |related_item|
-    = link_to item_path(related_item), class: 'related-item-link' do
-      .related-item
-        - if related_item.images.any?
-          = image_tag related_item.images.first.data_uri, alt: related_item.title, class: 'related-item-image'
-        %h3= related_item.title
-
-%section.seller-reviews-container
-  %h2 Seller Reviews
-  - if @reviews.present?
-    .reviews-list
-      - @reviews.each do |review|
-        .review-card
-          %h3.review-title= review.title
-          %p.review-user
-            %strong Review by:
-            = link_to review.purchase.user.username, profile_path(id: review.purchase.user.id)
-          %p.review-item
-            %strong Item:
-            = link_to review.purchase.item.title, item_path(review.purchase.item)
-            %p.review-rating Rating:
-            .rating-stars
-              - review.rating.times do
-                %span ★
-              - (5 - review.rating).times do
-                %span ☆
-            %p.review-content= review.content
-            %p.review-date= review.created_at.strftime("%B %d, %Y")
-
-            - if review.purchase.user == current_user
-              = button_to review_path(review), method: :delete, data: { confirm: 'Are you sure you want to delete this review?' }, class: 'delete-review-button' do
-                = hidden_field_tag :item_id, review.purchase.item.id
-                = 'Delete'
-  - else
-    %p No reviews yet for this seller.
+    %h1 You might also like
+    - @related_items ||= []
+    - @related_items.first(3).each do |related_item|
+      = link_to item_path(related_item), class: 'related-item-link' do
+        .related-item
+          - if related_item.images.any?
+            = image_tag related_item.images.first.data_uri, alt: related_item.title, class: 'related-item-image'
+          %h3= related_item.title
