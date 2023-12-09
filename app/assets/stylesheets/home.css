@@ -72,6 +72,7 @@
   object-fit: contain;
   width: 100px;
 }
+
 /* Individual Items */
 .home-item {
   border: 1px solid #ddd;
@@ -87,7 +88,6 @@
   width: 15vw;
   box-sizing: border-box;
   transition: background-color 0.3s ease;
-
 }
 
 .home-item:hover{

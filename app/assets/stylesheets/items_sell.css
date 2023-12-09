@@ -1,3 +1,5 @@
+/* app/assets/stylesheets/items_sell.css */
+
 /* Base Style for Form Fields */
 .form-container {
   max-width: 65vw;
@@ -7,7 +9,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   margin: 2.5vh auto
 }
-
 
 /* Base Style for Form Fields */
 .form-field {
@@ -87,7 +88,6 @@
 .form-submit-button:hover {
   filter: brightness(65%);
 }
-
 
 /* Add this in your CSS file */
 select {
