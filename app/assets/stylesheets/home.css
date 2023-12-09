@@ -62,6 +62,7 @@
   flex: 0 0 10vw;
   box-sizing: border-box;
   text-decoration: none;
+  
 }
 .category-item:hover {
   filter: brightness(65%);
@@ -80,12 +81,13 @@
   text-align: center;
   font-size: 1em;
   background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
   color: black;
   flex: 0 0 300px;
   width: 15vw;
   box-sizing: border-box;
   transition: background-color 0.3s ease;
+
 }
 
 .home-item:hover{
