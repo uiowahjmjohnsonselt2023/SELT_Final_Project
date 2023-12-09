@@ -32,13 +32,15 @@ class User < ApplicationRecord
     self.session_token = SecureRandom.urlsafe_base64
   end
 
-  def add_bookmark(item)
+  def add_bookmark(item_id)
+    item = Item.find_by(id: item_id)
     unless bookmarked_items.include?(item)
       bookmarked_items << item
     end
   end
 
-  def remove_bookmark(item)
+  def remove_bookmark(item_id)
+    item = Item.find_by(id: item_id)
     if bookmarked_items.include?(item)
       bookmarked_items.delete(item)
     else
@@ -50,6 +52,22 @@ class User < ApplicationRecord
     bookmarked_items.include?(item)
   end
 
+  def get_users_suggested_items
+    # Select bookmarked items that have not been purchased
+    suggested_items = bookmarked_items.includes(:purchase).where(purchases: { item_id: nil }).limit(4)
+    num_items = suggested_items.length
+
+    # If there are less than 4 bookmarked items, fill the rest with other items that have not been purchased
+    if num_items < 4
+      additional_items = Item.includes(:purchase).where.not(user: self).where(purchases: { item_id: nil }).limit(4 - num_items)
+      suggested_items += additional_items
+    end
+    suggested_items
+  end
+
+  def self.get_suggested_items
+    Item.includes(:purchase).where(purchases: { item_id: nil }).limit(4)
+  end
 
   def purchase_item(item, address_id, payment_method_id)
     return { success: false, message: 'Item not found.' } unless item
