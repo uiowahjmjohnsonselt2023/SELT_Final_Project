@@ -152,5 +152,27 @@ option {
   filter: brightness(65%);
 }
 
+.image-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Space between each image row */
+}
+
+.custom-checkbox {
+  width: 20px; /* Size of the checkbox */
+  height: 20px; /* Size of the checkbox */
+  cursor: pointer;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-left: 10px; /* Space between image and checkbox */
+  cursor: pointer;
+}
+
+.checkbox-container span {
+  margin-left: 5px; /* Space between checkbox and label text */
+}
 
 
