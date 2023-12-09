@@ -54,8 +54,12 @@
       = f.label :categories
       = f.collection_select :category_ids, @categories, :id, :name, {include_blank: true}, { multiple: true, required: true, size: 6 }
 
-    .form-field
-      = f.label :images
-      = f.file_field :images, multiple: true, accept: 'image/*', required: true
+    .drop-zone
+      %p Drag and drop files here or
+      %button#upload-btn Upload Files (Max: 5 images)
+      = f.file_field :images, multiple: true, accept: 'image/*', required: true, style: 'display: none;', id: 'file-input'
+
+    .file-names
+      %p#file-list No files selected
 
     = f.submit action_name == 'new' ? 'List Item' : 'Update Item', class: 'form-submit-button'

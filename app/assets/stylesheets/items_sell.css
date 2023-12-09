@@ -75,3 +75,16 @@
   margin: 0;
   padding: 0;
 }
+
+/* CSS */
+.drop-zone {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+.drop-zone:hover {
+  background-color: #f8f8f8;
+}
+
