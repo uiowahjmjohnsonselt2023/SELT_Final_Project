@@ -62,7 +62,7 @@
   flex: 0 0 10vw;
   box-sizing: border-box;
   text-decoration: none;
-  
+
 }
 .category-item:hover {
   filter: brightness(65%);

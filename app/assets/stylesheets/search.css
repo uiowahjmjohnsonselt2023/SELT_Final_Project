@@ -19,6 +19,7 @@
   max-width: 10vw;
   height: auto;
   margin-right: 1em;
+  border-radius: 10%;
 }
 
 .search-item-title {
@@ -182,6 +183,7 @@ legend {
   .search-result-item {
     flex: 0 0 100%;
     max-width: 100%;
+
   }
 }
 
@@ -194,3 +196,4 @@ legend {
   border: none;
   border-radius: 5px;
 }
+
