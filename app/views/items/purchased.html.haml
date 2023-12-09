@@ -49,17 +49,22 @@
           %strong Delivery Status:
           - if Time.current > @item.purchase.created_at + 1.minute
             %span
-              Delivered to
-              = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
-              = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
-              = @item.purchase.address.country
+              - if !@item.purchase.address.nil?
+                Delivered to
+                = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
+                = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
+                = @item.purchase.address.country
+              - else
+                Delivered
           -else
             %span
-              En Route to
-              = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
-              = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
-              = @item.purchase.address.country
-
+              - if !@item.purchase.address.nil?
+                En Route to
+                = [@item.purchase.address.shipping_address_1, @item.purchase.address.shipping_address_2].reject(&:blank?).join(', ')
+                = [@item.purchase.address.city, @item.purchase.address.state, @item.purchase.address.postal_code].reject(&:blank?).join(', ')
+                = @item.purchase.address.country
+              - else
+                En Route
 
 - if @item.purchase.user == current_user and !@item.purchase.reviewed?
   %section.review-form-container
