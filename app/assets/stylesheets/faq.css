@@ -1,0 +1,16 @@
+.faq-container {
+  margin: 20px;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+}
+
+.faq-item h2 {
+  color: #333;
+  font-weight: bold;
+}
+
+.faq-item p {
+  color: #666;
+}
