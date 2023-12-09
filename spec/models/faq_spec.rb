@@ -24,7 +24,7 @@ describe Faq, type: :model do
     #end
 
     it 'returns correct value' do
-      expect(Faq.questions).to eq(x)
+      expect(Faq.questions).to eq(model_faqs)
     end
 
   end
