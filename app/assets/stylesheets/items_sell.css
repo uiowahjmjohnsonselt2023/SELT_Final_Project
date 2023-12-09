@@ -1,24 +1,24 @@
 /* Base Style for Form Fields */
 .form-container {
-  max-width: 65vw; /* Sets a maximum width */
-  padding: 20px; /* Adds some padding inside the container */
-  background-color: #fff; /* Sets a background color */
-  border-radius: 8px; /* Rounds the corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow */
+  max-width: 65vw;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   margin: 2.5vh auto
 }
 
 
 /* Base Style for Form Fields */
 .form-field {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .form-field label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: black; /* Darker color for better contrast */
+  color: black;
 }
 
 .form-field input[type="text"],
@@ -31,8 +31,8 @@
   border-radius: 4px;
   box-sizing: border-box;
   margin-bottom: 10px;
-  background-color: #fafafa; /* Light gray background */
-  color: black; /* Darker text for better readability */
+  background-color: #fafafa;
+  color: black;
 }
 
 .form-field input[type="text"]:focus,
@@ -46,7 +46,7 @@
 
 .form-field textarea {
   height: 100px;
-  resize: vertical; /* Allow vertical resize */
+  resize: vertical;
 }
 
 /* Style for File Upload Drop Zone */
@@ -57,17 +57,17 @@
   text-align: center;
   cursor: pointer;
   margin-bottom: 15px;
-  background-color: #fafafa; /* Light gray background */
+  background-color: #fafafa;
 }
 
 .drop-zone:hover {
-  background-color: #f0f0f0; /* Slightly darker on hover */
+  background-color: #f0f0f0;
 }
 
 /* Style for File Names List */
 .file-names {
   margin-bottom: 15px;
-  background-color: #fafafa; /* Light gray background */
+  background-color: #fafafa;
   padding: 8px;
   border-radius: 4px;
 }
@@ -109,20 +109,46 @@ option {
 }
 /* Style for Upload Button */
 #upload-btn {
-  background-color: #ff5555; /* Blue background */
-  color: white; /* White text */
-  padding: 10px 15px; /* Padding for size */
-  border: none; /* No border */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor to indicate it's clickable */
-  font-size: 16px; /* Larger font size */
-  margin-top: 10px; /* Margin on top for spacing */
-  text-align: center; /* Center the text */
+  background-color: #ff5555;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  text-align: center;
   display: inline-block;
   transition: background-color 0.3s ease;
 }
 
 #upload-btn:hover {
+  filter: brightness(65%);
+}
+
+/* Style for Remove Image Buttons */
+.file-names ul {
+  list-style: none;
+  padding: 0;
+}
+
+.file-names li {
+  margin-bottom: 5px;
+}
+
+.file-names button {
+  background-color: #ff5555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.file-names button:hover {
   filter: brightness(65%);
 }
 
