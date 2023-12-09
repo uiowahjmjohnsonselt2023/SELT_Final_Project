@@ -1,0 +1,8 @@
+%div.faq-container
+  %h1 FAQ
+
+  -# Loop through each FAQ question and answer
+  - @faq_questions.each_with_index do |faq, index|
+    %div.faq-item
+      %button.faq-question{ onclick: "toggleAnswer(#{index})" }= faq[:question]
+      %p.faq-answer{id: "answer-#{index}", style: "display: none;"}= faq[:answer]
