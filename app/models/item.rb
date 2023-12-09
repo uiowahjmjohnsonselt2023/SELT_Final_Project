@@ -154,8 +154,8 @@ class Item < ApplicationRecord
   end
 
   def find_related_items
-    # Fetch other items by the same user, excluding the current item
-    Item.where(user_id: user_id).where.not(id: id).limit(4)
+    # Fetch other items in the same category
+    Item.joins(:categories).where(categories: { id: self.categories.pluck(:id) }).where.not(id: self.id).limit(4)
   end
 
   # Returns true if the item has been purchased

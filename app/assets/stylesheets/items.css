@@ -1,242 +1,147 @@
-/* app/assets/stylesheets/items.css */
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.flash {
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-radius: 4px;
+  color: #721c24;
+  background-color: #f8d7da;
+}
 
 .item-page {
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 20px auto;
   max-width: 800px;
+  margin: 20px auto;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.item-title {
+.item-page h1 {
+  font-size: 1.75em;
   color: #333;
-  font-size: 2rem;
-  margin-bottom: 0.5em;
-  text-align: center;
-}
-
-.carousel-container {
-  position: relative;
-  max-width: 80%;
-  margin: 20px auto;
-  overflow: hidden;
-}
-
-.carousel-slide {
-  display: flex;
-  justify-content: center;
-}
-
-.carousel-image {
-  max-width: 100%;
-  display: block;
-  height: auto;
-  max-height: 400px;
-}
-
-.carousel-control-prev, .carousel-control-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.carousel-control-prev {
-  left: 10px;
-}
-
-.carousel-control-next {
-  right: 10px;
-}
-
-.item-action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.buy-button, .search-button, .bookmark-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.buy-button {
-  background-color: #5cb85c; /* Green */
-}
-
-.search-button {
-  background-color: #007bff; /* Blue */
-}
-
-.bookmark-button {
-  background-color: #f0ad4e; /* Orange */
-}
-
-.item-details {
-  margin-top: 20px;
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 4px;
-  border: 1px solid #eee;
-}
-
-.item-attributes {
-  margin-top: 20px;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #eee;
-}
-
-.related-items {
-  margin-top: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.related-item:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
 }
 
 .item-price {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-.item-categories {
-  font-size: 0.85rem;
-  color: #666;
-  text-align: center;
-}
-
-.related-item-link {
-  text-decoration: none;
-  color: inherit;
-  flex-basis: calc(30% - 10px);
-  max-width: calc(30% - 10px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background: #FFFFFF;
-  border-radius: 5px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 100%;
+  font-size: 1.25em;
   margin-bottom: 20px;
 }
 
-.related-item {
-  width: 100%;
-  padding: 15px;
-  text-align: center;
+/* Carousel Styles */
+.carousel-container {
+  margin-bottom: 20px;
 }
 
-.related-item-image {
-  width: auto;
-  max-height: 150px;
-  margin-bottom: 15px;
+.carousel-slide {
+  /* Add your carousel styles here */
 }
 
-.categories {
-  font-size: 16px; /* Adjust the font size as needed */
-  color: #333; /* Font color */
-}
-
-.categories .label {
-  font-weight: bold;
-  margin-right: 4px; /* Space between label and first category */
-}
-
-.category-name {
-  background-color: #f2f2f2; /* Light background for each category name */
-  padding: 1px 2px; /* Padding around category name */
-  border-radius: 5px; /* Rounded corners */
-  margin-right: 5px; /* Space between category names */
-  display: inline-block;
-}
-
-.separator {
-  margin-right: 5px; /* Space after the comma */
-}
-
-.local-category-button {
-  background-color: transparent; /* Transparent background for a more link-like appearance */
-  color: #007bff; /* Blue text color */
-  padding: 0.25vh .5vw;
-  border: none;
+.carousel-control-prev, .carousel-control-next {
   cursor: pointer;
-  text-decoration: none; /* No underline for a cleaner look */
-  font-size: 1rem;
-  transition: color 0.3s ease;
-
-
-  &:hover {
-    color: #0056b3; /* Darker color on hover */
-    text-decoration: underline; /* Underline on hover for emphasis */
-  }
+  text-decoration: none;
+  color: #007bff;
 }
 
-
-.review-form-container {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.review-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-control {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.form-control:focus {
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-}
-
-.submit-review-button {
-  padding: 10px 20px;
+/* Action Buttons */
+.buy-button, .search-button, #bookmark-button {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  text-align: center;
+  display: inline-block;
+  margin: 5px;
 }
 
-.submit-review-button:hover {
-  background-color: #0069d9;
+.buy-button:hover, .search-button:hover, #bookmark-button:hover {
+  background-color: #0056b3;
 }
 
+/* Item Details */
+.item-details {
+  margin-top: 20px;
+}
 
+.item-details p {
+  margin-bottom: 10px;
+}
+
+.item-attributes p {
+  margin-bottom: 5px;
+}
+
+/* Related Items */
+.related-items {
+  margin-top: 30px;
+}
+
+.related-item {
+  margin-bottom: 15px;
+}
+
+.related-item-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Seller Reviews Container */
+.seller-reviews-container {
+  margin-top: 20px;
+}
+
+.review-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.review-title {
+  font-size: 1.25em;
+  color: #333;
+}
+
+.review-rating, .review-content, .review-date {
+  margin-bottom: 5px;
+}
+
+.rating-stars {
+  color: #ffd700;
+}
+
+.delete-review-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-review-button:hover {
+  background-color: #cc0000;
+}
+
+/* Category Button Styles */
+.local-category-button {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 2px;
+}
+
+.local-category-button:hover {
+  background-color: #d0d0d0;
+}

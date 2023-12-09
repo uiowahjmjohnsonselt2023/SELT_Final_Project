@@ -4,7 +4,6 @@
     %hr
     = form_tag(search_path, method: :get, class: 'search-filter-form') do
       = hidden_field_tag :search_term, params[:search_term]
-
       .search-filters-container
         %fieldset.search-categories-filter
           %legend Filter by categories
@@ -14,7 +13,6 @@
                 = check_box_tag 'categories[]', category.name, (params[:categories].blank? || params[:categories].include?(category.name)), id: "categories_#{category.name.parameterize}"
                 %span.search-checkmark
                 = category.name
-
         %fieldset.search-price-filter
           %legend Filter by price
           .search-price-range
@@ -35,8 +33,7 @@
           .search-price-range
             = label_tag :seller, 'Seller:'
             = text_field_tag :seller, params[:seller], placeholder: 'Seller name'
-
-    = submit_tag 'Filter', class: 'search-filter-button'
+      = submit_tag 'Filter', class: 'search-filter-button'
   %hr
   - if @results.any?
     - if params[:search_term] == '' || params[:search_term].nil? || params[:search_term].empty? || params[:search_term] == '*'
