@@ -52,7 +52,7 @@
 
     .form-field
       = f.label :categories
-      = f.collection_select :category_ids, @categories, :id, :name, {include_blank: false}, { multiple: false, required: true }
+      = f.collection_select :category_ids, @categories, :id, :name, {include_blank: false}, { multiple: true, required: true, size: 3 }
 
     .drop-zone
       %p Drag and drop files here or
