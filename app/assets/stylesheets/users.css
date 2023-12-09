@@ -1,326 +1,116 @@
-.user-profile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.user-logo {
-  max-width: 100px;
-}
-
-.user-profile-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.user-profile-image img {
-  height: 100px;
-  width: 100px;
-  object-fit: cover;
-  border-radius: 50%;
+/* General Style */
+.user-profile-container {
+  max-width: 65vw;
+  margin: 2vh auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .user-account-details {
-  background: #f0f0f0;
-  padding: 10px;
-  width: 100%;
-}
-
-.user-address {
-  margin-top: 5px;
-}
-
-.user-edit-profile-button,
-.user-nav-button,
-.user-my-bookmarked-items-btn {
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  margin: 5px;
-  font-size: 16px;
   text-align: center;
-  outline: none;
-  border-radius: 5px;
-  box-sizing: border-box;
-  height: 40px;
+  margin-bottom: 30px;
 }
 
-.user-edit-profile-form {
-  text-align: center;
+.user-account-title {
+  font-size: 3em;
+  color: black;
+  margin-top: 10px;
 }
 
-.user-addresses-table,
-.user-payment-methods-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.user-addresses-table th,
-.user-addresses-table td,
-.user-payment-methods-table th,
-.user-payment-methods-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+.user-username, .user-email {
+  font-size: 1.25em;
+  color: black;
   text-align: left;
 }
 
-.user-addresses-table th,
-.user-payment-methods-table th {
-  background-color: #f2f2f2;
+.user-addresses-title, .user-payment-methods-title {
+  font-weight: bold;
+  margin-top: 5vh;
   color: black;
+  font-size: 1.5em;
 }
 
-.user-addresses-table tr:nth-child(even),
-.user-payment-methods-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+.user-addresses-table, .user-payment-methods-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 5vh;
 }
 
-.user-addresses-table tr:hover,
-.user-payment-methods-table tr:hover {
-  background-color: #ddd;
+.user-addresses-table th, .user-payment-methods-table th {
+  text-align: left;
+  background-color: dodgerblue;
+  color: white;
+  padding: 1vh;
 }
 
-.user-profile-container {
-  display: flex;
-  justify-content: space-between;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.user-navigation-and-tables {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.user-addresses-table td, .user-payment-methods-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
 }
 
 .user-navigation-section {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.user-button,
-.user-my-bookmarked-items-btn {
-  display: inline-block;
+.user-button, .user-button-bookmarks {
+  background-color: #007bff;
+  color: white;
+  border: none;
   padding: 10px 20px;
-  margin: 5px;
-  font-size: 16px;
+  border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  font-weight: normal;
   text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #3e8e41;
-  border: none;
+  display: inline-block;
+  font-size: 1em;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.user-button:hover, .user-button-bookmarks:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+.review-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
   border-radius: 5px;
 }
 
-.user-button:hover { background-color: #45a049 }
-
-.user-button:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-.user-tables-section {
-  clear: both;
-}
-
-.user-my-bookmarked-items-btn {
-  background-color: #3498db;
-  &:hover {
-    background-color: #2980b9;
-  }
-}
-
-.flash {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  text-align: center; /* Centers text horizontally */
-}
-
-.flash.notice {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  color: #3c763d;
-}
-
-.flash.alert {
-  background-color: #f2dede;
-  border-color: #ebccd1;
-  color: #a94442;
-}
-
-/* Overall form styling specific to user forms */
-.user-form {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.user-form .payment-fields,
-.user-form .address-fields {
-  margin-bottom: 20px;
-  margin-right: 20px;
-}
-
-.user-form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.user-form input[type="text"] {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.user-form input[type="submit"] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.user-form input[type="submit"]:hover {
-  background-color: #45a049;
-}
-
-.edit-profile-container {
-  display: flex;
-  justify-content: space-between;
-  max-width: 80%;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.user-form {
-  width: 100%;
-}
-
-select {
-  background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 100% 50%;
-
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-border-radius: 0px;
-  appearance: none;
-
-  padding: 10px 10px 10px 5px;
-  display: block;
-  width: 50%;
-}
-
-.required {
-  color: red;
-}
-
-.expiration-date-container {
-  display: flex;
-  justify-content: start;
-}
-.expiration-date-part {
-  margin-right: 5px;
-  width: 20%;
-}
-.slash {
-  padding: 0 5px;
-  line-height: 2;
-}
-
-.seller-reviews-container {
-  margin-top: 40px;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.reviews-list {
-  margin-top: 20px;
-}
-
 .review-title {
-  color: #333;
-  margin: 0;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #eee;
   font-size: 18px;
+  color: #333;
 }
 
-.review-rating {
-  font-weight: bold;
-  margin-top: 10px;
+.review-rating, .review-content, .review-date {
+  font-size: 1em;
+  color: black;
 }
 
 .rating-stars {
-  display: inline-block;
-  color: #f1c40f;
-  font-size: 24px;
-}
-
-.review-content {
-  margin-top: 10px;
-  color: #555;
-}
-
-.review-date {
-  text-align: right;
-  color: #aaa;
-  font-size: 12px;
-  margin-top: 10px;
-}
-
-.review-card {
-  background: white;
-  border: 1px solid #eee;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.review-item strong {
-  font-weight: bold;
-}
-
-.review-item {
-  margin-top: 10px;
+  color: #ffd700;
 }
 
 .delete-review-button {
-  padding: 5px 10px;
-  background-color: #c0392b;
+  background-color: #ff4d4d;
   color: white;
   border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 10px;
-  font-size: 14px;
-  border-radius: 4px;
 }
 
 .delete-review-button:hover {
-  background-color: #e74c3c;
+  background-color: #cc0000;
 }
