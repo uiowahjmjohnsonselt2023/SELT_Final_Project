@@ -1,40 +1,40 @@
 %section.search-page-container
-  %hr
-  = form_tag(search_path, method: :get, class: 'search-filter-form') do
-    = hidden_field_tag :search_term, params[:search_term]
+  %button#toggleButton Show Filters
+  #dropdownForm{style: "display: none;"}
+    %hr
+    = form_tag(search_path, method: :get, class: 'search-filter-form') do
+      = hidden_field_tag :search_term, params[:search_term]
 
-    .search-filters-container
-      %fieldset.search-categories-filter
-        %legend Filter by categories
-        - Category.all.each do |category|
-          .search-category-checkbox
-            = label_tag "categories_#{category.name.parameterize}" do
-              = check_box_tag 'categories[]', category.name, (params[:categories].blank? || params[:categories].include?(category.name)), id: "categories_#{category.name.parameterize}"
-              %span.search-checkmark
-              = category.name
+      .search-filters-container
+        %fieldset.search-categories-filter
+          %legend Filter by categories
+          - Category.all.each do |category|
+            .search-category-checkbox
+              = label_tag "categories_#{category.name.parameterize}" do
+                = check_box_tag 'categories[]', category.name, (params[:categories].blank? || params[:categories].include?(category.name)), id: "categories_#{category.name.parameterize}"
+                %span.search-checkmark
+                = category.name
 
-      %fieldset.search-price-filter
-        %legend Filter by price
-        .search-price-range
-          = label_tag :min_price, 'Min Price:'
-          = text_field_tag :min_price, params[:min_price], placeholder: 'No minimum'
-        .search-price-range
-          = label_tag :max_price, 'Max Price:'
-          = text_field_tag :max_price, params[:max_price], placeholder: 'No maximum'
-
-      - if logged_in?
-        %fieldset.search-bookmarks-filter
-          %legend My Bookmarks Only
-          .search-category-checkbox
-            = label_tag :bookmarks, 'My bookmarked items' do
-              = check_box_tag :bookmarks, '1', params[:bookmarks] == '1', id: :bookmarks
-              %span.search-checkmark
-
-      %fieldset.search-seller-filter
-        %legend Filter by seller
-        .search-price-range
-          = label_tag :seller, 'Seller:'
-          = text_field_tag :seller, params[:seller], placeholder: 'Seller name'
+        %fieldset.search-price-filter
+          %legend Filter by price
+          .search-price-range
+            = label_tag :min_price, 'Min Price:'
+            = text_field_tag :min_price, params[:min_price], placeholder: 'No minimum'
+          .search-price-range
+            = label_tag :max_price, 'Max Price:'
+            = text_field_tag :max_price, params[:max_price], placeholder: 'No maximum'
+        -if logged_in?
+          %fieldset.search-bookmarks-filter
+            %legend My Bookmarks Only
+            .search-category-checkbox
+              = label_tag :bookmarks, 'My bookmarked items' do
+                = check_box_tag :bookmarks, '1', params[:bookmarks] == '1', id: :bookmarks
+                %span.search-checkmark
+        %fieldset.search-seller-filter
+          %legend Filter by seller
+          .search-price-range
+            = label_tag :seller, 'Seller:'
+            = text_field_tag :seller, params[:seller], placeholder: 'Seller name'
 
     = submit_tag 'Filter', class: 'search-filter-button'
   %hr
@@ -59,3 +59,5 @@
                     %span.search-separator ,
   - else
     %p.search-no-results No items found
+%footer.home-footer
+  %p.home-footer-text © 2023 Deal Docks. All rights reserved.

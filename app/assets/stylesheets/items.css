@@ -185,6 +185,7 @@
   font-size: 1rem;
   transition: color 0.3s ease;
 
+
   &:hover {
     color: #0056b3; /* Darker color on hover */
     text-decoration: underline; /* Underline on hover for emphasis */

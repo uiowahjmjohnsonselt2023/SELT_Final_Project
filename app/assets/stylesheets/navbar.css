@@ -1,7 +1,7 @@
 /* app/assets/stylesheets/global-navbar.css */
 
 .global-navbar {
-  background-color: #333;
+  background-color: dodgerblue;
   overflow: hidden;
   font-family: 'Arial', sans-serif;
   padding: 1vh 0;
@@ -24,9 +24,9 @@
 }
 
 .global-navbar-logo {
-  height: 10vh;
+  height: 15vh;
   width: auto;
-  margin-right: 1vw;
+  margin-right: 0.25vw;
 }
 
 .global-search-bar {
@@ -47,46 +47,36 @@
 
 .global-search-button {
   padding: 1vh 2vw;
-  background-color: #5cb85c;
+  background-color: #ff5555;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.global-search-button:hover {
-  background-color: #4cae4c;
-}
-
-.global-nav-link,
-.global-logout-button {
-  color: white;
-  padding: 1vh 1vw;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
-.global-nav-link:hover,
-.global-logout-button:hover {
-  background-color: #ddd;
-  color: black;
+.global-search-button:hover {
+  filter: brightness(65%);
 }
 
-.global-logout-button {
-  background-color: #d9534f;
-  margin-left: 1vw;
+.global-nav-link {
+  color: white;
+  padding: 1vh 1.25vw;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.35rem;
+  transition: background-color 0.3s ease;
+
 }
 
-.global-logout-button:hover {
-  background-color: #c9302c;
+.global-nav-link:hover {
+  filter: brightness(65%);
 }
 
 .global-category-bar {
-  background-color: #f8f9fa; /* Light background color */
-  border-top: 1px solid #eaeaea; /* Border at the top for separation */
-  border-bottom: 1px solid #eaeaea; /* Border at the bottom */
+  background-color: #f8f9fa;
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
 }
 
 .global-category-container {
@@ -100,18 +90,18 @@
 }
 
 .global-category-button {
-  background-color: transparent; /* Transparent background for a more link-like appearance */
-  color: #007bff; /* Blue text color */
+  background-color: transparent;
   padding: 0.5vh 1vw;
   border: none;
   cursor: pointer;
-  text-decoration: none; /* No underline for a cleaner look */
+  text-decoration: none; !important;
   font-size: 1rem;
   transition: color 0.3s ease;
 
-  &:hover {
-    color: #0056b3; /* Darker color on hover */
-    text-decoration: underline; /* Underline on hover for emphasis */
-  }
 }
 
+.text-logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}

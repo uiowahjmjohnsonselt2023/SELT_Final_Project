@@ -1,10 +1,15 @@
+-# app/views/home/index.html.haml
 - flash.each do |type, message|
   %div{ class: "flash #{type}" }= message
--# app/views/home/index.html.haml
-
-.container.home-container
-  .home-header Welcome to Deal Docks
-
+.home-container
+  .home-subheader Categories
+  .home-categories-container
+    - @category_items.each_with_index do |item, index|
+      = link_to search_path(categories: @category_order[index]), method: :get, class: 'global-category-button' do
+        .category-item
+          - if item.images.any?
+            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-categories-image'
+            %span= @category_order[index]
 .home-container
   .home-subheader Items for Sale
   .home-items-container
@@ -13,14 +18,11 @@
     -else
       - @suggested_items.each do |item|
         - unless item.purchased?
-          .home-item
-            = link_to item.title, item_path(item), class: 'item-title-link'
-
+          = link_to item_path(item), class: 'home-item' do
+            %h2= item.title
             %h3= "$#{'%.2f' % item.price}"
             - if item.images.any?
               = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
-
-
 .home-container
   .home-subheader Your Items for Sale
   .home-items-container
@@ -30,14 +32,14 @@
       .home-subheader You have no items for sale.
     -else
       - @user_items.each do |item|
-        .home-item
-          - if item.purchased?
-            %p.item-purchased This item has been purchased
-          -else
-            = link_to item.title, item_path(item), class: 'item-title-link'
-          %h3= "$#{'%.2f' % item.price}"
-          - if item.images.any?
-            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
+        - if item.purchased?
+          %p.item-purchased This item has been purchased
+        -else
+          = link_to item_path(item), class: 'home-item' do
+            %h2= item.title
+            %h3= "$#{'%.2f' % item.price}"
+            - if item.images.any?
+              = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 
 %footer.home-footer
   %p.home-footer-text © 2023 Deal Docks. All rights reserved.

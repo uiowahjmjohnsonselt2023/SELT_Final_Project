@@ -1,15 +1,5 @@
 /* app/assets/stylesheets/home.css */
 
-/* Global Styles */
-body.home-body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 /* Header Styles */
 .home-header {
   background-color: white;
@@ -24,8 +14,10 @@ body.home-body {
   background-color: white;
   color: Black;
   text-align: left;
-  font-weight: bold;
-  font-size: 1.25em; /* Adjusted from 20px */
+  align-self: flex-start;
+  font-size: 2.5em; /* Adjusted from 20px */
+  margin-bottom: 1vh;
+
 }
 
 /* Main Content Container */
@@ -45,11 +37,40 @@ body.home-body {
 .home-items-container, .home-suggested-items-container {
   display: flex;
   overflow-x: auto;
-  padding: 10px 0;
+  padding: 5px 0;
   box-sizing: border-box;
-  margin: 20px auto;
-  width: calc(100% - 40px) !important;
+  margin: 10px 0;
+  width: 90vw !important;
   justify-content: flex-start;
+}
+
+.home-categories-container {
+  display: flex;
+  overflow-x: auto;
+  width: 95vw;
+  justify-content: flex-start;
+  outline: 2px lightgray solid;
+}
+
+.category-item{
+  border-radius: 4px;
+  padding: 10px;
+  margin: 0 5px;
+  text-align: center;
+  font-size: 1em;
+  color: black;
+  flex: 0 0 10vw;
+  box-sizing: border-box;
+  text-decoration: none;
+
+}
+.category-item:hover {
+  filter: brightness(65%);
+  text-decoration: none;
+}
+.category-item img{
+  object-fit: contain;
+  width: 100px;
 }
 
 /* Individual Items */
@@ -61,11 +82,17 @@ body.home-body {
   text-align: center;
   font-size: 1em;
   background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
   color: black;
   flex: 0 0 300px;
-  max-width: 300px;
+  width: 15vw;
   box-sizing: border-box;
+  transition: background-color 0.3s ease;
+}
+
+.home-item:hover{
+  filter: brightness(65%);
+  text-decoration: none;
 }
 
 /* Footer Styles */
@@ -85,7 +112,16 @@ body.home-body {
 
 .home-item-image {
   width: auto;
-  max-height: 35vh;
+  max-height: 25vh;
+  border-radius: 10%;
+  margin-top: .5vh;
+}
+
+.home-categories-image{
+  width: auto;
+  max-height: 15vh;
+  border-radius: 50%;
+  margin-top: .5vh;
 }
 
 .flash {
@@ -107,9 +143,6 @@ body.home-body {
   border-color: #ebccd1;
   color: #a94442;
 }
-
-
-
 
 
 

@@ -1,10 +1,17 @@
+/* app/assets/stylesheets/default.scss */
+
 /* Base Styles */
+@font-face {
+  font-family: 'OpenSans';
+  src: asset-url('OpenSans.ttf') format('truetype');
+}
+
 html, body {
   margin: 0;
   padding: 0;
   background: White;
-  color: DarkSlateGrey;
-  font-family: Tahoma, Verdana, sans-serif;
+  color: black;
+  font-family: 'OpenSans', sans-serif;
   font-size: 1em;
 }
 
@@ -17,19 +24,17 @@ div#main {
 /* Links */
 a {
   background: transparent;
-  color: navy;
-  text-decoration: underline;
   font-weight: bold;
+  text-decoration: none;
 }
 
 /* Headers */
 h1 {
-  color: DarkSlateGrey;
+  color: Black;
   font-size: 1.5em;
-  font-style: italic;
   display: block;
   width: 100%;
-  border-bottom: 1px solid DarkSlateGrey;
+  border-bottom: 1px solid Black;
 }
 
 /* Title Header */
@@ -55,5 +60,6 @@ form label {
   display: block;
   line-height: 1.6em;
   font-weight: bold;
-  color: darkslategray;
+  color: Black;
 }
+
