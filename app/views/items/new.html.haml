@@ -20,27 +20,27 @@
 
     .form-field
       = f.label :width
-      = f.number_field :width, required: true, step: '0.01'
+      = f.number_field :width, required: false, step: '0.01'
 
     .form-field
       = f.label :length
-      = f.number_field :length, required: true, step: '0.01'
+      = f.number_field :length, required: false, step: '0.01'
 
     .form-field
       = f.label :height
-      = f.number_field :height, required: true, step: '0.01'
+      = f.number_field :height, required: false, step: '0.01'
 
     .form-field
       = f.label :dimension_units
-      = f.select :dimension_units, Item.dimension_units, {include_blank: true}, required: true
+      = f.select :dimension_units, Item.dimension_units, {include_blank: true}, required: false
 
     .form-field
       = f.label :weight
-      = f.number_field :weight, required: true, step: '0.01'
+      = f.number_field :weight, required: false, step: '0.01'
 
     .form-field
       = f.label :weight_units
-      = f.select :weight_units, Item.weight_units, {include_blank: true}, required: true
+      = f.select :weight_units, Item.weight_units, {include_blank: true}, required: false
 
     .form-field
       = f.label :condition
@@ -52,7 +52,7 @@
 
     .form-field
       = f.label :categories
-      = f.collection_select :category_ids, @categories, :id, :name, {include_blank: true}, { multiple: true, required: true, size: 6 }
+      = f.collection_select :category_ids, @categories, :id, :name, {include_blank: false}, { multiple: false, required: true }
 
     .drop-zone
       %p Drag and drop files here or

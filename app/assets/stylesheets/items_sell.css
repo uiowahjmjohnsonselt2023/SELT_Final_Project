@@ -1,20 +1,15 @@
-/* Form Styles */
+/* Base Style for Form Fields */
 .form-container {
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 20px auto;
-  max-width: 800px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 65vw; /* Sets a maximum width */
+  padding: 20px; /* Adds some padding inside the container */
+  background-color: #fff; /* Sets a background color */
+  border-radius: 8px; /* Rounds the corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow */
+  margin: 2.5vh auto
 }
 
-.form-container h2 {
-  color: #333;
-  font-size: 1.8rem;
-  margin-bottom: 1em;
-}
 
+/* Base Style for Form Fields */
 .form-field {
   margin-bottom: 15px;
 }
@@ -22,8 +17,8 @@
 .form-field label {
   display: block;
   margin-bottom: 5px;
-  color: #555;
-  font-size: 1rem;
+  font-weight: bold;
+  color: black; /* Darker color for better contrast */
 }
 
 .form-field input[type="text"],
@@ -31,60 +26,105 @@
 .form-field textarea,
 .form-field select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  margin-bottom: 10px;
+  background-color: #fafafa; /* Light gray background */
+  color: black; /* Darker text for better readability */
+}
+
+.form-field input[type="text"]:focus,
+.form-field input[type="number"]:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 .form-field textarea {
-  resize: vertical;
+  height: 100px;
+  resize: vertical; /* Allow vertical resize */
 }
 
-.form-submit-button {
-  display: inline-block;
-  padding: 10px 20px;
-  margin-top: 20px;
-  font-size: 16px;
-  color: white;
-  background-color: #007bff; /* Primary Button Color */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.form-submit-button:hover {
-  background-color: #0056b3;
-}
-
-/* Error Styles */
-#error_explanation {
-  color: red;
-  padding: 10px;
-  border: 1px solid #ebccd1;
-  background-color: #f2dede;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-#error_explanation ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* CSS */
+/* Style for File Upload Drop Zone */
 .drop-zone {
   border: 2px dashed #ccc;
   border-radius: 5px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
+  margin-bottom: 15px;
+  background-color: #fafafa; /* Light gray background */
 }
+
 .drop-zone:hover {
-  background-color: #f8f8f8;
+  background-color: #f0f0f0; /* Slightly darker on hover */
 }
+
+/* Style for File Names List */
+.file-names {
+  margin-bottom: 15px;
+  background-color: #fafafa; /* Light gray background */
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/* Style for Submit Button */
+.form-submit-button {
+  background-color: #ff5555;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.form-submit-button:hover {
+  filter: brightness(65%);
+}
+
+
+/* Add this in your CSS file */
+select {
+  font-size: 16px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+select:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+option {
+  padding: 5px 10px;
+}
+/* Style for Upload Button */
+#upload-btn {
+  background-color: #ff5555; /* Blue background */
+  color: white; /* White text */
+  padding: 10px 15px; /* Padding for size */
+  border: none; /* No border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor to indicate it's clickable */
+  font-size: 16px; /* Larger font size */
+  margin-top: 10px; /* Margin on top for spacing */
+  text-align: center; /* Center the text */
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+#upload-btn:hover {
+  filter: brightness(65%);
+}
+
+
 
