@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   get 'sell', to: 'items#new'
   get 'item', to: 'items#show'
 
+  # FAQ route for showing the FAQ page
+  get 'faq', to: 'faq#show', as: 'faq'
+
   # Checkout route for showing the checkout page
   #get 'checkout/:item_id', to: 'checkout#show', as: 'checkout_show'
   # Set up to handle the purchase of an item
