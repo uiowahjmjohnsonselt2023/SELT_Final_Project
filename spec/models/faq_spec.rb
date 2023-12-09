@@ -2,44 +2,31 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe Faq, type: :model do
-  let(:validator) { Validator.new }
 
-  describe '#valid_address_input?' do
-    context 'with valid inputs' do
-      it 'returns true' do
-        expect(validator.valid_address_input?('123 Main St', 'Apt 4', 'Cityville', 'Stateville', 'Countryland', '12345')).to be true
-      end
+  model_faqs = [
+    { question: "How do I sign up?", answer: "Click the Login button and sign in with a Google account." },
+    { question: "Can I sell items on Deal Docks?", answer: "Yes, registered users can list items for sale. Click 'Sell Item' after logging in to list your item." },
+    { question: "Is there a fee for using Deal Docks?", answer: "Listing items is free, but a small transaction fee is charged when an item is sold." },
+    { question: "How do I pay for an item?", answer: "You can pay for an item using saved credit cards" },
+    { question: "Can I leave feedback for a seller?", answer: "Yes, you can leave feedback for a seller after a transaction is complete by filling out a review." },
+    { question: "How can I update my shipping address?", answer: "Go to your profile page, select edit profile, and add and delete your addresses" },
+    { question: "How can I update my payment methods?", answer: "Go to your profile page, select edit profile, and add and delete your payment methods"},
+    { question: "How can I update my profile information?", answer: "Go to your profile page, select edit profile, and update your information" },
+    { question: "How can I bookmark an item?", answer: "Click the bookmark icon on the item page" },
+    { question: "How can I view my bookmarks?", answer: "Go to your profile page, select 'Bookmarks'" },
+    { question: "How can I view my listings?", answer: "Go to your profile page, select 'My Items for Sale'" },
+    { question: "How can I view my purchases?", answer: "Go to your profile page, select 'My Purchases'" }
+  ]
 
-      it 'returns true' do
-        expect(validator.valid_address_input?('121 Main St', 'Apt 4', 'Cityville', 'State ville', 'Countryland', '12345')).to be true
-      end
+  describe 'questions' do
+    #before do
+    #  allow(Faq).to receive(:questions).and_return(model_questions_mock)
+    #end
+
+    it 'returns correct value' do
+      expect(Faq.questions).to eq(x)
     end
 
-    context 'with invalid inputs' do
-      it 'returns false' do
-        expect(validator.valid_address_input?(nil, 'Apt 4', 'Cityville', 'Stateville', 'Countryland', '12345')).to be false
-      end
-
-      it 'returns true' do
-        expect(validator.valid_address_input?('123 Main St', nil, 'Cityville', 'Stateville', 'Countryland', '12345')).to be true
-      end
-
-      it 'returns false' do
-        expect(validator.valid_address_input?('123 Main St', 'Apt 4', nil, 'Stateville', 'Countryland', '12345')).to be false
-      end
-
-      it 'returns true' do
-        expect(validator.valid_address_input?('123 Main St', 'Apt 4', 'Cityville', nil, 'Countryland', '12345')).to be true
-      end
-
-      it 'returns false' do
-        expect(validator.valid_address_input?('123 Main St', 'Apt 4', 'Cityville', 'Stateville', nil, '12345')).to be false
-      end
-
-      it 'returns false' do
-        expect(validator.valid_address_input?('123 Main St', 'Apt 4', 'Cityville', 'Stateville', 'Countryland', nil)).to be false
-      end
-    end
   end
 
 
