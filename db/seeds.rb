@@ -62,8 +62,7 @@ end
 
 user = User.create!(
   username: 'mainuser',
-  email: 'mainuser@gmail.com',
-  phone_number: '1234567890'
+  email: 'mainuser@gmail.com'
 )
 
 (0..4).each { |i|
