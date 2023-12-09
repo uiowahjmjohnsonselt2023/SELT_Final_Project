@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
 
   # Create new item listing
   def create
-    @item = insert_item(current_user, params[:item])
+    @item = Item.insert_item(current_user, params[:item])
     redirect_to item_path(@item)
   end
 

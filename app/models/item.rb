@@ -13,12 +13,12 @@ class Item < ApplicationRecord
   validates :description, presence: true, length: { maximum: 1000 }
   validates :price, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
   validates :user_id, presence: true
-  validates :length, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
-  validates :width, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
-  validates :height, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
-  validates :weight, presence: true, numericality: { greater_than: 0, less_than: 1000000 }
-  validates :dimension_units, presence: true, inclusion: { in: %w(in ft cm m) }
-  validates :weight_units, presence: true, inclusion: { in: %w(oz lbs g kg) }
+  validates :length, numericality: { greater_than: 0, less_than: 1000000 }, allow_nil: true
+  validates :width, numericality: { greater_than: 0, less_than: 1000000 }, allow_nil: true
+  validates :height, numericality: { greater_than: 0, less_than: 1000000 }, allow_nil: true
+  validates :weight, numericality: { greater_than: 0, less_than: 1000000 }, allow_nil: true
+  validates :dimension_units, inclusion: { in: %w(in ft cm m) }, allow_nil: true
+  validates :weight_units, inclusion: { in: %w(oz lbs g kg) }, allow_nil: true
   validates :condition, presence: true, inclusion: { in: 0..4 }
 
   def self.dimension_units
@@ -119,7 +119,13 @@ class Item < ApplicationRecord
     results
   end
 
-  def insert_item(user, item_to_insert)
+  def self.insert_item(user, item_to_insert)
+    if item_to_insert[:dimension_units].blank?
+      item_to_insert[:dimension_units] = nil
+    end
+    if item_to_insert[:weight_units].blank?
+      item_to_insert[:weight_units] = nil
+    end
     item = user.items.create!(
       title: item_to_insert[:title],
       description: item_to_insert[:description],
@@ -198,8 +204,8 @@ class Item < ApplicationRecord
   end
 
   def find_related_items
-    # Fetch other items by the same user, excluding the current item
-    Item.where(user_id: user_id).where.not(id: id).limit(4)
+    # Fetch other items in the same category
+    Item.joins(:categories).where(categories: { id: self.categories.pluck(:id) }).where.not(id: self.id).limit(4)
   end
 
   # Returns true if the item has been purchased
@@ -218,8 +224,9 @@ class Item < ApplicationRecord
   private
 
   def round_dimensions
-    self.length = length.round(1)
-    self.width = width.round(1)
-    self.height = height.round(1)
+    self.length = length.round(1) if length
+    self.width = width.round(1) if width
+    self.height = height.round(1) if height
+    self.weight = weight.round(1) if weight
   end
 end

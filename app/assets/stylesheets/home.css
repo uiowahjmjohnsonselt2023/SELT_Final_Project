@@ -17,7 +17,6 @@
   align-self: flex-start;
   font-size: 2.5em; /* Adjusted from 20px */
   margin-bottom: 1vh;
-
 }
 
 /* Main Content Container */
@@ -62,8 +61,8 @@
   flex: 0 0 10vw;
   box-sizing: border-box;
   text-decoration: none;
-
 }
+
 .category-item:hover {
   filter: brightness(65%);
   text-decoration: none;

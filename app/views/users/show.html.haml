@@ -1,11 +1,10 @@
 -# in app/views/users/show.html.haml
+
 - flash.each do |type, message|
   %div{ class: "flash #{type}" }= message
 %div.user-profile-container
 
   %div.user-account-details
-    %div.user-profile-image
-      = image_tag("BasicProfilePic.png", alt: 'User profile image', class: 'user-profile-pic')
     %h2.user-account-title My Account
     %p.user-username
       %strong Username:
@@ -13,7 +12,6 @@
     %p.user-email
       %strong Email:
       = @user.email
-
     - if logged_in?
       - if current_user.id == @user.id
         %h3.user-addresses-title Addresses
@@ -54,17 +52,17 @@
           %div.user-navigation-section
             = form_tag search_path(seller: @user.username), method: :get do
               = hidden_field_tag :seller, @user.username
-              = submit_tag "My Items for Sale", name: nil, class: 'user-button user-nav-button'
+              = submit_tag "My Items for Sale", name: nil, class: 'user-button'
             = form_tag search_path, method: :get do
               = hidden_field_tag :user_id, @user.id
               = hidden_field_tag :purchased, true
-              = submit_tag "My Purchases", name: nil, class: 'user-button user-nav-button'
+              = submit_tag "My Purchases", name: nil, class: 'user-button'
             = form_tag search_path, method: :get do
               = hidden_field_tag @user.id, params[:user_id]
-              = submit_tag "Contact Company", name: nil, class: 'user-button user-nav-button'
-            = form_tag edit_user_path(@user), method: :get, class: 'user-edit-profile-form' do
-              = submit_tag 'Edit Profile', class: 'user-button user-edit-profile-button'
-            = link_to "Bookmarks", search_path(bookmarks: '1'), class: 'user-button user-my-bookmarked-items-btn'
+              = submit_tag "Contact Company", name: nil, class: 'user-button'
+            = form_tag edit_user_path(@user), method: :get do
+              = submit_tag 'Edit Profile', class: 'user-button'
+            = link_to "Bookmarks", search_path(bookmarks: '1'), class: 'user-button-bookmarks'
       - else
         %div.user-navigation-and-tables
         %div.user-navigation-section
