@@ -8,7 +8,7 @@
       = link_to search_path(categories: @category_order[index]), method: :get, class: 'global-category-button' do
         .category-item
           - if item.images.any?
-            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
+            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-categories-image'
             %span= @category_order[index]
 .home-container
   .home-subheader Items for Sale
@@ -18,9 +18,8 @@
     -else
       - @suggested_items.each do |item|
         - unless item.purchased?
-          .home-item
-            = link_to item.title, item_path(item), class: 'item-title-link'
-
+          = link_to item_path(item), class: 'home-item' do
+            %h2= item.title
             %h3= "$#{'%.2f' % item.price}"
             - if item.images.any?
               = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
