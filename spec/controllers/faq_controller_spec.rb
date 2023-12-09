@@ -37,13 +37,11 @@ describe FaqController, type: :controller do
       end
 
       it "redirects to checkout page" do
-        allow(User).to receive(:find).and_return(seller)
         get :show
         expect(response).to render_template(:show)
       end
 
       it "assigns @faq_questions" do
-        allow(User).to receive(:find).and_return(seller)
         get :show
         expect(assigns(:faq_questions)).to eq(questions_mock)
       end
@@ -53,12 +51,19 @@ describe FaqController, type: :controller do
       before do
         allow(User).to receive(:find_by_session_token).and_return(nil)
         session[:session_token] = nil
+        allow(Faq).to receive(:questions).and_return(questions_mock)
       end
 
       it "redirects to the login page" do
         get :show
         expect(response).to render_template(:show)
       end
+
+      it "assigns @faq_questions" do
+        get :show
+        expect(assigns(:faq_questions)).to eq(questions_mock)
+      end
+
     end
 
   end
