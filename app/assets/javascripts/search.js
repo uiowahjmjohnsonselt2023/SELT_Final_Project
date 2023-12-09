@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-  var button = document.getElementById('toggleButton');
-  var form = document.getElementById('dropdownForm');
+  let button = document.getElementById('toggleButton');
+  let form = document.getElementById('dropdownForm');
 
   button.addEventListener('click', function() {
     if (form.style.display === "none") {
