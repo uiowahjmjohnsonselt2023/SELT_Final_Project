@@ -78,9 +78,6 @@
   background-color: #0056b3;
 }
 
-
-
-
 .review-card {
   border: 1px solid #ddd;
   padding: 15px;
@@ -90,7 +87,7 @@
 
 .review-title {
   font-size: 18px;
-  color: #333;
+  color: black;
 }
 
 .review-rating, .review-content, .review-date {
@@ -126,12 +123,12 @@
 }
 
 .user-form {
-  border: 2px solid #ccc; /* Outline for form boxes */
+  border: 2px solid #ccc;
   padding: 15px;
-  margin: 5vh auto; /* Centering the form */
-  width: 60vw; /* Width set to 90% of the viewport width */
-  box-sizing: border-box; /* Include padding and border in the width calculation */
-  border-radius: 4px; /* Optional: for rounded corners */
+  margin: 5vh auto;
+  width: 60vw;
+  box-sizing: border-box;
+  border-radius: 4px;
 }
 
 /* Label and Input Styles */
