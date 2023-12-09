@@ -40,7 +40,6 @@
         - if logged_in?
           %button#bookmark-button.bookmark-button{ 'data-item-id': @item.id, 'data-bookmarked': @bookmarked ? 1 : 0 }
             = @bookmarked ? 'Unbookmark' : 'Bookmark'
-
     %section.seller-reviews-container
       %h2 Seller Reviews
       - if @reviews.present?
@@ -69,7 +68,24 @@
                   = 'Delete'
       - else
         %p No reviews yet for this seller.
-
+  .item-details
+    %p#item-description= @item.description
+    .item-attributes
+      %p
+        %strong Size (LxWxH):
+        %span= @item.dimensions
+      %p
+        %strong Weight:
+        %span= "#{@item.weight} #{ @item.weight_units }"
+      %p
+        %strong Condition:
+        %span= @item.condition_text
+      %p
+        %strong Listed on:
+        %span= @item.created_at.strftime("%B %d, %Y")
+      %p
+        %strong Listed by:
+        = link_to @user.username, profile_path(id: @user.id)
   %section.related-items
     %h1 You might also like
     - @related_items ||= []
