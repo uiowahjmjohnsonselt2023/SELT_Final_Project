@@ -5,9 +5,15 @@ class Faq < ApplicationRecord
     { question: "How do I sign up?", answer: "Click the Login button and sign in with a Google account." },
     { question: "Can I sell items on Deal Docks?", answer: "Yes, registered users can list items for sale. Click 'Sell Item' after logging in to list your item." },
     { question: "Is there a fee for using Deal Docks?", answer: "Listing items is free, but a small transaction fee is charged when an item is sold." },
-    { question: "What should I do if I encounter a problem with a transaction?", answer: "Please contact our support team immediately with details of the transaction." },
-    { question: "Can I return an item?", answer: "Return policies are determined by individual sellers. Please check the item's description for return policy details." },
-    { question: "How can I update my shipping address?", answer: "Go to your profile page, select edit profile, and add and delete your addresses" }
+    { question: "How do I pay for an item?", answer: "You can pay for an item using saved credit cards" },
+    { question: "Can I leave feedback for a seller?", answer: "Yes, you can leave feedback for a seller after a transaction is complete by filling out a review." },
+    { question: "How can I update my shipping address?", answer: "Go to your profile page, select edit profile, and add and delete your addresses" },
+    { question: "How can I update my payment methods?", answer: "Go to your profile page, select edit profile, and add and delete your payment methods"},
+    { question: "How can I update my profile information?", answer: "Go to your profile page, select edit profile, and update your information" },
+    { question: "How can I bookmark an item?", answer: "Click the bookmark icon on the item page" },
+    { question: "How can I view my bookmarks?", answer: "Go to your profile page, select 'Bookmarks'" },
+    { question: "How can I view my listings?", answer: "Go to your profile page, select 'My Items for Sale'" },
+    { question: "How can I view my purchases?", answer: "Go to your profile page, select 'My Purchases'" }
   ]
 
   def self.questions
