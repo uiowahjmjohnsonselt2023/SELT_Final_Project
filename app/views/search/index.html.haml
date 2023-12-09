@@ -23,14 +23,13 @@
           .search-price-range
             = label_tag :max_price, 'Max Price:'
             = text_field_tag :max_price, params[:max_price], placeholder: 'No maximum'
-
-        %fieldset.search-bookmarks-filter
-          %legend My Bookmarks Only
-          .search-category-checkbox
-            = label_tag :bookmarks, 'My bookmarked items' do
-              = check_box_tag :bookmarks, '1', params[:bookmarks] == '1', id: :bookmarks
-              %span.search-checkmark
-
+        -if logged_in?
+          %fieldset.search-bookmarks-filter
+            %legend My Bookmarks Only
+            .search-category-checkbox
+              = label_tag :bookmarks, 'My bookmarked items' do
+                = check_box_tag :bookmarks, '1', params[:bookmarks] == '1', id: :bookmarks
+                %span.search-checkmark
         %fieldset.search-seller-filter
           %legend Filter by seller
           .search-price-range
