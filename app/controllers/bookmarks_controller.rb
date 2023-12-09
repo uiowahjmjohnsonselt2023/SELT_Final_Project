@@ -3,8 +3,7 @@ class BookmarksController < ApplicationController
 
   def create
     begin
-      item = Item.find(params[:item_id])
-      if current_user.add_bookmark(item)
+      if current_user.add_bookmark(params[:item_id])
         render json: { status: :created, message: "Item bookmarked!" }, status: :created
       else
         render json: { status: :unprocessable_entity, message: "Unable to bookmark item!" }, status: :unprocessable_entity
@@ -16,8 +15,7 @@ class BookmarksController < ApplicationController
 
   def destroy
     begin
-      item = Item.find(params[:item_id])
-      if current_user.remove_bookmark(item)
+      if current_user.remove_bookmark(params[:item_id])
         render json: { status: :removed, message: "Bookmark Deleted!" }, status: :ok
       else
         render json: { status: :unprocessable_entity, message: "Unable to delete bookmark!" }, status: :unprocessable_entity
