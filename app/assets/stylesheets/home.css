@@ -83,7 +83,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: black;
   flex: 0 0 300px;
-  max-width: 300px;
+  width: 15vw;
   box-sizing: border-box;
   transition: background-color 0.3s ease;
 }
@@ -110,7 +110,7 @@
 
 .home-item-image {
   width: auto;
-  max-height: 35vh;
+  max-height: 25vh;
   border-radius: 10%;
   margin-top: .5vh;
 }

@@ -47,40 +47,30 @@
 
 .global-search-button {
   padding: 1vh 2vw;
-  background-color: #5cb85c;
+  background-color: indianred;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.global-search-button:hover {
-  background-color: #4cae4c;
-}
-
-.global-nav-link,
-.global-logout-button {
-  color: white;
-  padding: 1vh 1vw;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
-.global-nav-link:hover,
-.global-logout-button:hover {
-  background-color: #ddd;
-  color: black;
+.global-search-button:hover {
+  filter: brightness(65%);
 }
 
-.global-logout-button {
-  background-color: #d9534f;
-  margin-left: 1vw;
+.global-nav-link {
+  color: white;
+  padding: 1vh 1.25vw;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.35rem;
+  transition: background-color 0.3s ease;
+
 }
 
-.global-logout-button:hover {
-  background-color: #c9302c;
+.global-nav-link:hover {
+  filter: brightness(65%);
 }
 
 .global-category-bar {

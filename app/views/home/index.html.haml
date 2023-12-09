@@ -32,14 +32,14 @@
       .home-subheader You have no items for sale.
     -else
       - @user_items.each do |item|
-        .home-item
-          - if item.purchased?
-            %p.item-purchased This item has been purchased
-          -else
-            = link_to item.title, item_path(item), class: 'item-title-link'
-          %h3= "$#{'%.2f' % item.price}"
-          - if item.images.any?
-            = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
+        - if item.purchased?
+          %p.item-purchased This item has been purchased
+        -else
+          = link_to item_path(item), class: 'home-item' do
+            %h2= item.title
+            %h3= "$#{'%.2f' % item.price}"
+            - if item.images.any?
+              = image_tag item.images.first.data_uri, alt: item.title, class: 'home-item-image'
 
 %footer.home-footer
   %p.home-footer-text © 2023 Deal Docks. All rights reserved.
