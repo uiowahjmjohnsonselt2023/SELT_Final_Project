@@ -89,9 +89,17 @@
   %section.related-items
     %h1 You might also like
     - @related_items ||= []
-    - @related_items.first(3).each do |related_item|
-      = link_to item_path(related_item), class: 'related-item-link' do
-        .related-item
-          - if related_item.images.any?
-            = image_tag related_item.images.first.data_uri, alt: related_item.title, class: 'related-item-image'
-          %h3= related_item.title
+    - @related_items.first(3).each do |item|
+      .related-item
+        .search-result-item
+        = link_to item_path(item), class: 'search-item-link' do
+          %figure.search-item-image
+            %img{ src: item.images.first.data_uri, alt: item.title }
+          .search-item-info
+            %h3.search-item-title= item.title
+            %p.search-item-price= number_to_currency(item.price)
+            %p.search-item-categories
+              - item.categories.each_with_index do |category, index|
+                = category.name
+                - unless index == item.categories.size - 1
+                  %span.search-separator ,

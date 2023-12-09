@@ -29,17 +29,16 @@ body {
 }
 
 .item-details-container {
-  flex-basis: 70%; /* Increased to 70% */
+  flex-basis: 70%;
   max-width: 70%;
 }
 
 .seller-reviews-container {
-  flex-basis: 25%; /* Decreased to 25%, making it smaller */
+  flex-basis: 25%;
   max-width: 25%;
   margin-left: 20px;
 }
 
-/* Carousel Styles */
 .carousel-and-action-buttons {
   display: flex;
   justify-content: center;
@@ -57,28 +56,27 @@ body {
 .carousel-control-next {
   width: 15%;
   height: 100%;
-  margin-left: 10%;
   display: inline-block;
-  background-color: #007bff; /* Button color */
-  color: white; /* Text color */
-  text-decoration: none; /* Remove underline from links */
-  padding: 10px 15px; /* Button padding */
-  margin: 5px; /* Spacing around buttons */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Cursor to indicate clickable */
+  background-color: dodgerblue;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
   text-align: right;
 }
 .carousel-control-prev{
   width: 15%;
   height: 100%;
   display: inline-block;
-  background-color: #007bff; /* Button color */
-  color: white; /* Text color */
-  text-decoration: none; /* Remove underline from links */
-  padding: 10px 15px; /* Button padding */
+  background-color: dodgerblue;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
   margin-left: 29%;
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Cursor to indicate clickable */
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .item-action-buttons {
@@ -112,6 +110,8 @@ body {
 /* Item Details */
 .item-details {
   margin-top: 20px;
+  padding: 20px 10px;
+  border: 2px solid #ddd;
 }
 
 .item-details p {
@@ -122,19 +122,19 @@ body {
   margin-bottom: 5px;
 }
 
-/* Related Items */
-.related-items {
-  margin-top: 30px;
-}
-
 .related-item {
-  margin-bottom: 15px;
+  background: #ffffff;
+  border-radius: 0.5em;
+  box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
+  margin-bottom: 1em;
+  flex: 0 0 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.5s ease;
 }
 
-.related-item-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
+.related-item:hover{
+  filter: brightness(65%);
 }
 
 /* Seller Reviews Container */
@@ -147,7 +147,7 @@ body {
 
 .review-title {
   font-size: 1.25em;
-  color: #333;
+  color: black;
 }
 
 .review-rating, .review-content, .review-date {
