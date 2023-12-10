@@ -19,6 +19,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def round_dimensions
+    self.length = length.round(1) if length
+    self.width = width.round(1) if width
+    self.height = height.round(1) if height
+    self.weight = weight.round(1) if weight
+  end
+
   def set_current_user
     @current_user ||= User.find_by_session_token(session[:session_token])
     unless @current_user

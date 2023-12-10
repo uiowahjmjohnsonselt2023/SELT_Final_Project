@@ -74,8 +74,8 @@ class Item < ApplicationRecord
   def self.get_users_search_items(current_user, params)
     results = if params[:bookmarks].present? && params[:bookmarks] == '1' && current_user
                 current_user.bookmarked_items
-              elsif params[:purchased].present? && params[:user_id].present? && (user = User.find_by(id: params[:user_id]))
-                user.purchased_items
+              elsif params[:purchased].present? && current_user
+                current_user.purchased_items
               elsif params[:categories].present? && params[:search_term].present?
                 Item.search(params[:search_term], params[:categories])
               elsif params[:categories].present?
@@ -86,20 +86,22 @@ class Item < ApplicationRecord
                 Item.all
               end
 
-    if params[:seller]
+    if params[:seller].present?
       seller = User.find_by(username: params[:seller])
       results = seller ? results.where("items.user_id = ?", seller.id) : []
     end
-    results = results.where("price >= ?", params[:min_price]) if params[:min_price]
-    results = results.where("price <= ?", params[:max_price]) if params[:max_price]
+    if params[:min_price].present?
+    results = results.where("price >= ?", params[:min_price])
+    end
+    if params[:max_price].present?
+    results = results.where("price <= ?", params[:max_price])
+    end
 
     results
   end
 
   def self.get_search_items(params)
-    results = if params[:purchased].present? && params[:user_id].present? && (user = User.find_by(id: params[:user_id]))
-                user.purchased_items
-              elsif params[:categories].present? && params[:search_term].present?
+    results = if params[:categories].present? && params[:search_term].present?
                 Item.search(params[:search_term], params[:categories])
               elsif params[:categories].present?
                 Item.search(nil, params[:categories])
@@ -109,12 +111,16 @@ class Item < ApplicationRecord
                 Item.all
               end
 
-    if params[:seller]
+    if params[:seller].present?
       seller = User.find_by(username: params[:seller])
       results = seller ? results.where("items.user_id = ?", seller.id) : []
     end
-    results = results.where("price >= ?", params[:min_price]) if params[:min_price]
-    results = results.where("price <= ?", params[:max_price]) if params[:max_price]
+    if params[:min_price].present?
+      results = results.where("price >= ?", params[:min_price])
+    end
+    if params[:max_price].present?
+    results = results.where("price <= ?", params[:max_price])
+    end
 
     results
   end
@@ -138,20 +144,29 @@ class Item < ApplicationRecord
       weight_units: item_to_insert[:weight_units],
       condition: item_to_insert[:condition]
     )
-    item_to_insert[:images].each do |uploaded_image|
+    item.add_images(item_to_insert[:images])
+    item.add_categories(item_to_insert[:category_ids])
+
+    item
+  end
+
+  def add_images(images)
+    images.each do |uploaded_image|
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
       image = MiniMagick::Image.new(image_file_path)
       image.resize('256x256')
       image_type, image_data = Image.get_image_data(image_file_path)
-      item.images.create!(data: image_data, image_type: image_type)
+      self.images.create!(data: image_data, image_type: image_type)
     end
-    item_to_insert[:category_ids].each do |category_id|
+  end
+
+  def add_categories(category_ids)
+    category_ids.each do |category_id|
       unless category_id.blank?
-        item.categories << Category.find(category_id)
+        self.categories << Category.find(category_id)
       end
     end
-    item
   end
 
   def update_item(item_to_update)
