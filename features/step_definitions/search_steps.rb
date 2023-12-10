@@ -52,7 +52,6 @@ And(/^I fill in the filter "([^"]*)" with "([^"]*)"$/) do |arg1, arg2|
 end
 
 Then(/^I click the filter button$/) do
-  all('.search-filter-button').each do |button|
-    click_button(button[:id])
-  end
+  # Submit the form
+  find('.search-filter-form', visible: false).find('input[type="submit"]', visible: false).click
 end

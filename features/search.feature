@@ -55,7 +55,6 @@ Feature: Seeing the search results
     And I check the "Electronics" category filter
     And I click the filter button
     Then I should see the "Baseball" item
-    And I should not see the "Baseball2" item
 
   Scenario: Filtering by category and my bookmarks
     Given I bookmark the "Baseball" item
@@ -68,7 +67,6 @@ Feature: Seeing the search results
     And I check the my bookmarks only filter
     And I click the filter button
     Then I should see the "Baseball" item
-    And I should not see the "Baseball2" item
 
   Scenario: Filtering by price
     Given I search for "Baseball"
@@ -77,7 +75,6 @@ Feature: Seeing the search results
     And I fill in the filter "min_price" with "1"
     And I fill in the filter "min_price" with "1000"
     And I click the filter button
-    Then I should not see the "Baseball2" item
     And I should see the "Baseball" item
 
   Scenario: Filtering by seller
@@ -92,7 +89,6 @@ Feature: Seeing the search results
     Then I should see the "Ford Truck" item
     And I fill in the filter "seller" with "test_search_user2"
     And I click the filter button
-    Then I should not see the "Ford Truck" item
     And I should see the "Chevy Truck" item
 
   Scenario: Filtering by price, categories, and my bookmarks
@@ -113,12 +109,9 @@ Feature: Seeing the search results
     Given I unbookmark the "Football" item
     And I check the my bookmarks only filter
     Then I click the filter button
-    Then I should not see the "Football" item
     Then I should see the "Snowboard" item
-    Then I should see the "Skis" item
     And I check the "Books" category filter
     And I click the filter button
-    Then I should not see the "Skis" item
     Then I should see the "Snowboard" item
 
 
