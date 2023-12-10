@@ -34,7 +34,7 @@ class ItemsController < ApplicationController
   # Update item listing
   def update
     # update the item with the new attributes
-    if @item.update_item(params[:item])
+    if @item.update_item(params[:item], params[:remove_images])
       # set a flash message if the item was updated successfully
       flash[:notice] = "Item updated successfully"
     else
