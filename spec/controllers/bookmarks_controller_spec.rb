@@ -30,23 +30,25 @@ describe BookmarksController, type: :controller do
         session[:session_token] = current_user.session_token
       end
 
-      context "when the item does not exist" do
+      context "when the item does not add a bookmark" do
         before do
           allow(Item).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
         end
 
         it "does not bookmark the item" do
+          allow(current_user).to receive(:add_bookmark)
           post :create, { :item_id => 0 }
           expect(current_user).not_to receive(:add_bookmark)
         end
 
         it "the correct json is rendered" do
+          allow(current_user).to receive(:add_bookmark)
           post :create, { :item_id => item.id }
           expect(response.content_type).to eq("application/json")
           expect(response).to have_http_status(:not_found)
           json_response = JSON.parse(response.body)
-          expect(json_response["status"]).to eq("not_found")
-          expect(json_response["message"]).to eq("Item not found!")
+          expect(json_response["status"]).to eq("unprocessable_entity")
+          expect(json_response["message"]).to eq("Unable to bookmark item!")
         end
       end
 
@@ -57,7 +59,7 @@ describe BookmarksController, type: :controller do
         end
 
         it "the item is bookmarked" do
-          expect(current_user).to receive(:add_bookmark).with(item)
+          expect(current_user).to receive(:add_bookmark).with("1")
           post :create, { :item_id => item.id }
         end
 
@@ -120,11 +122,13 @@ describe BookmarksController, type: :controller do
         end
 
         it "does not delete the bookmark" do
+          allow(current_user).to receive(:remove_bookmark)
           delete :destroy, { :id => item.id, :item_id => item.id }
           expect(current_user).not_to receive(:remove_bookmark)
         end
 
         it "the correct json is rendered" do
+          allow(current_user).to receive(:remove_bookmark).and_raise(ActiveRecord::RecordNotFound)
           delete :destroy, { :id => item.id, :item_id => item.id }
           expect(response.content_type).to eq("application/json")
           expect(response).to have_http_status(:not_found)
@@ -141,7 +145,8 @@ describe BookmarksController, type: :controller do
         end
 
         it "the item is bookmarked" do
-          expect(current_user).to receive(:remove_bookmark).with(item)
+          allow(current_user).to receive(:remove_bookmark)
+          expect(current_user).to receive(:remove_bookmark).with("1")
           delete :destroy, { :id => item.id, :item_id => item.id }
         end
 
