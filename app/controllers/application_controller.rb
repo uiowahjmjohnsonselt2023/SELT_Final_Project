@@ -1,9 +1,23 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
-  include ItemsHelper
   include ReviewsHelper
 
   protected
+
+  def find_item
+    begin
+      @item = Item.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "Item not found."
+    end
+  end
+
+  def set_item
+    @item = Item.find_by(id: params[:id])
+    unless @item
+      redirect_to root_path, alert: "Item not found."
+    end
+  end
 
   def set_current_user
     @current_user ||= User.find_by_session_token(session[:session_token])
