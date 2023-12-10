@@ -37,7 +37,6 @@ describe ReviewsController, type: :controller do
     allow(controller).to receive(:correct_purchase_create).and_return(true)
     allow(controller).to receive(:correct_purchase_destroy).and_return(true)
     allow(controller).to receive(:correct_user_for_purchase).and_return(true)
-    allow(controller).to receive(:find_review).and_return(review)
   end
 
   describe 'POST #create' do
@@ -118,16 +117,42 @@ describe ReviewsController, type: :controller do
       before do
         allow(controller).to receive(:correct_purchase_destroy).and_return(true)
         allow(controller).to receive(:correct_user).and_return(true)
-        allow(Purchase).to receive(:find_by).with(item_id: item.id, user: current_user).and_return(purchase)
       end
 
       it 'deletes the review and redirects to user page with a success message' do
+        #allow(controller).to receive(:find_review).and_return(review)
+        expect(Review).to receive(:find).with("1")
+        allow(Review).to receive(:find).with("1").and_return(review)
+        allow(review).to receive(:destroy).and_return(true)
+
+
         allow(review).to receive(:destroy).and_return(true)
         delete :destroy, :id => 1, :item_id => 1
+
         expect(response).to redirect_to(user_path(current_user))
         expect(flash[:notice]).to match(/Review deleted successfully/)
       end
     end
+
+    context 'when the review is not successfully deleted' do
+      before do
+        allow(controller).to receive(:correct_purchase_destroy).and_return(true)
+        allow(controller).to receive(:correct_user).and_return(true)
+      end
+
+      it 'deletes the review and redirects to user page with a success message' do
+        #allow(controller).to receive(:find_review).and_return(review)
+        expect(Review).to receive(:find).with("1")
+        allow(Review).to receive(:find).with("1").and_return(review)
+        allow(review).to receive(:destroy).and_return(false)
+
+        delete :destroy, :id => 1, :item_id => 1
+
+        expect(response).to redirect_to(user_path(current_user))
+        expect(flash[:error]).to match(/Review could not be deleted/)
+      end
+    end
+
 
   end
 
