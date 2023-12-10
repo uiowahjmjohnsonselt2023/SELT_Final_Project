@@ -18,6 +18,8 @@ SEEDS_CATEGORIES.map do |category_name|
 end
 
 
+total_items = SEEDS_ITEMS.length
+
 SEEDS_USERS.each_with_index do |user_info, i|
   user = User.create!(
     username: user_info[:username],
@@ -38,6 +40,8 @@ SEEDS_USERS.each_with_index do |user_info, i|
     expiration_date: user_info[:expiration_date]
   )
 
-  insert_item(user, i)
-  insert_item(user, i+(SEEDS_ITEMS.length/3))
+  [0, total_items / 3, 2 * total_items / 3].each do |offset|
+    item_index = (i + offset) % total_items
+    insert_item(user, item_index)
+  end
 end
