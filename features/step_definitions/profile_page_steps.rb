@@ -64,7 +64,7 @@ Then(/^I should be redirected to the my purchases page$/) do
 end
 
 Then(/^I should be redirected to the FAQ page$/) do
-  expect(current_path).to eq search_path() # TODO: Update this to the correct path
+  expect(current_path).to eq faq_path() # TODO: Update this to the correct path
 end
 
 
