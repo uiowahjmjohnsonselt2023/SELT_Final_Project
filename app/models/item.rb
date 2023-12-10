@@ -91,10 +91,12 @@ class Item < ApplicationRecord
       results = seller ? results.where("items.user_id = ?", seller.id) : []
       return results if results.empty?
     end
+
     if params[:min_price].present?
       results = results.where("price >= ?", params[:min_price])
       return results if results.empty?
     end
+
     if params[:max_price].present?
       results = results.where("price <= ?", params[:max_price])
     end
@@ -118,12 +120,14 @@ class Item < ApplicationRecord
       results = seller ? results.where("items.user_id = ?", seller.id) : []
       return results if results.empty?
     end
+
     if params[:min_price].present?
       results = results.where("price >= ?", params[:min_price])
       return results if results.empty?
     end
+
     if params[:max_price].present?
-    results = results.where("price <= ?", params[:max_price])
+      results = results.where("price <= ?", params[:max_price])
     end
 
     results
@@ -159,7 +163,7 @@ class Item < ApplicationRecord
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
       image = MiniMagick::Image.new(image_file_path)
-      image.size '256x256'
+      image.resize('256x256')
       image_type, image_data = Image.get_image_data(image_file_path)
       self.images.create!(data: image_data, image_type: image_type)
     end
@@ -173,7 +177,22 @@ class Item < ApplicationRecord
     end
   end
 
-  def update_item(item_to_update)
+  def update_item(item_to_update, remove_images)
+
+    # Check that the user is not trying to add more than 5 images
+    if check_image_limit(item_to_update, remove_images)
+      return false
+    end
+
+
+    # Only update attributes that are present
+    if item_to_update[:dimension_units].blank?
+      item_to_update[:dimension_units] = nil
+    end
+    if item_to_update[:weight_units].blank?
+      item_to_update[:weight_units] = nil
+    end
+
     # Update item attributes
     if self.update!(
       title: item_to_update[:title],
@@ -205,12 +224,12 @@ class Item < ApplicationRecord
       end
 
       # Removing images if the user selected to remove any
-      if item_to_update[:remove_images].present?
+      if remove_images.present?
         # reverse the keys of the hash since we want to remove the images from last to first to be able to use the index
-        item_to_update[:remove_images] = item_to_update[:remove_images].select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
+        remove_images = remove_images.select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
 
         # remove the images from the item
-        item_to_update[:remove_images].each do |index|
+        remove_images.each do |index|
           if index >= 0 && index < self.images.length
             self.images.destroy(self.images[index])
           end
@@ -248,4 +267,16 @@ class Item < ApplicationRecord
     self.height = height.round(1) if height
     self.weight = weight.round(1) if weight
   end
+
+  def check_image_limit(item_to_update, remove_images)
+
+    # Calculate the total number of images after addition and removal
+    total_images = self.images.length
+    total_images += item_to_update[:images].length if item_to_update[:images].present?
+    total_images -= remove_images.length if remove_images.present?
+
+    # Check if the total exceeds the limit
+    total_images > 5
+  end
+
 end

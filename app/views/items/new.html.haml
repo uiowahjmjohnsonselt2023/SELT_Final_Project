@@ -20,15 +20,15 @@
 
     .form-field
       = f.label :width
-      = f.number_field :width, required: false, step: '0.01'
+      = f.number_field :width, required: false, step: '0.01', min: 0
 
     .form-field
       = f.label :length
-      = f.number_field :length, required: false, step: '0.01'
+      = f.number_field :length, required: false, step: '0.01', min: 0
 
     .form-field
       = f.label :height
-      = f.number_field :height, required: false, step: '0.01'
+      = f.number_field :height, required: false, step: '0.01', min: 0
 
     .form-field
       = f.label :dimension_units
@@ -36,7 +36,7 @@
 
     .form-field
       = f.label :weight
-      = f.number_field :weight, required: false, step: '0.01'
+      = f.number_field :weight, required: false, step: '0.01', min: 0
 
     .form-field
       = f.label :weight_units
@@ -48,7 +48,7 @@
 
     .form-field
       = f.label :price
-      = f.number_field :price, required: true, step: '0.01'
+      = f.number_field :price, required: true, step: '0.01', min: 0
       #price-breakdown
         %h2#fee-amount Fee (5%): $0.00
         %h2#total-price You Receive: $0.00
@@ -68,7 +68,7 @@
 
     .drop-zone
       %p Drag and drop images here or
-      %button#upload-btn Upload Files (Max: 5 images)
+      %button#upload-btn{ type: 'button' } Upload Files (Max: 5 images)
       = f.file_field :images, multiple: true, accept: 'image/*', required: true, style: 'display: none;', id: 'file-input'
 
     .file-names
