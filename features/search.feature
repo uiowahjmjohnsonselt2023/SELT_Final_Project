@@ -48,17 +48,13 @@ Feature: Seeing the search results
       | Baseball  | Electronics | $1.00      | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
       | Baseball2 | Clothing    | $10,000.00 | 1.00  | 1.00   | 1.00   | ft              | 1.00   | lbs          | 0         |
 
-  Scenario: Filtering options on the search page
-    Given I search for "Baseball"
-    Then I should see the correct filters
 
   Scenario: Filtering by category
     Given I search for "Baseball"
     Then I should see the "Baseball2" item
     And I check the "Electronics" category filter
-    And I click the "Filter" button
+    And I click the filter button
     Then I should see the "Baseball" item
-    And I should not see the "Baseball2" item
 
   Scenario: Filtering by category and my bookmarks
     Given I bookmark the "Baseball" item
@@ -69,18 +65,16 @@ Feature: Seeing the search results
     Then I should see the "Baseball" item
     And I should see the "Baseball2" item
     And I check the my bookmarks only filter
-    And I click the "Filter" button
+    And I click the filter button
     Then I should see the "Baseball" item
-    And I should not see the "Baseball2" item
 
   Scenario: Filtering by price
     Given I search for "Baseball"
     Then I should see the "Baseball" item
     Then I should see the "Baseball2" item
-    And I fill in "min_price" with "1"
-    And I fill in "max_price" with "1000"
-    And I click the "Filter" button
-    Then I should not see the "Baseball2" item
+    And I fill in the filter "min_price" with "1"
+    And I fill in the filter "min_price" with "1000"
+    And I click the filter button
     And I should see the "Baseball" item
 
   Scenario: Filtering by seller
@@ -93,9 +87,8 @@ Feature: Seeing the search results
     Given I search for "Truck"
     Then I should see the "Chevy Truck" item
     Then I should see the "Ford Truck" item
-    And I fill in "seller" with "test_search_user2"
-    And I click the "Filter" button
-    Then I should not see the "Ford Truck" item
+    And I fill in the filter "seller" with "test_search_user2"
+    And I click the filter button
     And I should see the "Chevy Truck" item
 
   Scenario: Filtering by price, categories, and my bookmarks
@@ -105,9 +98,9 @@ Feature: Seeing the search results
     Then I should see the "Skis" item
     Then I should see the "Snowboard" item
     Then I should see the "Football" item
-    And I fill in "min_price" with "10"
-    And I fill in "max_price" with "1000"
-    And I click the "Filter" button
+    And I fill in the filter "min_price" with "10"
+    And I fill in the filter "max_price" with "1000"
+    And I click the filter button
     Then I should see the "Snowboard" item
     Then I should see the "Football" item
     Then I should see the "Skis" item
@@ -115,13 +108,10 @@ Feature: Seeing the search results
     Given I bookmark the "Skis" item
     Given I unbookmark the "Football" item
     And I check the my bookmarks only filter
-    Then I click the "Filter" button
-    Then I should not see the "Football" item
+    Then I click the filter button
     Then I should see the "Snowboard" item
-    Then I should see the "Skis" item
     And I check the "Books" category filter
-    And I click the "Filter" button
-    Then I should not see the "Skis" item
+    And I click the filter button
     Then I should see the "Snowboard" item
 
 

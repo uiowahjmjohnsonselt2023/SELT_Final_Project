@@ -81,3 +81,8 @@ Given('I have the following items for sale:') do |table|
     user_item.images.create!(data: image_data, image_type: image_type)
   end
 end
+
+
+When(/^I click on any of the "(.*?)" links$/) do |link_name|
+  find('a', text: link_name, match: :first).click
+end

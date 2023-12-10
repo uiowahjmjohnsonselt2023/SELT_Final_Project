@@ -2,7 +2,7 @@
 class Review< ApplicationRecord
   belongs_to :purchase
 
-  def new_review(params)
+  def self.new_review(params)
     Review.new(
       title: params[:title],
       rating: params[:rating],
