@@ -84,14 +84,19 @@ describe HomeController, type: :controller do
         allow(User).to receive(:find_by_session_token).and_return(current_user)
         session[:session_token] = current_user.session_token
         allow(User).to receive(:find).and_return(current_user)
+        allow(Category).to receive(:all).and_return([])
       end
 
       it "assigns @suggested_items" do
         #allow(User).to receive(:get_suggested_items)
-        allow(current_user).to receive(:get_suggested_items).and_return(test_items)
+        allow(current_user).to receive(:get_users_suggested_items).and_return(test_items)
         allow(current_user).to receive(:items).and_return(true)
+
+
+        allow(User).to receive(:get_suggested_items).and_return(test_items)
         get :index
         expect(assigns(:user_items)).to eq(true)
+        expect(assigns(:suggested_items)).to eq(test_items)
       end
     end
 
