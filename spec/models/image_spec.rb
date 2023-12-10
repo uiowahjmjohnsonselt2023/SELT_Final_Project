@@ -34,4 +34,23 @@ describe Image, type: :model do
       expect(image.data_uri).to eq('data:image/jpg;base64,aW1hZ2UgZGF0YQ==')
     end
   end
+
+  describe '#resize_image' do
+    before do
+      data = File.open('spec/support/fixtures/test_image.png', mode: 'rb') { |file| file.read }
+      image = MiniMagick::Image.read(data)
+      image.resize('512x512')
+      File.open('spec/support/fixtures/test_image.png', mode: 'wb') { |file| file.write(image.to_blob) }
+    end
+
+
+    it 'should resize image' do
+      data = File.open('spec/support/fixtures/test_image.png', mode: 'rb') { |file| file.read }
+      image = MiniMagick::Image.read(data)
+      expect(image.dimensions).to eq([512, 512])
+      image = Image.create!(data: data, image_type: 'png', item_id: 1)
+      image = MiniMagick::Image.read(image.data)
+      expect(image.dimensions).to eq([256, 256])
+    end
+  end
 end

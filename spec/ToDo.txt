@@ -18,10 +18,10 @@ Application
 Bookmark
 Category
 FAQ
-Image
-Item
+Image                 X
+Item                  X
 Payment_Method
-Purchase                X
+Purchase              X
 Review
 User
 ```
