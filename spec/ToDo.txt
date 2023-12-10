@@ -18,8 +18,8 @@ Application
 Bookmark
 Category
 FAQ
-Image
-Item
+Image                 X
+Item                  X
 Payment_Method
 Purchase
 Review
