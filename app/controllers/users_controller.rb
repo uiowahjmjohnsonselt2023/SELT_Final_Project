@@ -14,9 +14,7 @@ class UsersController < ApplicationController
   end
 
   # Update User Profile
-  def update
 
-  end
 
   def add_payment_method
     @user = current_user
@@ -55,9 +53,11 @@ class UsersController < ApplicationController
     if params[:country] == "Select Country"
       flash[:error] = "Invalid Address Inputs"
       redirect_to user_path(@user)
+      return
     elsif params[:country] == "United States" && params[:state] == "Select State"
       flash[:error] = "Invalid Address Inputs"
       redirect_to user_path(@user)
+      return
     end
 
     if params[:state] == "Select State"
@@ -104,12 +104,6 @@ class UsersController < ApplicationController
       end
 
     end
-
-
-  end
-
-  # Delete User Profile
-  def destroy
 
   end
 end
