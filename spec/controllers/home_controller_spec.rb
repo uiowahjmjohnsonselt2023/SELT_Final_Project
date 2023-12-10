@@ -96,6 +96,7 @@ describe HomeController, type: :controller do
         get :index
         expect(assigns(:user_items)).to eq(true)
         expect(assigns(:suggested_items)).to eq(test_items)
+
       end
     end
 
