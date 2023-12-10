@@ -76,6 +76,7 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([])
       end
       it 'adds item to bookmarked_items' do
+        allow(Item).to receive(:find_by).and_return(item)
         expect(user.bookmarked_items).to receive(:<<).with(item)
         user.add_bookmark(item)
       end
@@ -86,6 +87,7 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([item])
       end
       it 'does not add item to bookmarked_items' do
+        allow(Item).to receive(:find_by).and_return(item)
         expect(user.bookmarked_items).not_to receive(:<<).with(item)
         user.add_bookmark(item)
       end
@@ -100,6 +102,7 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([item])
       end
       it 'removes item from bookmarked_items' do
+        allow(Item).to receive(:find_by).and_return(item)
         expect(user.bookmarked_items).to receive(:delete).with(item)
         user.remove_bookmark(item)
       end
@@ -110,10 +113,12 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([])
       end
       it 'does not remove item from bookmarked_items' do
+        allow(Item).to receive(:find_by)
         expect(user.bookmarked_items).not_to receive(:delete).with(item)
         user.remove_bookmark(item)
       end
       it 'returns false' do
+        allow(Item).to receive(:find_by)
         expect(user.remove_bookmark(item)).to eq(false)
       end
     end
@@ -170,4 +175,106 @@ describe User, type: :model do
       end
     end
   end
+
+describe 'get_users_suggested_items' do
+    let(:user) { User.create!(username: 'testuser', email:'fake@gmail.com')}
+    let(:item) { instance_double('Item') }
+    let(:item2) { instance_double('Item') }
+    let(:item3) { instance_double('Item') }
+    let(:item4) { instance_double('Item') }
+    let(:item_group){ [item, item2, item3, item4]}
+
+    context 'when user has 4 bookmarked items' do
+      before do
+        allow(user).to receive(:bookmarked_items).and_return(item_group)
+        allow(item).to receive(:purchase).and_return(nil)
+        allow(item2).to receive(:purchase).and_return(nil)
+        allow(item3).to receive(:purchase).and_return(nil)
+        allow(item4).to receive(:purchase).and_return(nil)
+      end
+
+      it 'returns 4 bookmarked items' do
+        allow(item_group).to receive(:includes).and_return(item_group)
+        allow(item_group).to receive(:where).and_return(item_group)
+        allow(item_group).to receive(:limit).and_return(item_group)
+        expect(user.get_users_suggested_items).to eq([item, item2, item3, item4])
+      end
+    end
+
+    context 'when user has 2 bookmarked items' do
+      let(:item_group){ [item, item2] }
+      before do
+        allow(user).to receive(:bookmarked_items).and_return(item_group)
+        allow(item).to receive(:purchase).and_return(nil)
+        allow(item2).to receive(:purchase).and_return(nil)
+      end
+
+      it 'returns 2 bookmarked items and 2 other items' do
+        allow(item_group).to receive(:includes).and_return(item_group)
+        allow(item_group).to receive(:where).and_return(item_group)
+        allow(item_group).to receive(:limit).and_return(item_group)
+        allow(Item).to receive(:includes).and_return(item_group)
+        #allow(Item).to receive(:where).and_return(item_group)
+        allow(item_group).to receive(:not).and_return(item_group)
+
+        #allow(Item).to receive(:limit).and_return(item_group)
+        expect(user.get_users_suggested_items).to eq([item, item2, item, item2])
+      end
+    end
+
+    context 'when user has 0 bookmarked items' do
+      let(:item_group){ [] }
+      let(:other_item_group){ [item, item2, item3, item4] }
+      before do
+        allow(user).to receive(:bookmarked_items).and_return(item_group)
+        allow(item_group).to receive(:includes).and_return(item_group)
+        allow(item_group).to receive(:where).and_return(item_group)
+        allow(item_group).to receive(:limit).and_return(item_group)
+      end
+
+      it 'returns 4 other items' do
+        allow(Item).to receive(:includes).and_return(other_item_group)
+        allow(other_item_group).to receive(:where).and_return(other_item_group)
+        allow(other_item_group).to receive(:not).and_return(other_item_group)
+        allow(other_item_group).to receive(:limit).and_return(other_item_group)
+
+        expect(user.get_users_suggested_items).to eq(other_item_group)
+      end
+    end
+end
+
+  describe 'get_suggested_items' do
+    let(:user) { User.create!(username: 'testuser', email:'test@gmail.com')}
+    let(:item) { instance_double('Item') }
+    let(:item2) { instance_double('Item') }
+    let(:item3) { instance_double('Item') }
+    let(:item4) { instance_double('Item') }
+
+    context 'when there are 4 items that have not been purchased' do
+      let(:item_group){ [item, item2, item3, item4] }
+      before do
+        allow(Item).to receive(:includes).and_return(item_group)
+        allow(item_group).to receive(:where).and_return(item_group)
+        allow(item_group).to receive(:limit).and_return(item_group)
+      end
+
+      it 'returns 4 items' do
+        expect(User.get_suggested_items).to eq(item_group)
+      end
+    end
+
+  end
+
+  describe 'create_with_omniauth' do
+    let(:auth) { { 'provider' => 'google', 'uid' => '12345', 'info' => { 'name' => 'testuser', 'email' => 'test@gmail.com' } } }
+
+    it 'creates a new user' do
+      expect { User.create_with_omniauth(auth) }.to change(User, :count).by(1)
+
+    end
+  end
+
+
+
+
 end
