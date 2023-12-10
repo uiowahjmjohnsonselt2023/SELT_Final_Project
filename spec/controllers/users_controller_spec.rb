@@ -150,13 +150,37 @@ describe UsersController, type: :controller do
     context "with invalid inputs" do
       it "redirects to current user path" do
         allow(payment_method).to receive(:valid_payment_method_input?).and_return(false)
-        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_date => "10/2024"
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "1", :expiration_year => "2025"
         expect(response).to redirect_to(edit_user_path(current_user))
       end
 
+
       it "sets a flash message" do
         allow(payment_method).to receive(:valid_payment_method_input?).and_return(false)
-        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_date => "10/2024"
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "1", :expiration_year => "2025"
+        expect(flash[:error]).to match("Invalid Payment Method Inputs: 15, 16, or 19 digit card number, 3 digit cvv, and (MM/YYYY) expiration date")
+      end
+
+    end
+
+    context "with invalid expiration date" do
+      it "redirects to current user path when invalid year" do
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "10", :expiration_year => "2018"
+        expect(response).to redirect_to(edit_user_path(current_user))
+      end
+
+      it "sets a flash message when invalid year" do
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "10", :expiration_year => "2018"
+        expect(flash[:error]).to match(/Invalid Expiration Date/)
+      end
+
+      it "redirects to current user path when invalid month" do
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "1", :expiration_year => "2023"
+        expect(response).to redirect_to(edit_user_path(current_user))
+      end
+
+      it "sets a flash message when invalid month" do
+        post :add_payment_method, :id => current_user.id, :card_number => "1234567890123456", :expiration_month => "1", :expiration_year => "2023"
         expect(flash[:error]).to match(/Invalid Expiration Date/)
       end
     end
@@ -200,6 +224,26 @@ describe UsersController, type: :controller do
         post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "CA", :country => "USA", :postal_code => "94105"
         expect(flash[:error]).to match(/Invalid Address Inputs/)
       end
+
+      it "redirects to current user path when country is not selected" do
+        post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "CA", :country => "Select Country", :postal_code => "94105"
+        expect(response).to redirect_to(user_path(current_user))
+      end
+
+      it "sets a flash message when country is not selected" do
+        post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "CA", :country => "Select Country", :postal_code => "94105"
+        expect(flash[:error]).to match(/Invalid Address Inputs/)
+      end
+
+      it "redirects to current user path when country is United States and state is not selected" do
+        post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "Select State", :country => "United States", :postal_code => "94105"
+        expect(response).to redirect_to(user_path(current_user))
+      end
+
+      it "sets a flash message when country is United States and state is not selected" do
+        post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "Select State", :country => "United States", :postal_code => "94105"
+        expect(flash[:error]).to match(/Invalid Address Inputs/)
+      end
     end
 
     context "with valid inputs" do
@@ -215,6 +259,13 @@ describe UsersController, type: :controller do
         expect(addresses_double).to receive(:create!)
         post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "CA", :country => "USA", :postal_code => "94105"
         expect(flash[:notice]).to match(/Address Added/)
+      end
+
+      it "sets state param if not set and country is not the US" do
+        expect(addresses_double).to receive(:create!)
+        post :add_address, :id => current_user.id, :shipping_address_1 => "123 Main St", :shipping_address_2 => "", :city => "San Francisco", :state => "Select State", :country => "Vatican City", :postal_code => "94105"
+        expect(assigns(:state)).to eq(nil)
+
       end
     end
   end
@@ -251,6 +302,18 @@ describe UsersController, type: :controller do
         expect(flash[:alert]).to match('Could not delete the address.')
       end
     end
+
+    context "with invalid inputs" do
+      it "redirects to current user path" do
+        delete :delete_address, :id => current_user.id, :address_id => ""
+        expect(response).to redirect_to(edit_user_path(current_user))
+      end
+
+      it "sets a flash message when unsuccessful" do
+        delete :delete_address, :id => current_user.id, :address_id => ""
+        expect(flash[:alert]).to match('Could not delete the address. Must select an address.')
+      end
+    end
   end
 
 
@@ -284,6 +347,18 @@ describe UsersController, type: :controller do
         allow(payment_method).to receive(:destroy).and_return(false)
         delete :delete_payment_method, :id => current_user.id, :payment_method_id => "1"
         expect(flash[:alert]).to match('Could not delete the payment method.')
+      end
+    end
+
+    context "with invalid inputs" do
+      it "redirects to current user path" do
+        delete :delete_payment_method, :id => current_user.id, :payment_method_id => ""
+        expect(response).to redirect_to(edit_user_path(current_user))
+      end
+
+      it "sets a flash message when unsuccessful" do
+        delete :delete_payment_method, :id => current_user.id, :payment_method_id => ""
+        expect(flash[:alert]).to match('Could not delete the payment method. Must select a payment method.')
       end
     end
   end
