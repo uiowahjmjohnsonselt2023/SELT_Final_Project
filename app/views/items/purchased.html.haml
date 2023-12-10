@@ -89,10 +89,10 @@
 
       = f.submit 'Submit Review', class: 'submit-review-button'
 - elsif @item.purchase.user == current_user
-%section.seller-reviews-container
-  %h2 Seller Reviews
+%section.seller-reviews-container-2
+  %h1 Seller Reviews
   - if @reviews.present?
-    .reviews-list
+    .reviews-list-2
       - @reviews.each do |review|
         .review-card
           %h3.review-title= review.title
