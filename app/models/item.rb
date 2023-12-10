@@ -89,12 +89,14 @@ class Item < ApplicationRecord
     if params[:seller].present?
       seller = User.find_by(username: params[:seller])
       results = seller ? results.where("items.user_id = ?", seller.id) : []
+      return results if results.empty?
     end
     if params[:min_price].present?
-    results = results.where("price >= ?", params[:min_price])
+      results = results.where("price >= ?", params[:min_price])
+      return results if results.empty?
     end
     if params[:max_price].present?
-    results = results.where("price <= ?", params[:max_price])
+      results = results.where("price <= ?", params[:max_price])
     end
 
     results
@@ -114,9 +116,11 @@ class Item < ApplicationRecord
     if params[:seller].present?
       seller = User.find_by(username: params[:seller])
       results = seller ? results.where("items.user_id = ?", seller.id) : []
+      return results if results.empty?
     end
     if params[:min_price].present?
       results = results.where("price >= ?", params[:min_price])
+      return results if results.empty?
     end
     if params[:max_price].present?
     results = results.where("price <= ?", params[:max_price])
@@ -155,7 +159,7 @@ class Item < ApplicationRecord
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
       image = MiniMagick::Image.new(image_file_path)
-      image.resize('256x256')
+      image.size '256x256'
       image_type, image_data = Image.get_image_data(image_file_path)
       self.images.create!(data: image_data, image_type: image_type)
     end
