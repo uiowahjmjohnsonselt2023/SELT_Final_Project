@@ -4,7 +4,7 @@ BookmarksController
 CheckoutController
 FaqController
 HomeController
-ItemsController
+ItemsController         X
 ReviewsController
 SearchController
 SessionsController
