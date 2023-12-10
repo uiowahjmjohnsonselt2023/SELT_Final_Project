@@ -109,7 +109,7 @@ describe SearchController, type: :controller do
       context "when user searches for only purchased items" do
         before do
           allow(User).to receive(:find_by).with(id: "1").and_return(current_user)
-          allow(current_user).to receive(:purchased_items).and_return(items)
+          allow(Item).to receive(:get_search_items).and_return(items)
         end
 
         it "assigns @results to purchased items" do
