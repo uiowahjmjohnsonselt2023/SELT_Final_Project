@@ -1,14 +1,14 @@
 Controllers
-ApplicationController
-BookmarksController
-CheckoutController
+ApplicationController   Px
+BookmarksController     X
+CheckoutController      X
 FaqController
-HomeController
+HomeController          X
 ItemsController         X
-ReviewsController
+ReviewsController       X
 SearchController
 SessionsController
-UsersController
+UsersController         X
 ```
 
 
@@ -21,7 +21,7 @@ FAQ
 Image
 Item
 Payment_Method
-Purchase
+Purchase                X
 Review
 User
 ```
