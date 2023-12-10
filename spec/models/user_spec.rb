@@ -270,6 +270,7 @@ end
 
     it 'creates a new user' do
       expect { User.create_with_omniauth(auth) }.to change(User, :count).by(1)
+
     end
   end
 
