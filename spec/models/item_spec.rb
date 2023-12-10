@@ -162,6 +162,11 @@ describe Item, type: :model do
       let(:item2) { instance_double('Item', id: 2) }
       let(:current_user_bookmarked_items) { [item1, item2] }
 
+      before do
+        allow(current_user_bookmarked_items).to receive(:includes).with(:purchase).and_return(current_user_bookmarked_items)
+        allow(current_user_bookmarked_items).to receive(:where).with(purchases: { id: nil }).and_return(current_user_bookmarked_items)
+      end
+
       context 'when current user is not provided' do
         it 'returns an empty array' do
           params = { bookmarks: '1' }
@@ -192,6 +197,11 @@ describe Item, type: :model do
       let(:item1) { instance_double('Item', id: 1) }
       let(:item2) { instance_double('Item', id: 2) }
       let(:current_user_purchased_items) { [item1, item2] }
+
+      before do
+        allow(current_user_purchased_items).to receive(:includes).with(:purchase).and_return(current_user_purchased_items)
+        allow(current_user_purchased_items).to receive(:where).with(purchases: { id: nil }).and_return(current_user_purchased_items)
+      end
 
       context 'when current user is not provided' do
         it 'returns an empty array' do
@@ -225,6 +235,12 @@ describe Item, type: :model do
       let(:item3) { instance_double('Item', id: 3) }
       let(:item4) { instance_double('Item', id: 4) }
       let(:return_items) { [item1, item2, item3, item4] }
+
+      before do
+        allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+        allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
+      end
+
       it 'returns items matching the categories and search term' do
         params = { categories: %w[Electronics], search_term: 'laptop' }
         expect(Item).to receive(:search).with('laptop', %w[Electronics]).and_return(return_items)
@@ -238,6 +254,12 @@ describe Item, type: :model do
       let(:item3) { instance_double('Item', id: 3) }
       let(:item4) { instance_double('Item', id: 4) }
       let(:return_items) { [item1, item2, item3, item4] }
+
+      before do
+        allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+        allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
+      end
+
       it 'returns items matching the categories' do
         params = { categories: %w[Electronics] }
         expect(Item).to receive(:search).with(nil, %w[Electronics]).and_return(return_items)
@@ -251,6 +273,12 @@ describe Item, type: :model do
       let(:item3) { instance_double('Item', id: 3) }
       let(:item4) { instance_double('Item', id: 4) }
       let(:return_items) { [item1, item2, item3, item4] }
+
+      before do
+        allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+        allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
+      end
+
       it 'returns items matching the search term' do
         params = { search_term: 'laptop' }
         expect(Item).to receive(:search).with('laptop', Category.all.map(&:name)).and_return(return_items)
@@ -264,6 +292,12 @@ describe Item, type: :model do
       let(:item3) { instance_double('Item', id: 3) }
       let(:item4) { instance_double('Item', id: 4) }
       let(:return_items) { [item1, item2, item3, item4] }
+
+      before do
+        allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+        allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
+      end
+
       it 'returns all items' do
         params = {}
         expect(Item).to receive(:all).and_return(return_items)
@@ -278,6 +312,8 @@ describe Item, type: :model do
 
       before do
         allow(Item).to receive(:all).and_return(return_items)
+        allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+        allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
       end
 
       context 'when the seller is not found' do
@@ -293,7 +329,7 @@ describe Item, type: :model do
       context 'when the seller is found but does not have items' do
         before do
           allow(User).to receive(:find_by).with(username: 'other_user3').and_return(other_user3)
-          allow(return_items).to receive(:where).and_return([])
+          allow(return_items).to receive(:where).with("items.user_id = ?", 3).and_return([])
         end
         it 'returns an empty array' do
           params = { seller: 'other_user3' }
@@ -323,11 +359,13 @@ describe Item, type: :model do
       before do
         allow(Item).to receive(:all).and_return(return_items)
         allow(User).to receive(:find_by).with(username: 'other_user2').and_return(other_user2)
+        allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+        allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
       end
 
       context 'when seller has no items' do
         before do
-          allow(return_items).to receive(:where).and_return([])
+          allow(return_items).to receive(:where).with("items.user_id = ?", 2).and_return([])
         end
         it 'returns an empty array' do
           expect(Item.get_users_search_items(current_user, { seller: 'other_user2', min_price: 10, max_price: 20 })).to eq([])
@@ -360,6 +398,11 @@ describe Item, type: :model do
     let(:item3) { instance_double('Item', id: 3, price: 30) }
     let(:item4) { instance_double('Item', id: 4, price: 40) }
     let(:return_items) { [item1, item2, item3, item4] }
+
+    before do
+      allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+      allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
+    end
 
     context 'when categories or search term are provided' do
       it 'returns items matching the categories and search term' do
@@ -400,6 +443,8 @@ describe Item, type: :model do
 
       before do
         allow(Item).to receive(:all).and_return(return_items)
+        allow(return_items).to receive(:includes).with(:purchase).and_return(return_items)
+        allow(return_items).to receive(:where).with(purchases: { id: nil }).and_return(return_items)
       end
 
       context 'when the seller is not found' do
@@ -415,7 +460,7 @@ describe Item, type: :model do
       context 'when the seller is found but does not have items' do
         before do
           allow(User).to receive(:find_by).with(username: 'other_user3').and_return(other_user3)
-          allow(return_items).to receive(:where).and_return([])
+          allow(return_items).to receive(:where).with("items.user_id = ?", 3).and_return([])
         end
         it 'returns an empty array' do
           params = { seller: 'other_user3' }
@@ -443,7 +488,7 @@ describe Item, type: :model do
 
       context 'when seller has no items' do
         before do
-          allow(return_items).to receive(:where).and_return([])
+          allow(return_items).to receive(:where).with("items.user_id = ?", 2).and_return([])
         end
         it 'returns an empty array' do
           expect(Item.get_search_items({ seller: 'other_user2', min_price: 10, max_price: 20 })).to eq([])
