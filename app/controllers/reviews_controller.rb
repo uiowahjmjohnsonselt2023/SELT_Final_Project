@@ -1,10 +1,10 @@
 class ReviewsController < ApplicationController
 
-  before_filter :set_current_user, :only => [:create, :edit, :update, :destroy]
+  before_filter :set_current_user, :only => [:create, :destroy]
   before_filter :correct_purchase_create, only: [:create]
   before_filter :correct_purchase_destroy, only: [:destroy]
-  before_filter :correct_user_for_purchase, only: [:create, :edit, :update, :destroy]
-  before_filter :find_review, only: [:edit, :update, :destroy]
+  before_filter :correct_user_for_purchase, only: [:create, :destroy]
+  before_filter :find_review, only: [:destroy]
 
   def create
     @review = Review.new_review(params[:review])

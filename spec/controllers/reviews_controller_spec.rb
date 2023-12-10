@@ -37,14 +37,13 @@ describe ReviewsController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
-    allow(controller).to receive(:correct_purchase_create).and_return(true)
-    allow(controller).to receive(:correct_purchase_destroy).and_return(true)
     allow(controller).to receive(:correct_user_for_purchase).and_return(true)
   end
 
   describe 'POST #create' do
     context 'when a valid review is created' do
       before do
+        allow(controller).to receive(:correct_purchase_create).and_return(true)
         allow(User).to receive(:find_by_session_token).and_return(current_user)
         session[:session_token] = current_user.session_token
         allow(controller).to receive(:current_user).and_return(current_user)
@@ -111,6 +110,7 @@ describe ReviewsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before do
+      allow(controller).to receive(:correct_purchase_destroy).and_return(true)
       allow(User).to receive(:find_by_session_token).and_return(current_user)
       session[:session_token] = current_user.session_token
       allow(controller).to receive(:current_user).and_return(current_user)
@@ -195,7 +195,71 @@ describe ReviewsController, type: :controller do
       allow(purchase).to receive(:user).and_return(instance_double('User', :id => 2))
       delete :destroy, :id => 1, :item_id => 1
       expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to match("You do not have permission to edit or delete this review")
+      expect(flash[:alert]).to match("You do not have permission to edit or delete this item.")
+    end
+  end
+
+  describe 'correct_purchase_create' do
+    before do
+      allow(controller).to receive(:correct_purchase_destroy).and_return(true)
+      allow(controller).to receive(:correct_user).and_return(true)
+      allow(User).to receive(:find_by_session_token).and_return(current_user)
+      session[:session_token] = current_user.session_token
+      allow(controller).to receive(:current_user).and_return(current_user)
+    end
+
+    it 'catches ActiveRecord::RecordNotFound and redirects to root path' do
+      allow(Purchase).to receive(:find_by).and_raise(ActiveRecord::RecordNotFound)
+      post :create, :review => review_params
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("You do not have permission to review this item")
+    end
+
+    it 'redirects to root path if purchase is not found' do
+      allow(Purchase).to receive(:find_by).and_return(nil)
+      post :create, :review => review_params
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("You do not have permission to review this item")
+    end
+
+    it 'redirects to root path if purchase is already reviewed' do
+      allow(Purchase).to receive(:find_by).and_return(purchase)
+      allow(purchase).to receive(:reviewed?).and_return(true)
+      post :create, :review => review_params
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("You have already reviewed this item.")
+    end
+  end
+
+  describe 'correct_purchase_destroy' do
+    before do
+      allow(controller).to receive(:correct_purchase_create).and_return(true)
+      allow(controller).to receive(:correct_user).and_return(true)
+      allow(User).to receive(:find_by_session_token).and_return(current_user)
+      session[:session_token] = current_user.session_token
+      allow(controller).to receive(:current_user).and_return(current_user)
+    end
+
+    it 'catches ActiveRecord::RecordNotFound and redirects to root path' do
+      allow(Purchase).to receive(:find_by).and_raise(ActiveRecord::RecordNotFound)
+      delete :destroy, :id => 1, :item_id => 1
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("You do not have permission to review this item.")
+    end
+
+    it 'redirects to root path if purchase is not found' do
+      allow(Purchase).to receive(:find_by).and_return(nil)
+      delete :destroy, :id => 1, :item_id => 1
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("You do not have permission to review this item.")
+    end
+
+    it 'redirects to root path if purchase is not reviewed' do
+      allow(Purchase).to receive(:find_by).and_return(purchase)
+      allow(purchase).to receive(:reviewed?).and_return(false)
+      delete :destroy, :id => 1, :item_id => 1
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("You have not yet reviewed this item.")
     end
   end
 
