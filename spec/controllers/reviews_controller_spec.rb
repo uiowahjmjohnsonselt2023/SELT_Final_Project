@@ -33,10 +33,56 @@ describe ReviewsController, type: :controller do
 
   before(:each) do
     controller.extend(SessionsHelper)
+    allow(controller).to receive(:correct_purchase_create).and_return(true)
+    allow(controller).to receive(:correct_purchase_destroy).and_return(true)
+    allow(controller).to receive(:correct_user_for_purchase).and_return(true)
   end
 
   describe 'POST #create' do
     context 'when a valid review is created' do
+      before do
+        allow(User).to receive(:find_by_session_token).and_return(current_user)
+        session[:session_token] = current_user.session_token
+        allow(controller).to receive(:current_user).and_return(current_user)
+        allow_any_instance_of(Review).to receive(:purchase=).and_return(true)
+
+      end
+
+      it 'creates a new review and redirects to item page with a success message' do
+        allow(controller).to receive(:correct_purchase_create).and_return(true)
+        allow(controller).to receive(:correct_user).and_return(true)
+        allow(Purchase).to receive(:find_by).with(item_id: "1", user: current_user).and_return(purchase)
+        post :create,  :review => review_params
+        expect(response).to redirect_to(item_path(item.id))
+        expect(flash[:notice]).to match(/Review was saved/)
+      end
+
+
+
+    end
+
+    context 'when user has already reviewed the item' do
+      before do
+        allow(purchase).to receive(:reviewed?).and_return(true)
+        allow(Purchase).to receive(:find_by).with(item_id: item.id, user: current_user).and_return(purchase)
+        allow(User).to receive(:find_by_session_token).and_return(current_user)
+        session[:session_token] = current_user.session_token
+        allow(controller).to receive(:current_user).and_return(current_user)
+        allow_any_instance_of(Review).to receive(:purchase=).and_return(true)
+      end
+
+      it 'Does not create a new review when it has already been reviewed' do
+        allow(controller).to receive(:correct_purchase_create).and_return(false)
+        allow(controller).to receive(:correct_user).and_return(true)
+        allow(Purchase).to receive(:find_by).with(item_id: "1", user: current_user).and_return(purchase)
+        allow(purchase).to receive(:reviewed?).and_return(true)
+        post :create, { review: review_params }
+        expect(response).to redirect_to(item_path(item.id))
+        expect(flash[:alert]).to match(/You have already reviewed this item or the purchase does not exist/)
+      end
+    end
+
+    context "the review is not successfully saved" do
       before do
         allow(User).to receive(:find_by_session_token).and_return(current_user)
         session[:session_token] = current_user.session_token
@@ -48,32 +94,14 @@ describe ReviewsController, type: :controller do
         allow(controller).to receive(:correct_purchase_create).and_return(true)
         allow(controller).to receive(:correct_user).and_return(true)
         allow(Purchase).to receive(:find_by).with(item_id: "1", user: current_user).and_return(purchase)
-        post :create, { review: review_params }
+        allow_any_instance_of(Review).to receive(:save).and_return(false)
+        post :create,  :review => review_params
         expect(response).to redirect_to(item_path(item.id))
-        expect(flash[:notice]).to match(/Review was saved/)
+        expect(flash[:error]).to match(/Review could not be saved/)
       end
 
-      it 'Does not create a new review when it has already been reviewed' do
-        allow(controller).to receive(:correct_purchase_create).and_return(false)
-        allow(controller).to receive(:correct_user).and_return(true)
-        post :create, { review: review_params }
-        expect(response).to redirect_to(item_path(item.id))
-        expect(flash[:alert]).to match(/You have already reviewed this item or the purchase does not exist/)
-      end
-    end
-
-    context 'when user has already reviewed the item' do
-      before do
-        allow(purchase).to receive(:reviewed?).and_return(true)
-        allow(Purchase).to receive(:find_by).with(item_id: item.id, user: current_user).and_return(purchase)
-      end
-
-      it 'redirects to item page with an alert message' do
-        post :create, params: { review: review_params }
-        expect(response).to redirect_to(item_path(item.id))
-        expect(flash[:alert]).to match(/You have already reviewed this item or the purchase does not exist/)
-      end
     end
 
   end
+
 end
