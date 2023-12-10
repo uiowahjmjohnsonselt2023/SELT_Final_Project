@@ -7,6 +7,7 @@ ruby '2.6.6'
 # Use Haml as the templating library
 gem 'haml'
 gem 'mini_magick'
+gem 'jasmine'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.10'
 # Use SCSS for stylesheets

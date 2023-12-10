@@ -60,11 +60,12 @@ class ApplicationController < ActionController::Base
       @purchase = Purchase.find_by(item_id: params[:review][:item_id], user: current_user)
 
     rescue ActiveRecord::RecordNotFound
-      redirect_to root_path, alert: "You do not have permission to review this item 1."
+      redirect_to root_path, alert: "You do not have permission to review this item"
+      return
     end
 
     if @purchase.nil?
-      redirect_to root_path, alert: "You do not have permission to review this item 2."
+      redirect_to root_path, alert: "You do not have permission to review this item"
     elsif @purchase.reviewed?
       redirect_to root_path, alert: "You have already reviewed this item."
     end
@@ -77,6 +78,7 @@ class ApplicationController < ActionController::Base
       @purchase = Purchase.find_by(item_id: params[:item_id], user: current_user)
     rescue ActiveRecord::RecordNotFound
       redirect_to root_path, alert: "You do not have permission to review this item."
+      return
     end
 
     if @purchase.nil?

@@ -2,8 +2,6 @@ $(document).ready(function() {
   $(document).on('click', '#bookmark-button', function() {
     var $button = $(this);
     var itemId = $button.data('item-id');
-
-    //var isBookmarked = $(this).data('bookmarked') === true || $(this).data('bookmarked') === 'true';
     var isBookmarked = Boolean($button.data('bookmarked'));
     var method = isBookmarked ? 'DELETE' : 'POST';
     var url = '/bookmarks' + (isBookmarked ? '/' + itemId : '');

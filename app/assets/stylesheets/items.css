@@ -51,6 +51,7 @@ body {
   align-items: center;
   width: 100%;
   height: 100%;
+  margin-top: 1vh;
 }
 
 .carousel-control-next {
@@ -199,4 +200,70 @@ body {
     max-width: 100%;
     margin-left: 0;
   }
+}
+
+.carousel-container{
+  margin-top: 3vh;
+}
+
+.review-form-container {
+  max-width: 60vw;
+  margin: 20px auto;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.seller-reviews-container-2{
+  max-width: 60vw;
+  margin: 20px auto;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-form-container h2 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: black;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+.submit-review-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  display: inline-block;
+}
+
+.submit-review-button:hover {
+  background-color: #0056b3;
 }

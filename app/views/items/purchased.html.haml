@@ -77,22 +77,22 @@
 
       .form-group
         = f.label :rating, 'Rating (1 to 5)'
-        = f.number_field :rating, in: 1..5, class: 'form-control'
+        = f.number_field :rating, in: 1..5, class: 'form-control', required: true
 
       .form-group
         = f.label :title, 'Review Title'
-        = f.text_field :title, class: 'form-control'
+        = f.text_field :title, class: 'form-control', required: true
 
       .form-group
         = f.label :content, 'Your Review'
-        = f.text_area :content, class: 'form-control'
+        = f.text_area :content, class: 'form-control', required: true
 
       = f.submit 'Submit Review', class: 'submit-review-button'
 - elsif @item.purchase.user == current_user
-%section.seller-reviews-container
-  %h2 Seller Reviews
+%section.seller-reviews-container-2
+  %h1 Seller Reviews
   - if @reviews.present?
-    .reviews-list
+    .reviews-list-2
       - @reviews.each do |review|
         .review-card
           %h3.review-title= review.title
