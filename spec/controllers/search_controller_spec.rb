@@ -58,6 +58,8 @@ describe SearchController, type: :controller do
       context "when user does a blank search" do
         before do
           allow(Item).to receive(:all).and_return(items)
+          allow(items).to receive(:where).and_return(items)
+          allow(items).to receive(:includes).and_return(items)
         end
 
         it "assigns @results to all items" do
@@ -69,6 +71,8 @@ describe SearchController, type: :controller do
       context "when user searches for only bookmarked items" do
         before do
           allow(current_user).to receive(:bookmarked_items).and_return(items)
+          allow(items).to receive(:where).and_return(items)
+          allow(items).to receive(:includes).and_return(items)
         end
 
         it "assigns @results to bookmarked items" do

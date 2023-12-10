@@ -63,16 +63,16 @@
             = link_to "Bookmarks", search_path(bookmarks: '1'), class: 'user-button-bookmarks'
       - else
         %div.user-navigation-and-tables
-        %div.user-navigation-section
-          = form_tag search_path(search: @user.username), method: :get do
-            = hidden_field_tag @user.id, params[:user_id]
-            = submit_tag "Items for Sale", name: nil, class: 'user-button user-nav-button'
-          = link_to "FAQ Page", faq_path, class: 'user-button user-nav-button'
+          %div.user-navigation-section
+            = form_tag search_path(seller: @user.username), method: :get do
+              = hidden_field_tag :seller, @user.username
+              = submit_tag "Items for Sale", name: nil, class: 'user-button user-nav-button'
+            = link_to "FAQ Page", faq_path, class: 'user-button user-nav-button'
     - else
       %div.user-navigation-and-tables
         %div.user-navigation-section
-          = form_tag search_path(search: @user.username), method: :get do
-            = hidden_field_tag @user.id, params[:user_id]
+          = form_tag search_path(seller: @user.username), method: :get do
+            = hidden_field_tag :seller, @user.username
             = submit_tag "Items for Sale", name: nil, class: 'user-button user-nav-button'
           = link_to "FAQ Page", faq_path, class: 'user-button user-nav-button'
 

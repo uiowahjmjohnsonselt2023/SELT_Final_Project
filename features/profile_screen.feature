@@ -43,7 +43,7 @@ Feature: Profile Screen Functionality
   Scenario: Pressing My Purchases button
     Given I am logged in as "testuser"
     And I am on the "profile" page
-    When I click the "Contact Company" button
+    When I click on the "FAQ Page" link
     Then I should be redirected to the FAQ page
 
   Scenario: Pressing My Items for sale button

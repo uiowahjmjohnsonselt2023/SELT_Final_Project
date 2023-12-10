@@ -86,6 +86,7 @@ class Item < ApplicationRecord
                 Item.all
               end
 
+    results = results.includes(:purchase).where(purchases: { id: nil })
     if params[:seller].present?
       seller = User.find_by(username: params[:seller])
       results = seller ? results.where("items.user_id = ?", seller.id) : []
