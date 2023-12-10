@@ -44,5 +44,8 @@ describe PaymentMethod, type: :model do
         expect(payment_method.valid_payment_method_input?('1234567890123456', '01/2020')).to eq(true)
       end
     end
+
+
   end
+
 end
