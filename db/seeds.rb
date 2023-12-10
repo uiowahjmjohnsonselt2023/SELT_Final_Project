@@ -53,7 +53,7 @@ end
 
 
 # Create a bunch of one item just for creating reviews
-number_of_purchases = 10 # Adjust this number as needed
+number_of_purchases = 100 # Adjust this number as needed
 
 review_contents = [
   "Absolutely loved this mystery novel! The plot twists kept me on the edge of my seat.",
