@@ -37,6 +37,7 @@ class ApplicationController < ActionController::Base
     # Make sure the purchase can be found and the user is correct
     begin
       @purchase = Purchase.find_by(item_id: params[:review][:item_id], user: current_user)
+
     rescue ActiveRecord::RecordNotFound
       redirect_to root_path, alert: "You do not have permission to review this item 1."
     end
@@ -46,6 +47,7 @@ class ApplicationController < ActionController::Base
     elsif @purchase.reviewed?
       redirect_to root_path, alert: "You have already reviewed this item."
     end
+
   end
 
   def correct_purchase_destroy
@@ -80,6 +82,7 @@ class ApplicationController < ActionController::Base
       @review = Review.find params[:id]
     rescue ActiveRecord::RecordNotFound
       redirect_to root_path, alert: "Review not found."
+      return
     end
 
     if @review.nil?

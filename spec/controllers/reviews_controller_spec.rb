@@ -32,6 +32,9 @@ describe ReviewsController, type: :controller do
   end
   let(:review){ instance_double('Review', :id => 1, :item_id => 1, :purchase => purchase) }
 
+
+
+
   before(:each) do
     controller.extend(SessionsHelper)
     allow(controller).to receive(:correct_purchase_create).and_return(true)
@@ -157,6 +160,43 @@ describe ReviewsController, type: :controller do
     end
 
 
+  end
+
+  describe 'find_review' do
+    before do
+      allow(controller).to receive(:correct_purchase_destroy).and_return(true)
+      allow(controller).to receive(:correct_user).and_return(true)
+      allow(User).to receive(:find_by_session_token).and_return(current_user)
+      session[:session_token] = current_user.session_token
+      allow(controller).to receive(:current_user).and_return(current_user)
+    end
+
+    it 'deletes the review and redirects to user page with a success message' do
+      #allow(controller).to receive(:find_review).and_return(review)
+      allow(Review).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+      allow(review).to receive(:destroy).and_return(false)
+
+      delete :destroy, :id => 1, :item_id => 1
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("Review not found")
+    end
+
+    it 'redirects to root path if review is not found' do
+      allow(Review).to receive(:find).and_return(nil)
+      delete :destroy, :id => 1, :item_id => 1
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("Review not found")
+    end
+
+    it 'redirects to root path if the review is not the users' do
+      allow(Review).to receive(:find).and_return(review)
+      allow(review).to receive(:purchase).and_return(purchase)
+      allow(purchase).to receive(:user).and_return(instance_double('User', :id => 2))
+      delete :destroy, :id => 1, :item_id => 1
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to match("You do not have permission to edit or delete this review")
+    end
   end
 
 end
