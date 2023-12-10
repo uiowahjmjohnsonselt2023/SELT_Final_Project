@@ -116,6 +116,9 @@ node_modules/
 .idea/**/dictionaries
 .idea/**/shelf
 .idea/SELT_Final_Project.iml
+.idea/
+**/.idea
+.idea*
 
 # Generated files
 .idea/**/contentModel.xml
