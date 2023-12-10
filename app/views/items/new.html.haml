@@ -48,7 +48,7 @@
 
     .form-field
       = f.label :price
-      = f.number_field :price, required: true, step: '0.01'
+      = f.number_field :price, required: true, step: '0.01', min: 0
       #price-breakdown
         %h2#fee-amount Fee (5%): $0.00
         %h2#total-price You Receive: $0.00
