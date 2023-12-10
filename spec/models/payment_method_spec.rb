@@ -45,7 +45,28 @@ describe PaymentMethod, type: :model do
       end
     end
 
+    context 'when saving a valid payment method' do
 
+      it 'Payment Method is valid' do
+        expect(payment_method.valid_payment_method_input?('1234567890123456', '01/2020')).to eq(true)
+        payment_method = PaymentMethod.create!(card_number: '1234567890123456', expiration_date: '01/2020', user_id: "1")
+        expect(payment_method.save).to be true
+      end
+    end
+
+    context 'when saving an invalid payment method' do
+        it 'Payment Method is invalid' do
+          payment_method = PaymentMethod.create(card_number: '123789456', expiration_date: '01/2020', user_id: "1")
+          expect(payment_method.save).to be false
+        end
+    end
+  end
+
+  describe 'last_four_digits' do
+    let(:payment_method) { PaymentMethod.create!(card_number: '1234567890123456', expiration_date: '01/2020', user_id: "1") }
+    it 'returns last four digits of card number' do
+      expect(payment_method.last_four_digits).to eq('3456')
+    end
   end
 
 end
