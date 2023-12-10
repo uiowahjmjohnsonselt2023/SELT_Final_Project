@@ -76,6 +76,7 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([])
       end
       it 'adds item to bookmarked_items' do
+        allow(Item).to receive(:find_by).and_return(item)
         expect(user.bookmarked_items).to receive(:<<).with(item)
         user.add_bookmark(item)
       end
@@ -86,6 +87,7 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([item])
       end
       it 'does not add item to bookmarked_items' do
+        allow(Item).to receive(:find_by).and_return(item)
         expect(user.bookmarked_items).not_to receive(:<<).with(item)
         user.add_bookmark(item)
       end
@@ -100,6 +102,7 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([item])
       end
       it 'removes item from bookmarked_items' do
+        allow(Item).to receive(:find_by).and_return(item)
         expect(user.bookmarked_items).to receive(:delete).with(item)
         user.remove_bookmark(item)
       end
@@ -110,10 +113,12 @@ describe User, type: :model do
         allow(user).to receive(:bookmarked_items).and_return([])
       end
       it 'does not remove item from bookmarked_items' do
+        allow(Item).to receive(:find_by)
         expect(user.bookmarked_items).not_to receive(:delete).with(item)
         user.remove_bookmark(item)
       end
       it 'returns false' do
+        allow(Item).to receive(:find_by)
         expect(user.remove_bookmark(item)).to eq(false)
       end
     end
@@ -170,4 +175,8 @@ describe User, type: :model do
       end
     end
   end
+
+
+
+
 end
