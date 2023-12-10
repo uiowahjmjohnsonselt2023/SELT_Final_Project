@@ -30,7 +30,7 @@ class ReviewsController < ApplicationController
   def destroy
     if @review.destroy
       flash[:notice] = "Review deleted successfully"
-    #  @review.purchase.update(review: nil)
+      @review.purchase.update(review: nil)
     else
       flash[:error] = "Review could not be deleted"
     end

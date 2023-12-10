@@ -125,6 +125,9 @@ describe ReviewsController, type: :controller do
         allow(Review).to receive(:find).with("1").and_return(review)
         allow(review).to receive(:destroy).and_return(true)
 
+        allow(review).to receive(:purchase).and_return(purchase)
+        allow(purchase).to receive(:update).and_return(true)
+
 
         allow(review).to receive(:destroy).and_return(true)
         delete :destroy, :id => 1, :item_id => 1
