@@ -74,21 +74,38 @@ class UsersController < ApplicationController
   end
 
   def delete_address
-    address = current_user.addresses.find(params[:address_id])
-    if address.destroy
-      redirect_to edit_user_path(current_user), notice: 'Address deleted successfully.'
+
+    if params[:address_id].blank?
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the address. Must select an address.'
     else
-      redirect_to edit_user_path(current_user), alert: 'Could not delete the address.'
+      address = current_user.addresses.find(params[:address_id])
+      if address.destroy
+        redirect_to edit_user_path(current_user), notice: 'Address deleted successfully.'
+      else
+        redirect_to edit_user_path(current_user), alert: 'Could not delete the address.'
+      end
     end
+
+
+
   end
 
   def delete_payment_method
-    payment_method = current_user.payment_methods.find(params[:payment_method_id])
-    if payment_method.destroy
-      redirect_to edit_user_path(current_user), notice: 'Payment method deleted successfully.'
+    if params[:payment_method_id].blank?
+      redirect_to edit_user_path(current_user), alert: 'Could not delete the payment method. Must select a payment method.'
+
     else
-      redirect_to edit_user_path(current_user), alert: 'Could not delete the payment method.'
+      payment_method = current_user.payment_methods.find(params[:payment_method_id])
+
+      if payment_method.destroy
+        redirect_to edit_user_path(current_user), notice: 'Payment method deleted successfully.'
+      else
+        redirect_to edit_user_path(current_user), alert: 'Could not delete the payment method.'
+      end
+
     end
+
+
   end
 
   # Delete User Profile
