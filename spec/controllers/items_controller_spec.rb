@@ -84,18 +84,7 @@ describe ItemsController, type: :controller do
         allow(controller).to receive(:current_user).and_return(current_user)
         allow(Item).to receive(:insert_item).with(
           current_user,
-          params[:item][:title],
-          params[:item][:description],
-          params[:item][:price],
-          params[:item][:category_ids],
-          params[:item][:images],
-          params[:item][:width],
-          params[:item][:length],
-          params[:item][:height],
-          params[:item][:dimension_units],
-          params[:item][:weight],
-          params[:item][:weight_units],
-          params[:item][:condition]
+          params[:item]
         ).and_return(item)
       end
 
@@ -157,7 +146,6 @@ describe ItemsController, type: :controller do
         allow(user).to receive(:received_reviews).and_return([])
       end
 
-
       it "renders the show template" do
         get :show, { :id => search_item.id }
         expect(response).to render_template(:show)
@@ -196,7 +184,6 @@ describe ItemsController, type: :controller do
         expect(flash[:alert]).to match(/Item not found/)
       end
     end
-
 
     context "when user is logged out" do
       before do
@@ -324,19 +311,8 @@ describe ItemsController, type: :controller do
         before do
           allow(Item).to receive(:find).and_return(current_user_item)
           allow(current_user_item).to receive(:update_item).with(
-            params[:item][:title],
-            params[:item][:description],
-            params[:item][:price],
-            params[:item][:category_ids],
-            params[:item][:images],
-            params[:remove_images],
-            params[:item][:width],
-            params[:item][:length],
-            params[:item][:height],
-            params[:item][:dimension_units],
-            params[:item][:weight],
-            params[:item][:weight_units],
-            params[:item][:condition]
+            params[:item],
+            params[:remove_images]
           ).and_return(current_user_item)
         end
 
@@ -373,29 +349,21 @@ describe ItemsController, type: :controller do
         before do
           allow(Item).to receive(:find).and_return(current_user_item)
           allow(current_user_item).to receive(:update_item).with(
-            params[:item][:title],
-            params[:item][:description],
-            params[:item][:price],
-            params[:item][:category_ids],
-            params[:item][:images],
-            params[:remove_images],
-            params[:item][:width],
-            params[:item][:length],
-            params[:item][:height],
-            params[:item][:dimension_units],
-            params[:item][:weight],
-            params[:item][:weight_units],
-            params[:item][:condition]
+            params[:item],
+            params[:remove_images]
           ).and_return(current_user_item)
         end
 
         it "sets a flash message if the item was updated successfully" do
           get :update, { :id => current_user_item.id, :item => params[:item] }
-          expect(flash[:success]).to match(/Item updated successfully/)
+          expect(flash[:notice]).to match(/Item updated successfully/)
         end
 
         it "sets a flash message if the item was not updated successfully" do
-          allow(current_user_item).to receive(:update_item).and_return(false)
+          allow(current_user_item).to receive(:update_item).with(
+            params[:item],
+            params[:remove_images]
+          ).and_return(false)
           get :update, { :id => current_user_item.id, :item => params[:item] }
           expect(flash[:error]).to match(/Item could not be updated/)
         end
