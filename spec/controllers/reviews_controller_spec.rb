@@ -100,6 +100,7 @@ describe ReviewsController, type: :controller do
         post :create,  :review => review_params
         expect(response).to redirect_to(item_path(item.id))
         expect(flash[:error]).to match(/Review could not be saved/)
+
       end
 
     end
