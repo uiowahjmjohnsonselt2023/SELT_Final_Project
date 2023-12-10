@@ -22,9 +22,9 @@ if (allowedPaths.some(path => window.location.pathname.includes(path))) {
           var removeButton = document.createElement('button');
           removeButton.textContent = 'Remove';
           removeButton.onclick = function() {
-            files.splice(index, 1); // Remove the file from the array
-            fileInput.files = createFileList(files); // Update the file input
-            updateFileList(); // Update the UI
+            files.splice(index, 1);
+            fileInput.files = createFileList(files);
+            updateFileList();
           };
 
           listItem.appendChild(removeButton);

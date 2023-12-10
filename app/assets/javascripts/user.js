@@ -29,21 +29,21 @@ if (window.location.pathname === '/users') {
 
     cardNumberInput.addEventListener('input', function(e) {
       var target = e.target;
-      var value = target.value.replace(/\D/g, '').substring(0, 16); // Remove non-digits and limit to 16
+      var value = target.value.replace(/\D/g, '').substring(0, 16);
 
       // Only process further if there's a value
       if (value) {
-        var parts = value.match(/\d{1,4}/g); // Match groups of up to 4 digits
+        var parts = value.match(/\d{1,4}/g);
         if (parts) {
-          target.value = parts.join(' '); // Rejoin the matched groups with a space
+          target.value = parts.join(' ');
         }
-        var position = target.selectionStart; // Get the cursor position
+        var position = target.selectionStart;
         if (position % 5 === 0 && position < target.value.length) {
-          position++; // Adjust cursor position if it's at the spacing
+          position++;
         }
         target.setSelectionRange(position, position);
       } else {
-        target.value = ''; // If there's no value, set the input to an empty string
+        target.value = '';
       }
     }, false);
   });
