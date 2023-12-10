@@ -171,6 +171,12 @@ class Item < ApplicationRecord
   end
 
   def update_item(item_to_update)
+
+    # Check that there are still less than 5 images
+    if item_to_update[:images].present? && item_to_update[:images].length + self.images.length - item_to_update[:remove_images].length > 5
+      return false
+    end
+
     # Update item attributes
     if self.update!(
       title: item_to_update[:title],
