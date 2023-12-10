@@ -1,40 +1,36 @@
-describe("Answer display toggle", function() {
-  var index = 1; // Example index for testing
-  var answerElement;
-
+describe("toggleAnswer", function() {
   beforeEach(function() {
-    // Set up the fixture
-    setFixtures(`<div id="answer-${index}" style="display: none;"></div>`);
-    answerElement = document.getElementById(`answer-${index}`);
+    // Create a div element with id "answer-1" for testing
+    const answerDiv = document.createElement("div");
+    answerDiv.id = "answer-1";
+    answerDiv.style.display = "none"; // Initial state is hidden
+    document.body.appendChild(answerDiv);
   });
 
-  it("should display the answer if it is currently hidden", function() {
-    // The answer is initially hidden
-    expect(answerElement.style.display).toBe('none');
-
-    // Function to toggle the display
-    if (answerElement.style.display === 'none') {
-      answerElement.style.display = 'block';
-    } else {
-      answerElement.style.display = 'none';
+  afterEach(function() {
+    // Clean up: remove the created element
+    const answerDiv = document.getElementById("answer-1");
+    if (answerDiv) {
+      document.body.removeChild(answerDiv);
     }
-
-    // Expect the answer to be displayed
-    expect(answerElement.style.display).toBe('block');
   });
 
-  it("should hide the answer if it is currently displayed", function() {
-    // Set the answer to be displayed initially
-    answerElement.style.display = 'block';
+  it("should toggle the display from 'none' to 'block'", function() {
+    // Call the toggleAnswer function
+    toggleAnswer(1);
 
-    // Function to toggle the display
-    if (answerElement.style.display === 'none') {
-      answerElement.style.display = 'block';
-    } else {
-      answerElement.style.display = 'none';
-    }
+    // Expect the display style to be "block" after the function call
+    expect(document.getElementById("answer-1").style.display).toBe("block");
+  });
 
-    // Expect the answer to be hidden
-    expect(answerElement.style.display).toBe('none');
+  it("should toggle the display from 'block' to 'none'", function() {
+    // Set the initial display style to "block"
+    document.getElementById("answer-1").style.display = "block";
+
+    // Call the toggleAnswer function
+    toggleAnswer(1);
+
+    // Expect the display style to be "none" after the function call
+    expect(document.getElementById("answer-1").style.display).toBe("none");
   });
 });
