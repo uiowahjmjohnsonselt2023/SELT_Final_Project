@@ -42,13 +42,13 @@ describe BookmarksController, type: :controller do
         end
 
         it "the correct json is rendered" do
-          allow(current_user).to receive(:add_bookmark)
+          allow(current_user).to receive(:add_bookmark).and_raise(ActiveRecord::RecordNotFound)
           post :create, { :item_id => item.id }
           expect(response.content_type).to eq("application/json")
           expect(response).to have_http_status(:not_found)
           json_response = JSON.parse(response.body)
-          expect(json_response["status"]).to eq("unprocessable_entity")
-          expect(json_response["message"]).to eq("Unable to bookmark item!")
+          expect(json_response["status"]).to eq("not_found")
+          expect(json_response["message"]).to eq("Item not found!")
         end
       end
 
