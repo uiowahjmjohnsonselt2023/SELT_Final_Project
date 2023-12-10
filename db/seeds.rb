@@ -40,8 +40,17 @@ SEEDS_USERS.each_with_index do |user_info, i|
     expiration_date: user_info[:expiration_date]
   )
 
-  [0, total_items / 3, 2 * total_items / 3].each do |offset|
-    item_index = (i + offset) % total_items
-    insert_item(user, item_index)
-  end
+  # Create one item for each user
+  insert_item(user, i)
+
+  # [0, total_items / 3, 2 * total_items / 3].each do |offset|
+  #   item_index = (i + offset) % total_items
+  #   insert_item(user, item_index)
+  # end
+end
+
+# Give the rest of the items to random users
+(total_items - SEEDS_USERS.length).times do |i|
+  user = User.all.sample
+  insert_item(user, i+SEEDS_USERS.length)
 end
