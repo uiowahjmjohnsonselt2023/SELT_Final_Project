@@ -74,8 +74,8 @@ class Item < ApplicationRecord
   def self.get_users_search_items(current_user, params)
     results = if params[:bookmarks].present? && params[:bookmarks] == '1' && current_user
                 current_user.bookmarked_items
-              elsif params[:purchased].present? && params[:user_id].present? && (user = User.find_by(id: params[:user_id]))
-                user.purchased_items
+              elsif params[:purchased].present? && current_user
+                current_user.purchased_items
               elsif params[:categories].present? && params[:search_term].present?
                 Item.search(params[:search_term], params[:categories])
               elsif params[:categories].present?
@@ -105,9 +105,7 @@ class Item < ApplicationRecord
   end
 
   def self.get_search_items(params)
-    results = if params[:purchased].present? && params[:user_id].present? && (user = User.find_by(id: params[:user_id]))
-                user.purchased_items
-              elsif params[:categories].present? && params[:search_term].present?
+    results = if params[:categories].present? && params[:search_term].present?
                 Item.search(params[:search_term], params[:categories])
               elsif params[:categories].present?
                 Item.search(nil, params[:categories])
@@ -154,67 +152,65 @@ class Item < ApplicationRecord
       weight_units: item_to_insert[:weight_units],
       condition: item_to_insert[:condition]
     )
-    item_to_insert[:images].each do |uploaded_image|
+    item.add_images(item_to_insert[:images])
+    item.add_categories(item_to_insert[:category_ids])
+
+    item
+  end
+
+  def add_images(images)
+    images.each do |uploaded_image|
       next unless uploaded_image.respond_to?(:tempfile)
       image_file_path = uploaded_image.tempfile.path
       image = MiniMagick::Image.new(image_file_path)
       image.resize('256x256')
       image_type, image_data = Image.get_image_data(image_file_path)
-      item.images.create!(data: image_data, image_type: image_type)
+      self.images.create!(data: image_data, image_type: image_type)
     end
-    item_to_insert[:category_ids].each do |category_id|
-      unless category_id.blank?
-        item.categories << Category.find(category_id)
-      end
-    end
-    item
   end
 
-  def update_item(item_to_update, remove_images)
+  def add_categories(category_ids)
+    category_ids.each do |category_id|
+      unless category_id.blank?
+        self.categories << Category.find(category_id)
+      end
+    end
+  end
+
+  def update_item(item_updates, remove_images)
 
     # Check that the user is not trying to add more than 5 images
-    if check_image_limit(item_to_update, remove_images)
+    if check_image_limit(item_updates, remove_images)
       return false
     end
 
 
     # Only update attributes that are present
-    if item_to_update[:dimension_units].blank?
-      item_to_update[:dimension_units] = nil
+    if item_updates[:dimension_units].blank?
+      item_updates[:dimension_units] = nil
     end
-    if item_to_update[:weight_units].blank?
-      item_to_update[:weight_units] = nil
+    if item_updates[:weight_units].blank?
+      item_updates[:weight_units] = nil
     end
 
     # Update item attributes
     if self.update!(
-      title: item_to_update[:title],
-      description: item_to_update[:description],
-      price: item_to_update[:price],
-      length: item_to_update[:length],
-      width: item_to_update[:width],
-      height: item_to_update[:height],
-      dimension_units: item_to_update[:dimension_units],
-      weight: item_to_update[:weight],
-      weight_units: item_to_update[:weight_units],
-      condition: item_to_update[:condition]
+      title: item_updates[:title],
+      description: item_updates[:description],
+      price: item_updates[:price],
+      length: item_updates[:length],
+      width: item_updates[:width],
+      height: item_updates[:height],
+      dimension_units: item_updates[:dimension_units],
+      weight: item_updates[:weight],
+      weight_units: item_updates[:weight_units],
+      condition: item_updates[:condition]
     )
 
       # Update categories
-      self.categories = Category.where(id: item_to_update[:category_ids].reject(&:blank?))
+      self.add_categories(item_updates[:category_ids])
 
-      # Adding new images if the user uploaded more
-      if item_to_update[:images].present?
-        # Handle images
-        item_to_update[:images].each do |uploaded_image|
-          next unless uploaded_image.respond_to?(:tempfile)
-          image_file_path = uploaded_image.tempfile.path
-          image = MiniMagick::Image.new(image_file_path)
-          image.resize('256x256')
-          image_type, image_data = Image.get_image_data(image_file_path)
-          self.images.create!(data: image_data, image_type: image_type)
-        end
-      end
+      self.add_images(item_updates[:images])
 
       # Removing images if the user selected to remove any
       if remove_images.present?

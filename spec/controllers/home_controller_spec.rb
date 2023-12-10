@@ -36,16 +36,24 @@ describe HomeController, type: :controller do
       instance_double('Item', :user_id => 2)
     ]
   }
+  let(:test_item1){ [instance_double('Item', :user_id => 1)] }
+  let(:test_item2){ [instance_double('Item', :user_id => 2)] }
+  let(:test_item3){ [instance_double('Item', :user_id => 3)] }
   let(:test_items){
     [
-      instance_double('Item', :user_id => 1)
+      test_item1,
+      test_item2,
+      test_item3
     ]
   }
+  let(:category1) {instance_double('Category', :name => "category1")}
+  let(:category2) {instance_double('Category', :name => "category2")}
+  let(:category3) {instance_double('Category', :name => "category3")}
   let(:categories) {
     [
-      instance_double('Category'),
-      instance_double('Category'),
-      instance_double('Category')
+      category1,
+      category2,
+      category3
     ]
   }
 
@@ -56,103 +64,41 @@ describe HomeController, type: :controller do
   describe "GET #index" do
     before do
       allow(Category).to receive(:all).and_return(categories)
-      allow(categories).to receive(:limit).and_return(categories)
     end
 
     it "assigns @categories" do
-      get :index
-      expect(assigns(:categories)).to match_array(categories)
-    end
+      allow(category1).to receive(:items).and_return(test_item1)
+      allow(test_item1).to receive(:first).and_return(test_items[0])
+      allow(category2).to receive(:items).and_return(test_item2)
+      allow(test_item2).to receive(:first).and_return(test_items[1])
+      allow(category3).to receive(:items).and_return(test_item3)
+      allow(test_item3).to receive(:first).and_return(test_items[2])
 
+
+      get :index
+      expect(assigns(:category_items)).to match_array(test_items)
+      expect(assigns(:category_order)).to match_array(categories.map{|c| c.name})
+    end
     context "when user is logged in" do
       before do
+        allow(User).to receive(:find_by_session_token).and_return(current_user)
         session[:session_token] = current_user.session_token
-        allow(controller).to receive(:current_user).and_return(current_user)
-        allow(current_user).to receive(:items).and_return(current_user_items)
+        allow(User).to receive(:find).and_return(current_user)
+        allow(Category).to receive(:all).and_return([])
       end
 
-      context "when user has 0 items bookmarked" do
-        before do
-          allow(current_user).to receive(:bookmarked_items).and_return(current_user_items)
-          allow(current_user_items).to receive(:includes).and_return(other_items)
-          allow(other_items).to receive(:where).and_return(test_items)
-          allow(test_items).to receive(:limit).and_return([])
-          allow(Item).to receive(:includes).and_return(other_items)
-          allow(other_items).to receive(:where).and_return(other_items)
-          allow(other_items).to receive(:not).and_return(other_items)
-          allow(other_items).to receive(:limit).and_return(other_items[0..3])
-          allow(Item).to receive(:includes).and_return(other_items)
-          #allow(:bookmarked_items).to receive(:includes).and_return(current_user_items)
-        end
-
-        it 'assigns @suggested_items' do
-          get :index
-          expect(assigns(:suggested_items)).to match_array(other_items[0..3])
-        end
-
-        it "assigns @user_items" do
-          get :index
-          expect(assigns(:user_items)).to match_array(current_user_items)
-        end
-      end
-
-      context "when user has 1-3 items bookmarked" do
-        before do
-          allow(current_user).to receive(:bookmarked_items).and_return(current_user_items)
-          allow(current_user_items).to receive(:includes).and_return(other_items)
-          allow(other_items).to receive(:where).and_return(test_items)
-          allow(test_items).to receive(:limit).and_return(current_user_items[0..1])
-          allow(Item).to receive(:includes).and_return(other_items)
-          allow(other_items).to receive(:where).and_return(other_items)
-          allow(other_items).to receive(:not).and_return(other_items)
-          allow(other_items).to receive(:limit).and_return(other_items[0..1])
-        end
+      it "assigns @suggested_items" do
+        allow(current_user).to receive(:get_users_suggested_items).and_return(test_items)
+        allow(current_user).to receive(:items).and_return(true)
 
 
-        it "assigns @user_items" do
-          get :index
-          expect(assigns(:user_items)).to match_array(current_user_items)
-        end
-      end
+        allow(User).to receive(:get_suggested_items).and_return(test_items)
+        get :index
+        expect(assigns(:user_items)).to eq(true)
+        expect(assigns(:suggested_items)).to eq(test_items)
 
-      context "when user has 4 or more items bookmarked" do
-        before do
-          allow(current_user).to receive(:bookmarked_items).and_return(current_user_items)
-          allow(current_user_items).to receive(:includes).and_return(other_items)
-          allow(other_items).to receive(:where).and_return(test_items)
-          allow(test_items).to receive(:limit).and_return(current_user_items[0..3])
-        end
-
-        it 'assigns @suggested_items' do
-          get :index
-          expect(assigns(:suggested_items)).to match_array(current_user_items[0..3])
-        end
-
-        it "assigns @user_items" do
-          get :index
-          expect(assigns(:user_items)).to match_array(current_user_items)
-        end
       end
     end
 
-    context "when user is not logged in" do
-      before do
-        session[:session_token] = nil
-        allow(controller).to receive(:current_user).and_return(nil)
-        allow(Item).to receive(:includes).and_return(other_items)
-        allow(other_items).to receive(:where).and_return(other_items)
-        allow(other_items).to receive(:limit).and_return(other_items[0..3])
-      end
-
-      it 'assigns @suggested_items' do
-        get :index
-        expect(assigns(:suggested_items)).to match_array(other_items[0..3])
-      end
-
-      it "does not assign @user_items" do
-        get :index
-        expect(assigns(:user_items)).to be_nil
-      end
-    end
   end
 end

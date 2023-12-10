@@ -1,9 +1,30 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
-  include ItemsHelper
   include ReviewsHelper
 
   protected
+
+  def find_item
+    begin
+      @item = Item.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "Item not found."
+    end
+  end
+
+  def set_item
+    @item = Item.find_by(id: params[:id])
+    unless @item
+      redirect_to root_path, alert: "Item not found."
+    end
+  end
+
+  def round_dimensions
+    self.length = length.round(1) if length
+    self.width = width.round(1) if width
+    self.height = height.round(1) if height
+    self.weight = weight.round(1) if weight
+  end
 
   def set_current_user
     @current_user ||= User.find_by_session_token(session[:session_token])
@@ -39,11 +60,12 @@ class ApplicationController < ActionController::Base
       @purchase = Purchase.find_by(item_id: params[:review][:item_id], user: current_user)
 
     rescue ActiveRecord::RecordNotFound
-      redirect_to root_path, alert: "You do not have permission to review this item 1."
+      redirect_to root_path, alert: "You do not have permission to review this item"
+      return
     end
 
     if @purchase.nil?
-      redirect_to root_path, alert: "You do not have permission to review this item 2."
+      redirect_to root_path, alert: "You do not have permission to review this item"
     elsif @purchase.reviewed?
       redirect_to root_path, alert: "You have already reviewed this item."
     end
@@ -56,6 +78,7 @@ class ApplicationController < ActionController::Base
       @purchase = Purchase.find_by(item_id: params[:item_id], user: current_user)
     rescue ActiveRecord::RecordNotFound
       redirect_to root_path, alert: "You do not have permission to review this item."
+      return
     end
 
     if @purchase.nil?

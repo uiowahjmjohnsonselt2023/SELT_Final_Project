@@ -1,6 +1,6 @@
 = form_tag purchase_checkout_path(@item), method: :post do
   .checkout-container
-    %h1 Review item and shipping
+    %h1 Checkout
 
     .checkout-item
       .item-details
@@ -11,7 +11,7 @@
           = image_tag @item.images.first.data_uri, alt: @item.title, class: 'item-image'
         %p= @item.description
         %p.item-price
-          %span.current-price= "$#{'%.2f' % @item.price}"
+          %h2.current-price= "Total: $#{'%.2f' % @item.price}"
 
     .address-selection
       %label{for: "address-select"} Select Shipping Address:
@@ -27,8 +27,7 @@
         - @user.payment_methods.each do |payment_method|
           %option{value: payment_method.id}= "Card ending in #{payment_method.card_number[-4..-1]}"
 
-
-    = link_to "Edit Profile", edit_user_path(@user), class: 'checkout-edit-profile-button'
+    = link_to "Add Payment", edit_user_path(@user), class: 'checkout-edit-profile-button'
 
     - if @item.purchased?
       %p This item has already been purchased.
