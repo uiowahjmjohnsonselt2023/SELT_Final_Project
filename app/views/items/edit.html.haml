@@ -56,13 +56,15 @@
         %h2#total-price You Receive: $0.00
       :javascript
         document.addEventListener('DOMContentLoaded', function() {
-          document.getElementById('item_price').addEventListener('input', function() {
-            var price = parseFloat(this.value) || 0;
+          function calculateAndDisplay() {
+            var price = parseFloat(document.getElementById('item_price').value) || 0;
             var fee = price * 0.05;
             var total = price - fee;
             document.getElementById('fee-amount').textContent = 'Fee (5%): $' + fee.toFixed(2);
             document.getElementById('total-price').textContent = 'You Receive: $' + total.toFixed(2);
-          });
+          }
+          calculateAndDisplay();
+          document.getElementById('item_price').addEventListener('input', calculateAndDisplay);
         });
     .form-field
       = f.label :categories
