@@ -36,7 +36,7 @@ class ItemsController < ApplicationController
     # update the item with the new attributes
     if @item.update_item(params[:item])
       # set a flash message if the item was updated successfully
-      flash[:success] = "Item updated successfully"
+      flash[:notice] = "Item updated successfully"
     else
       # set a flash message if the item was not updated successfully
       flash[:error] = "Item could not be updated"

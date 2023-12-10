@@ -177,6 +177,13 @@ class Item < ApplicationRecord
       return false
     end
 
+    # Only update attributes that are present
+    if item_to_update[:dimension_units].blank?
+      item_to_update[:dimension_units] = nil
+    end
+    if item_to_update[:weight_units].blank?
+      item_to_update[:weight_units] = nil
+    end
     # Update item attributes
     if self.update!(
       title: item_to_update[:title],
