@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   # Show User Profile
   def show
     @user = User.find(params[:id])
-    @reviews = @user.received_reviews
+    @reviews = @user.received_reviews.take(15)
   end
 
   # Edit User Profile
