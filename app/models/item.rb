@@ -173,16 +173,9 @@ class Item < ApplicationRecord
   def update_item(item_to_update, remove_images)
 
     # Check that the user is not trying to add more than 5 images
-    unless check_image_limit(item_to_update, remove_images)
+    if check_image_limit(item_to_update, remove_images)
       return false
     end
-
-    # # Check that there are still less than 5 images
-    # if item_to_update[:remove_images].nil? && item_to_update[:images].present? && (item_to_update[:images].length + self.images.length > 5)
-    #   return false
-    # elsif item_to_update[:remove_images].present? && item_to_update[:images].present? && item_to_update[:images].length + self.images.length - item_to_update[:remove_images].length > 5
-    #   return false
-    # end
 
 
     # Only update attributes that are present
@@ -269,10 +262,11 @@ class Item < ApplicationRecord
   end
 
   def check_image_limit(item_to_update, remove_images)
+
     # Calculate the total number of images after addition and removal
     total_images = self.images.length
     total_images += item_to_update[:images].length if item_to_update[:images].present?
-    total_images -= item_to_update[:remove_images].length if item_to_update[:remove_images].present?
+    total_images -= remove_images.length if remove_images.present?
 
     # Check if the total exceeds the limit
     total_images > 5
