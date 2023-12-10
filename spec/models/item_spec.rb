@@ -574,10 +574,8 @@ describe Item, type: :model do
     before do
       allow(uploaded_image).to receive(:respond_to?).with(:tempfile).and_return(true)
       allow(uploaded_image).to receive(:tempfile).and_return(tempfile)
-      allow(tempfile).to receive(:path).and_return('path')
-      allow(MiniMagick::Image).to receive(:new).with('path').and_return(mini_magick_image)
-      allow(mini_magick_image).to receive(:size).with('256x256')
-      allow(Image).to receive(:get_image_data).with('path').and_return(['image_type', 'image_data'])
+      allow(tempfile).to receive(:path).and_return('spec/support/fixtures/test_image.png')
+      allow(Image).to receive(:get_image_data).with('spec/support/fixtures/test_image.png').and_return(['image_type', 'image_data'])
       allow(item).to receive(:images).and_return(Image)
       allow(Image).to receive(:create!)
     end
@@ -622,28 +620,28 @@ describe Item, type: :model do
         length: 10, width: 10, height: 10, dimension_units: 'in',
         weight: 10, weight_units: 'oz',
         condition: 0,
-        user_id: 1
+        user_id: 1,
+        categories: []
       )
     }
-    let(:category1) { instance_double('Category', id: 1) }
-    let(:category2) { instance_double('Category', id: 2) }
-    let(:category3) { instance_double('Category') }
-    let(:category4) { instance_double('Category', id: 4) }
-    let(:category5) { instance_double('Category', id: 5) }
+    let(:category1) { Category.create!(name: 'Electronics') }
+    let(:category2) { Category.create!(name: 'Books') }
+    let(:category3) { Category.create!(name: 'Games') }
+    let(:category4) { Category.create!(name: 'Clothing') }
+    let(:category5) { Category.create!(name: 'Random') }
 
     before do
-      allow(item).to receive(:categories).and_return(Category)
       allow(Category).to receive(:find).with(1).and_return(category1)
       allow(Category).to receive(:find).with(2).and_return(category2)
+      allow(Category).to receive(:find).with(3).and_return(category3)
       allow(Category).to receive(:find).with(4).and_return(category4)
       allow(Category).to receive(:find).with(5).and_return(category5)
+
     end
 
     context 'when no categories are provided' do
       it 'does not add any categories' do
-        categories = []
-        item.add_categories(categories)
-        expect(item).not_to have_received(:categories)
+        item.add_categories([])
         expect(item.categories).to eq([])
       end
     end
@@ -651,25 +649,24 @@ describe Item, type: :model do
     context 'when categories are provided' do
       it 'adds the correct number of categories' do
         item.add_categories([1])
-        expect(item).to have_received(:categories).exactly(1).times
-        end
-      it 'adds the correct number of categories' do
-        item.add_categories([1,2,5])
-        expect(item).to have_received(:categories).exactly(3).times
+        expect(item.categories.length).to eq(1)
       end
-
+      it 'adds the correct number of categories' do
+        item.add_categories([1, 2, 5])
+        expect(item.categories.length).to eq(3)
+      end
 
       it 'adds the correct categories' do
         item.add_categories([1])
         expect(item.categories).to include(category1)
       end
       it 'adds the correct categories' do
-        item.add_categories([1,5])
+        item.add_categories([1, 5])
         expect(item.categories).to include(category1)
         expect(item.categories).to include(category5)
       end
       it 'adds the correct categories' do
-        item.add_categories([1,2,4,5])
+        item.add_categories([1, 2, 4, 5])
         expect(item.categories).to include(category1)
         expect(item.categories).to include(category2)
         expect(item.categories).to include(category4)
@@ -678,184 +675,275 @@ describe Item, type: :model do
     end
   end
 
-  describe 'Item.update_item', :pending => true do
-    let(:current_user) {
-      User.create!(
-        username: 'current_user',
-        email: 'current_user@gmail.com'
+  describe 'Item.update_item' do
+    let(:current_user) { instance_double('User', id: 1) }
+    let(:image1) { instance_double('Image', id: 1) }
+    let(:image2) { instance_double('Image', id: 2) }
+    let(:image3) { instance_double('Image', id: 3) }
+
+    let(:item) {
+      Item.create!(
+        title: 'Title1',
+        description: 'Description1',
+        price: 100,
+        length: 10, width: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0,
+        user_id: 1
       )
     }
-    let(:title) { 'Sample Item' }
-    let(:description) { 'Sample Description' }
-    let(:price) { 100 }
-    let(:image) { MiniMagick::Image.open('spec/support/fixtures/test_image.png') }
-    let(:category) { Category.create!(name: 'Electronics') }
-    let(:category_ids) { [category.id] }
+
+    let(:item_updates) { {
+      :title => 'Title2',
+      :description => 'Description2',
+      :price => 200,
+      :category_ids => [1, 2],
+      :images => [image3],
+      :length => 20, :width => 20, :height => 20, :dimension_units => 'in',
+      :weight => 20, :weight_units => 'oz',
+      :condition => 2
+    } }
+
+    let(:images_to_remove) { {
+      '1' => '1',
+      '2' => '1'
+    } }
 
     before do
-      allow(User).to receive(:find_by_session_token).and_return(current_user)
+      allow(item).to receive(:add_images)
+      allow(item).to receive(:add_categories)
     end
 
-    it 'updates the item attributes' do
-      # item = Item.insert_item(
-      #   current_user, title, description, price, category_ids, [image],
-      #   10, 10, 10, 'in', 10, 'oz', 0
-      # )
-
-      new_title = 'New Title'
-      new_description = 'New Description'
-      new_price = 200
-      new_category = Category.create!(name: 'Electronics 2')
-      new_category_ids = [new_category.id]
-      new_length = 20
-      new_width = 20
-      new_height = 20
-      new_dimension_units = 'cm'
-      new_weight = 20
-      new_weight_units = 'g'
-      new_condition = 1
-
-      # item.update_item(
-      #   new_title, new_description, new_price, new_category_ids, [image], [],
-      #   new_length, new_width, new_height, new_dimension_units, new_weight, new_weight_units, new_condition
-      # )
-
-      expect(item.title).to eq(new_title)
-      expect(item.description).to eq(new_description)
-      expect(item.price).to eq(new_price)
-      expect(item.categories).to include(new_category)
+    context 'when there are too many images provided' do
+      before do
+        allow(item).to receive(:check_image_limit).and_return(true)
+      end
+      it 'returns false' do
+        expect(item.update_item(item_updates, images_to_remove)).to eq(false)
+      end
     end
 
-    it 'adds new images to the item' do
-      # item = Item.insert_item(
-      #   current_user, title, description, price, category_ids, [image],
-      #   10, 10, 10, 'in', 10, 'oz', 0
-      # )
-
-      new_image = MiniMagick::Image.open('spec/support/fixtures/test_image2.png')
-
-      # item.update_item(
-      #   title, description, price, category_ids, [new_image], [],
-      #   10, 10, 10, 'in', 10, 'oz', 0
-      # )
-
-      expect(item.images.length).to eq(2)
+    context 'when no dimension units are selected' do
+      before do
+        allow(item).to receive(:update!).and_return(true)
+        allow(images_to_remove).to receive(:present?).and_return(false)
+        item_updates[:dimension_units] = ""
+      end
+      it 'dimension units are changed and update is called with the correct parameters' do
+        item.update_item(item_updates, images_to_remove)
+        expect(item).to have_received(:update!).with(
+          title: 'Title2',
+          description: 'Description2',
+          price: 200,
+          length: 20, width: 20, height: 20, dimension_units: nil,
+          weight: 20, weight_units: 'oz',
+          condition: 2
+        )
+      end
     end
 
-    it 'removes images from the item' do
-      # item = Item.insert_item(
-      #   current_user, title, description, price, category_ids, [image],
-      #   10, 10, 10, 'in', 10, 'oz', 0
-      # )
-
-      new_image = MiniMagick::Image.open('spec/support/fixtures/test_image2.png')
-
-      # item.update_item(
-      #   title, description, price, category_ids, [new_image], [],
-      #   10, 10, 10, 'in', 10, 'oz', 0
-      # )
-      #
-      # item.update_item(
-      #   title, description, price, category_ids, [], { 0 => "1" },
-      #   10, 10, 10, 'in', 10, 'oz', 0
-      # )
-
-      expect(item.images.length).to eq(1)
+    context 'when no weight units are selected' do
+      before do
+        allow(item).to receive(:update!).and_return(true)
+        allow(images_to_remove).to receive(:present?).and_return(false)
+        item_updates[:weight_units] = ""
+      end
+      it 'weight units are changed and update is called with the correct parameters' do
+        item.update_item(item_updates, images_to_remove)
+        expect(item).to have_received(:update!).with(
+          title: 'Title2',
+          description: 'Description2',
+          price: 200,
+          length: 20, width: 20, height: 20, dimension_units: 'in',
+          weight: 20, weight_units: nil,
+          condition: 2
+        )
+      end
     end
 
-    it 'handles an update attributes error' do
-      # item = Item.insert_item(
-      #   current_user, title, description, price, category_ids, [image],
-      #   10, 10, 10, 'in', 10, 'oz', 0
-      # )
-
-      new_title = 'TEst'
-      new_description = 'New Description'
-      new_price = 200
-      new_category = Category.create!(name: 'Electronics 2')
-      new_category_ids = [new_category.id]
-
-      allow(item).to receive(:update!).and_return(false)
-
-      expect(
-        # item.update_item(
-        #   new_title, new_description, new_price, new_category_ids, [image], [],
-        #   10, 10, 10, 'in', 10, 'oz', 0
-        # )
-      ).to eq(false)
+    context 'when all fields are filled' do
+      before do
+        allow(item).to receive(:update!).and_return(true)
+        allow(images_to_remove).to receive(:present?).and_return(false)
+      end
+      it 'update is called with the correct parameters' do
+        item.update_item(item_updates, images_to_remove)
+        expect(item).to have_received(:update!).with(
+          title: 'Title2',
+          description: 'Description2',
+          price: 200,
+          length: 20, width: 20, height: 20, dimension_units: 'in',
+          weight: 20, weight_units: 'oz',
+          condition: 2
+        )
+      end
     end
 
-  end
+    context 'when invalid parameters are entered' do
+      before do
+        allow(item).to receive(:update!).and_return(false)
+        allow(images_to_remove).to receive(:present?).and_return(false)
+      end
+      it 'returns false' do
+        expect(item.update_item(item_updates, images_to_remove)).to eq(false)
+      end
+    end
 
-  describe '#find_related_items', :pending => true do
-    let(:user) {
-      User.create!(
-        username: 'current_user',
-        email: 'current_user_email@test.com',
-      )
-    }
-    let(:search_item) {
-      user.items.create!(title: "Item 1", description: "Description for item 1", price: 1.00,
-                         width: 10, length: 10, height: 10, dimension_units: 'in',
-                         weight: 10, weight_units: 'oz',
-                         condition: 0
-      )
-    }
+    context 'when images are provided' do
+      before do
+        allow(item).to receive(:update!).and_return(true)
+        allow(images_to_remove).to receive(:present?).and_return(false)
+      end
+      it 'adds the correct number of images' do
+        item.update_item(item_updates, images_to_remove)
+        expect(item).to have_received(:add_images).exactly(1).times
+      end
 
-    let(:other_items) {
-      [
-        user.items.create!(title: "Item 2", description: "Description for item 2", price: 2.00,
-                           width: 10, length: 10, height: 10, dimension_units: 'in',
-                           weight: 10, weight_units: 'oz',
-                           condition: 0
-        ),
-        user.items.create!(title: "Item 3", description: "Description for item 3", price: 3.00,
-                           width: 10, length: 10, height: 10, dimension_units: 'in',
-                           weight: 10, weight_units: 'oz',
-                           condition: 0
-        ),
-        user.items.create!(title: "Item 4", description: "Description for item 4", price: 4.00,
-                           width: 10, length: 10, height: 10, dimension_units: 'in',
-                           weight: 10, weight_units: 'oz',
-                           condition: 0
-        ),
-        user.items.create!(title: "Item 5", description: "Description for item 5", price: 5.00,
-                           width: 10, length: 10, height: 10, dimension_units: 'in',
-                           weight: 10, weight_units: 'oz',
-                           condition: 0
-        ),
-        user.items.create!(title: "Item 6", description: "Description for item 6", price: 6.00,
-                           width: 10, length: 10, height: 10, dimension_units: 'in',
-                           weight: 10, weight_units: 'oz',
-                           condition: 0
-        ),
-      ]
-    }
-    it 'should return other items by the same user' do
-      expect(search_item.find_related_items).to match_array(other_items[0..3])
+      it 'adds the correct images' do
+        item.update_item(item_updates, images_to_remove)
+        expect(item).to have_received(:add_images).with([image3])
+      end
+    end
+
+    context 'when images are provided to remove' do
+      before do
+        allow(item).to receive(:update!).and_return(true)
+        allow(images_to_remove).to receive(:present?).and_return(true)
+        allow(item).to receive(:images).and_return([image1, image2])
+        allow(item.images).to receive(:destroy)
+      end
+      it 'removes the correct number of images' do
+        item.update_item(item_updates, images_to_remove)
+        expect(item.images).to have_received(:destroy).exactly(1).times
+      end
     end
   end
-  describe '#purchased?', :pending => true do
-    let(:user) {
-      User.create!(
-        username: 'current_user',
-        email: 'current_user_email@test.com',
-      )
-    }
+
+  describe '#find_related_items' do
+    let(:category) { instance_double('Category', id: 1) }
     let(:item) {
-      user.items.create!(title: "Item 1", description: "Description for item 1", price: 1.00,
-                         width: 10, length: 10, height: 10, dimension_units: 'in',
-                         weight: 10, weight_units: 'oz',
-                         condition: 0
+      Item.create!(
+        title: 'Title1',
+        description: 'Description1',
+        price: 100,
+        length: 10, width: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0,
+        user_id: 1
       )
     }
-    let(:purchase) {
-      user.purchase_item(item, 1, 1)
-    }
 
-    it 'should return true if the item has been purchased' do
-      allow(purchase).to receive(:present?).and_return(true)
-      expect(item.purchased?).to eq(true)
+    let(:ids) { [1] }
+
+    let(:related_item) { instance_double('Item', id: 2) }
+    let(:unrelated_item) { instance_double('Item', id: 3) }
+
+    before do
+      allow(item).to receive(:categories).and_return(Category)
+      allow(Category).to receive(:pluck).with(:id).and_return(ids)
+
+      allow(Item).to receive(:joins).with(:categories).and_return(Item)
+      allow(Item).to receive(:where).with(categories: { id: ids }).and_return(Item)
+
+      allow(Item).to receive(:where).and_return(Item)
+      allow(Item).to receive(:not).with(id: item.id).and_return(Item)
+      allow(Item).to receive(:limit).with(4).and_return([related_item])
+    end
+
+    it 'returns items in the same category' do
+      expect(item.find_related_items).to include(related_item)
+      expect(item.find_related_items).not_to include(unrelated_item)
     end
   end
+
+  describe '#purchased?' do
+    let(:item) {
+      Item.create!(
+        title: 'Title1',
+        description: 'Description1',
+        price: 100,
+        length: 10, width: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0,
+        user_id: 1
+      )
+    }
+    let(:purchase) { instance_double('Purchase') }
+
+    context 'when the item has not been purchased' do
+      before do
+        allow(item).to receive(:purchase).and_return(nil)
+      end
+      it 'should return false' do
+        expect(item.purchased?).to eq(false)
+      end
+    end
+    context 'when the item has been purchased' do
+      before do
+        allow(item).to receive(:purchase).and_return(purchase)
+      end
+      it 'should return true' do
+        expect(item.purchased?).to eq(true)
+      end
+    end
+  end
+
+  describe 'dimensions' do
+    let(:item) {
+      Item.create!(
+        title: 'Title1',
+        description: 'Description1',
+        price: 100,
+        length: 10, width: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0,
+        user_id: 1
+      )
+    }
+
+    it 'should return the correct dimensions' do
+      expect(item.dimensions).to eq('10.0 x 10.0 x 10.0 in')
+    end
+  end
+
+  describe 'condition_text' do
+    let(:item) {
+      Item.create!(
+        title: 'Title1',
+        description: 'Description1',
+        price: 100,
+        length: 10, width: 10, height: 10, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0,
+        user_id: 1
+      )
+    }
+
+    it 'should return the correct condition text' do
+      expect(item.condition_text).to eq('New')
+    end
+    it 'should return the correct condition text' do
+      item.condition = 1
+      expect(item.condition_text).to eq('Like New')
+    end
+  end
+
+  describe 'round_dimensions' do
+    let(:item) {
+      Item.create!(
+        title: 'Title1',
+        description: 'Description1',
+        price: 100,
+        length: 10.123, width: 10.123, height: 10.123, dimension_units: 'in',
+        weight: 10, weight_units: 'oz',
+        condition: 0,
+        user_id: 1
+      )
+    }
+
+    it 'should return the correct rounded dimensions' do
+      expect(item.dimensions).to eq('10.12 x 10.12 x 10.12 in')
+    end
+  end
+
 end
