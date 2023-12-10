@@ -942,7 +942,7 @@ describe Item, type: :model do
     }
 
     it 'should return the correct rounded dimensions' do
-      expect(item.dimensions).to eq('10.12 x 10.12 x 10.12 in')
+      expect(item.dimensions).to eq('10.1 x 10.1 x 10.1 in')
     end
   end
 
