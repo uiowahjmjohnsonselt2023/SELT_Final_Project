@@ -77,13 +77,10 @@
             = check_box_tag "remove_images[#{index}]", 1, false, id: "remove_images_#{index}", class: 'custom-checkbox'
             %span Remove image?
 
-
-
-
     .drop-zone
       %p Drag and drop images here or
-      %button#upload-btn Upload New Files (Max: 5 images)
-      = f.file_field :images, multiple: true, accept: 'image/*', required: true, style: 'display: none;', id: 'file-input'
+      %button#upload-btn{ type: 'button' } Upload New Files (Max: 5 images)
+      = f.file_field :images, multiple: true, accept: 'image/*', required: false, style: 'display: none;', id: 'file-input'
 
     .file-names
       %p#file-list No files selected

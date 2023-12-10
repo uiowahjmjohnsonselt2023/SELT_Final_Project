@@ -170,11 +170,20 @@ class Item < ApplicationRecord
     item
   end
 
-  def update_item(item_to_update)
+  def update_item(item_to_update, remove_images)
 
-    # Check that there are still less than 5 images
-    if item_to_update[:images].present? && item_to_update[:images].length + self.images.length - item_to_update[:remove_images].length > 5
+    # Check that the user is not trying to add more than 5 images
+    if check_image_limit(item_to_update, remove_images)
       return false
+    end
+
+
+    # Only update attributes that are present
+    if item_to_update[:dimension_units].blank?
+      item_to_update[:dimension_units] = nil
+    end
+    if item_to_update[:weight_units].blank?
+      item_to_update[:weight_units] = nil
     end
 
     # Update item attributes
@@ -208,12 +217,12 @@ class Item < ApplicationRecord
       end
 
       # Removing images if the user selected to remove any
-      if item_to_update[:remove_images].present?
+      if remove_images.present?
         # reverse the keys of the hash since we want to remove the images from last to first to be able to use the index
-        item_to_update[:remove_images] = item_to_update[:remove_images].select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
+        remove_images = remove_images.select { |_, value| value == "1" }.keys.map(&:to_i).sort.reverse
 
         # remove the images from the item
-        item_to_update[:remove_images].each do |index|
+        remove_images.each do |index|
           if index >= 0 && index < self.images.length
             self.images.destroy(self.images[index])
           end
@@ -251,4 +260,16 @@ class Item < ApplicationRecord
     self.height = height.round(1) if height
     self.weight = weight.round(1) if weight
   end
+
+  def check_image_limit(item_to_update, remove_images)
+
+    # Calculate the total number of images after addition and removal
+    total_images = self.images.length
+    total_images += item_to_update[:images].length if item_to_update[:images].present?
+    total_images -= remove_images.length if remove_images.present?
+
+    # Check if the total exceeds the limit
+    total_images > 5
+  end
+
 end
