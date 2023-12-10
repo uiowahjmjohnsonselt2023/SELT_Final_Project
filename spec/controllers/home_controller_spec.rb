@@ -88,7 +88,6 @@ describe HomeController, type: :controller do
       end
 
       it "assigns @suggested_items" do
-        #allow(User).to receive(:get_suggested_items)
         allow(current_user).to receive(:get_users_suggested_items).and_return(test_items)
         allow(current_user).to receive(:items).and_return(true)
 
