@@ -39,5 +39,5 @@ SEEDS_USERS.each_with_index do |user_info, i|
   )
 
   insert_item(user, i)
-  insert_item(user, i+(SEEDS_ITEMS.length/2))
+  insert_item(user, i+(SEEDS_ITEMS.length/3))
 end

@@ -54,7 +54,8 @@ SEEDS_CATEGORIES = [
   "Home & Garden",
   "Movies, Music & Games",
   "Sports & Outdoors",
-  "Toys, Kids & Baby"
+  "Toys, Kids & Baby",
+  "Arts & Crafts"
 ]
 
 SEEDS_ITEMS = [
@@ -249,7 +250,129 @@ SEEDS_ITEMS = [
     weight: 2.0,
     weight_units: "lbs",
     condition: 0
-  }
+  },
+
+
+  {
+    title: "Bluetooth Keyboard",
+    description: "Wireless, ergonomic Bluetooth keyboard compatible with multiple devices.",
+    price: 50.00,
+    category: "Electronics",
+    image: "bluetooth_keyboard.jpg",
+    length: 14.0, width: 6.0, height: 1.2,
+    dimension_units: "in",
+    weight: 1.3,
+    weight_units: "lbs",
+    condition: 0
+  },
+  {
+    title: "Graphic Novel",
+    description: "Award-winning graphic novel, a must-have for collectors.",
+    price: 35.00,
+    category: ["Books", "Collectibles"],
+    image: "graphic_novel.jpg",
+    length: 11.0, width: 7.5, height: 0.5,
+    dimension_units: "in",
+    weight: 1.6,
+    weight_units: "lbs",
+    condition: 0
+  },
+  {
+    title: "Vintage Dress",
+    description: "Elegant vintage dress from the 1950s, size medium.",
+    price: 120.00,
+    category: ["Clothing", "Collectibles"],
+    image: "vintage_dress.jpg",
+    length: 40.0, width: 28.0, height: 0.2,
+    dimension_units: "in",
+    weight: 1.0,
+    weight_units: "lbs",
+    condition: 0
+  },
+  {
+    title: "Handcrafted Pottery",
+    description: "Beautifully handcrafted pottery vase, perfect for home decor.",
+    price: 65.00,
+    category: ["Home & Garden", "Arts & Crafts"],
+    image: "handcrafted_pottery.jpg",
+    length: 8.0, width: 8.0, height: 10.0,
+    dimension_units: "in",
+    weight: 3.0,
+    weight_units: "lbs",
+    condition: 0
+  },
+  {
+    title: "Board Game Collection",
+    description: "Set of five classic board games, great for family nights.",
+    price: 50.00,
+    category: ["Movies, Music & Games", "Toys, Kids & Baby"],
+    image: "board_games_collection.jpg",
+    length: 20.0, width: 10.0, height: 8.0,
+    dimension_units: "in",
+    weight: 8.0,
+    weight_units: "lbs",
+    condition: 0
+  },
+  {
+    title: "Basketball Hoop",
+    description: "Adjustable outdoor basketball hoop, perfect for sports enthusiasts.",
+    price: 150.00,
+    category: "Sports & Outdoors",
+    image: "basketball_hoop.jpg",
+    length: 40.0, width: 30.0, height: 10.0,
+    dimension_units: "in",
+    weight: 35.0,
+    weight_units: "lbs",
+    condition: 0
+  },
+  {
+    title: "Educational Toy Set",
+    description: "Fun and educational toy set for ages 3-6, includes puzzles and games.",
+    price: 40.00,
+    category: "Toys, Kids & Baby",
+    image: "educational_toys.jpg",
+    length: 15.0, width: 10.0, height: 4.0,
+    dimension_units: "in",
+    weight: 3.0,
+    weight_units: "lbs",
+    condition: 0
+  },
+  {
+    title: "Painting Supplies Kit",
+    description: "Complete painting supplies kit, includes brushes, paints, and canvas.",
+    price: 75.00,
+    category: "Arts & Crafts",
+    image: "painting_supplies.jpg",
+    length: 22.0, width: 18.0, height: 5.0,
+    dimension_units: "in",
+    weight: 6.0,
+    weight_units: "lbs",
+    condition: 0
+  },
+  # {
+  #   title: "Wireless Earbuds",
+  #   description: "High-fidelity wireless earbuds with noise cancellation feature.",
+  #   price: 100.00,
+  #   category: "Electronics",
+  #   image: "wireless_earbuds.jpg",
+  #   length: 3.0, width: 2.0, height: 1.5,
+  #   dimension_units: "in",
+  #   weight: 0.2,
+  #   weight_units: "oz",
+  #   condition: 0
+  # },
+  # {
+  #   title: "Science Fiction Anthology",
+  #   description: "Collection of classic science fiction stories by renowned authors.",
+  #   price: 25.00,
+  #   category: "Books",
+  #   image: "sci_fi_anthology.jpg",
+  #   length: 9.0, width: 6.0, height: 1.5,
+  #   dimension_units: "in",
+  #   weight: 1.8,
+  #   weight_units: "lbs",
+  #   condition: 0
+  # },
 ].freeze
 
 def insert_item(user, i)
