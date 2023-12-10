@@ -8,6 +8,9 @@ RSpec.describe Purchase, type: :model do
 
 
   describe 'reviewed' do
+    it 'should return false if the purchase has not been reviewed' do
+      expect(purchase.reviewed?).to eq(false)
+    end
     it 'should return true if the purchase has been reviewed' do
       purchase.review = Review.new
       expect(purchase.reviewed?).to eq(true)
