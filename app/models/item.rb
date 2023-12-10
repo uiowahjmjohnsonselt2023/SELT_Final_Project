@@ -89,11 +89,12 @@ class Item < ApplicationRecord
     if params[:seller].present?
       seller = User.find_by(username: params[:seller])
       results = seller ? results.where("items.user_id = ?", seller.id) : []
+      return results if results.empty?
     end
 
     if params[:min_price].present?
-      puts params[:min_price]
       results = results.where("price >= ?", params[:min_price])
+      return results if results.empty?
     end
 
     if params[:max_price].present?
@@ -116,12 +117,20 @@ class Item < ApplicationRecord
                 Item.all
               end
 
-    if params[:seller]
+    if params[:seller].present?
       seller = User.find_by(username: params[:seller])
       results = seller ? results.where("items.user_id = ?", seller.id) : []
+      return results if results.empty?
     end
-    results = results.where("price >= ?", params[:min_price]) if params[:min_price]
-    results = results.where("price <= ?", params[:max_price]) if params[:max_price]
+
+    if params[:min_price].present?
+      results = results.where("price >= ?", params[:min_price])
+      return results if results.empty?
+    end
+
+    if params[:max_price].present?
+      results = results.where("price <= ?", params[:max_price])
+    end
 
     results
   end
@@ -162,6 +171,12 @@ class Item < ApplicationRecord
   end
 
   def update_item(item_to_update)
+
+    # Check that there are still less than 5 images
+    if item_to_update[:images].present? && item_to_update[:images].length + self.images.length - item_to_update[:remove_images].length > 5
+      return false
+    end
+
     # Update item attributes
     if self.update!(
       title: item_to_update[:title],

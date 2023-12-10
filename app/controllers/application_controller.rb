@@ -64,6 +64,16 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def find_user
+    # Find the user by id and handle the case where it is not found
+    begin
+      @user = User.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path, alert: "User not found."
+    end
+  end
+
+
   def find_review
     # Find the item by id and handle the case where it is not found
     begin
